@@ -18,9 +18,11 @@
     "draft-js": "^0.11.7",
     "draft-js-linkify-plugin": "^2.0.2",
     "draft-js-plugins-editor": "^3.0.0",
+    "gh-pages": "^3.1.0",
     "holiday-kr": "^0.1.5",
     "luxon": "^1.25.0",
     "mobx": "^6.0.0",
+    "mobx-persist": "^0.4.1",
     "mobx-react": "^7.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -46,7 +48,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "release": "standard-version -a"
+    "release": "standard-version -a",
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
