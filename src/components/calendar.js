@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useObserver } from 'mobx-react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -8,11 +8,15 @@ import luxonPlugin from '@fullcalendar/luxon';
 import rrulePlugin from '@fullcalendar/rrule';
 // import { getLunar } from "holiday-kr";
 
-const Calendar = ({ sidebarOpened }) => {
-  const ref = useRef('ref');
+const Calendar = ({ setTitle, sidebarOpened, calendarRef }) => {
   useEffect(() => {
-    ref.current.getApi().updateSize();
-  }, [sidebarOpened]);
+    calendarRef.current.getApi().updateSize();
+  }, [calendarRef, sidebarOpened]);
+
+  useEffect(() => {
+    setTitle(calendarRef.current.getApi().view.title);
+  }, [calendarRef, setTitle]);
+
   function handleEventClick(clickInfo) {}
 
   function handleDateSelect(selectInfo) {
@@ -30,36 +34,23 @@ const Calendar = ({ sidebarOpened }) => {
 
   function renderDayContent(content) {}
 
-  function onUpdateDates(dateInfo) {}
+  function onUpdateDates() {
+    if (calendarRef && calendarRef.current) {
+      setTitle(calendarRef.current.getApi().view.title);
+    }
+  }
 
   return useObserver(() => (
     <>
       <FullCalendar
-        ref={ref}
-        height="auto"
-        plugins={[
-          dayGridPlugin,
-          timeGridPlugin,
-          interactionPlugin,
-          luxonPlugin,
-          rrulePlugin,
-        ]}
-        headerToolbar={{
-          start: 'prev,next',
-          center: 'title',
-          end: 'today dayGridMonth,timeGridWeek,timeGridDay',
-        }}
+        ref={calendarRef}
+        height="600px"
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, luxonPlugin, rrulePlugin]}
+        headerToolbar={false}
         locale="ko"
         initialView="dayGridMonth"
-        buttonText={{
-          today: '오늘',
-          month: '월',
-          week: '주',
-          day: '일',
-          list: '목록',
-        }}
         nowIndicator
-        titleFormat="yyyy.{MM}"
+        titleFormat="yyyy년 {MM}월"
         buttonIcons
         firstDay={0}
         navLinks
@@ -81,7 +72,7 @@ const Calendar = ({ sidebarOpened }) => {
         eventContent={renderEventContent}
         eventClick={handleEventClick}
         eventChange={handleEventChange}
-        fixedWeekCount={true}
+        fixedWeekCount={false}
         datesSet={onUpdateDates}
         allDayText="종일"
         moreLinkText=""
