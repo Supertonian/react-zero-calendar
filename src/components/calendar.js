@@ -6,9 +6,11 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import luxonPlugin from '@fullcalendar/luxon';
 import rrulePlugin from '@fullcalendar/rrule';
-// import { getLunar } from "holiday-kr";
+import { getLunar } from 'holiday-kr';
+import datetime from '../utils/datetime';
+import { Hidden } from '@material-ui/core';
 
-const Calendar = ({ setTitle, calendarRef }) => {
+const Calendar = ({ setTitle, calendarRef, locale }) => {
   useEffect(() => {
     setTitle(calendarRef.current.getApi().view.title);
   }, [calendarRef, setTitle]);
@@ -26,9 +28,93 @@ const Calendar = ({ setTitle, calendarRef }) => {
 
   function renderEventContent(eventContent) {}
 
-  function renderHeaderContent(content) {}
+  function renderHeaderContent(content) {
+    let { text } = content;
+    const lunar = getLunar(content.date);
+    const color = content.dow === 0 ? 'red' : 'black';
 
-  function renderDayContent(content) {}
+    if (content.view.type === 'dayGrid' || content.view.type === 'dayGridMonth') {
+      return (
+        <>
+          <span style={{ color }}>{datetime.getDayName(content.dow, locale)}</span>
+        </>
+      );
+    }
+
+    if (content.view.type === 'timeGridWeek') {
+      const dayStartIndex = text.indexOf('. ');
+      text = text.slice(dayStartIndex + 2, text.length);
+      const textSplitted = text.split('. ');
+      text = `${textSplitted[0]} ${textSplitted[1]}`;
+    } else if (content.view.type === 'timeGridDay') {
+      text = text.slice(0, 1);
+      text = `${content.view.getCurrentData().viewApi.currentStart.getDate()} (${text})`;
+    }
+
+    return (
+      <>
+        <span style={{ color }}>{text}</span>
+        <Hidden xsDown>
+          <span
+            style={{
+              color: 'silver',
+              fontSize: 'smaller',
+              paddingLeft: '3px',
+            }}
+          >
+            ({lunar.month}/{lunar.day})
+          </span>
+        </Hidden>
+        <Hidden smUp>
+          <span
+            style={{
+              color: 'silver',
+              fontSize: 'smaller',
+              paddingLeft: '3px',
+            }}
+          >
+            ({lunar.day})
+          </span>
+        </Hidden>
+      </>
+    );
+  }
+
+  function renderDayContent(content) {
+    const lunar = getLunar(content.date);
+    const color = content.dow === 0 ? 'red' : 'black';
+
+    if (content.view.type === 'timeGridWeek' || content.view.type === 'timeGridDay') {
+      return <></>;
+    }
+    return (
+      <>
+        <span style={{ color }}>{content.date.getDate()}</span>
+        <Hidden xsDown>
+          <span
+            style={{
+              color: 'silver',
+              fontSize: 'smaller',
+              paddingLeft: '3px',
+            }}
+          >
+            ({lunar.month}/{lunar.day})
+          </span>
+        </Hidden>
+        <Hidden smUp>
+          <span
+            style={{
+              color: 'silver',
+              fontSize: 'smaller',
+              paddingLeft: '3px',
+            }}
+          >
+            ({lunar.day})
+          </span>
+        </Hidden>
+      </>
+    );
+  }
 
   function onUpdateDates() {
     if (calendarRef && calendarRef.current) {
@@ -43,7 +129,7 @@ const Calendar = ({ setTitle, calendarRef }) => {
         height="600px"
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, luxonPlugin, rrulePlugin]}
         headerToolbar={false}
-        locale="ko"
+        locale={locale}
         initialView="dayGridMonth"
         nowIndicator
         titleFormat="yyyy년 {MM}월"

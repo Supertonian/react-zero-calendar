@@ -19,10 +19,10 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
-
 import Select from '@material-ui/core/Select';
 import Calendar from './components/calendar';
 import { Hidden } from '@material-ui/core';
+import useStores from './stores/useStores';
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -49,12 +49,13 @@ export default function SwipeableTemporaryDrawer() {
   const [title, setTitle] = React.useState('');
   const [viewType, setViewType] = React.useState('dayGridMonth');
   const didMountRef = React.useRef(false); // to check mounted
+  const { calendarStore } = useStores();
 
   React.useEffect(() => {
     if (didMountRef.current) {
       ref.current.getApi().changeView(viewType);
     } else didMountRef.current = true;
-  }, [viewType]);
+  }, [ref, viewType]);
 
   const toggleDrawer = (anchor, open) => event => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -88,6 +89,20 @@ export default function SwipeableTemporaryDrawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
+      <Hidden smUp>
+        <List>
+          {[
+            ['월', 'dayGridMonth'],
+            ['주', 'timeGridWeek'],
+            ['일', 'timeGridDay'],
+          ].map((item, index) => (
+            <ListItem button key={index} onClick={() => setViewType(item[1])}>
+              {item[0]}
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+      </Hidden>
       <List>
         {['음력', '공휴일'].map((text, index) => (
           <ListItem button key={text}>
@@ -162,7 +177,7 @@ export default function SwipeableTemporaryDrawer() {
         </SwipeableDrawer>
       </React.Fragment>
       <main style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}>
-        <Calendar setTitle={setTitle} calendarRef={ref} />
+        <Calendar setTitle={setTitle} calendarRef={ref} locale="ko" />
       </main>
     </div>
   );
