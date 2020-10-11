@@ -8,11 +8,7 @@ import luxonPlugin from '@fullcalendar/luxon';
 import rrulePlugin from '@fullcalendar/rrule';
 // import { getLunar } from "holiday-kr";
 
-const Calendar = ({ setTitle, sidebarOpened, calendarRef }) => {
-  useEffect(() => {
-    calendarRef.current.getApi().updateSize();
-  }, [calendarRef, sidebarOpened]);
-
+const Calendar = ({ setTitle, calendarRef }) => {
   useEffect(() => {
     setTitle(calendarRef.current.getApi().view.title);
   }, [calendarRef, setTitle]);
