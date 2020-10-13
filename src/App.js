@@ -22,7 +22,7 @@ import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
 import Calendar from './components/calendar';
 import { Hidden } from '@material-ui/core';
-import useStores from './stores/useStores';
+import useLocalStorage from 'react-use-localstorage';
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -47,14 +47,10 @@ export default function SwipeableTemporaryDrawer() {
   const [state, setState] = React.useState({ left: false });
   const ref = React.createRef(); // calendar ref
   const [title, setTitle] = React.useState('');
-  const [viewType, setViewType] = React.useState('dayGridMonth');
-  const didMountRef = React.useRef(false); // to check mounted
-  const { calendarStore } = useStores();
+  const [viewType, setViewType] = useLocalStorage('calendarViewType', 'dayGridMonth');
 
   React.useEffect(() => {
-    if (didMountRef.current) {
-      ref.current.getApi().changeView(viewType);
-    } else didMountRef.current = true;
+    ref.current.getApi().changeView(viewType);
   }, [ref, viewType]);
 
   const toggleDrawer = (anchor, open) => event => {
