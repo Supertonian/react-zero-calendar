@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/ZeroStrength/calendar/compare/v0.1.1...v0.1.2) (2020-10-18)
+
+
+### Features
+
+* **mobx:** use mobx-react-lite, added makeObservable, action ([2a54e6b](https://github.com/ZeroStrength/calendar/commit/2a54e6b8d79ef8527f971fb419605804513ba6ea))
+* **mobx-persist:** 로컬에 스테이트 저장하도록 구현 (hydrate) ([a4094c6](https://github.com/ZeroStrength/calendar/commit/a4094c6306e2dec9516d2c19fc417384fd69ebc8))
+* **ui:** set calendar based on browser's height ([574538f](https://github.com/ZeroStrength/calendar/commit/574538fc2a5ccda8348de4d1774811aa72aac148))
+* 날짜 일 보기 수정, 모바일에서는 음력 축소보기 ([9242b7a](https://github.com/ZeroStrength/calendar/commit/9242b7a40cd06b129bd83791047d1f536f0cf65e))
+* localstorage state를 통해 월/주/일 유지 ([26f717a](https://github.com/ZeroStrength/calendar/commit/26f717aa76e31b04f0cdbddcf0147e1dfc290841))
+* mobx-persist store 생성 ([58856c8](https://github.com/ZeroStrength/calendar/commit/58856c846dbbbb3b648964d7ca1c5f4d25ade72f))
+
+
+### Bug Fixes
+
+* update readme. install guide and features ([be5192f](https://github.com/ZeroStrength/calendar/commit/be5192fa89585be5eede777cf69c75d6a88c628e))
+
 ### 0.1.1 (2020-10-11)
 
 
