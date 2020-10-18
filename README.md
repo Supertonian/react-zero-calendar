@@ -1,7 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Install and Run
-
 ```
 git clone https://github.com/ZeroStrength/calendar.git
 cd calendar/
@@ -10,11 +7,13 @@ yarn start
 ```
 
 ## Features
-
 - Lunar days
 - Holidays
 - Manage Categories
+- Store events in local storage
+
+## Changelog
+[CHANGELOG](https://github.com/ZeroStrength/calendar/blob/master/CHANGELOG.md)
 
 ## Demo
-
 http://zerostrength.github.io/calendar/
