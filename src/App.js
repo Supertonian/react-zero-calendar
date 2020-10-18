@@ -3,6 +3,8 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -23,6 +25,7 @@ import Select from '@material-ui/core/Select';
 import Calendar from './components/calendar';
 import { Hidden } from '@material-ui/core';
 import useLocalStorage from 'react-use-localstorage';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -42,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SwipeableTemporaryDrawer() {
+const App = observer(({ store }) => {
   const classes = useStyles();
   const [state, setState] = React.useState({ left: false });
   const ref = React.createRef(); // calendar ref
@@ -75,6 +78,11 @@ export default function SwipeableTemporaryDrawer() {
   const handleViewChange = e => {
     setViewType(e.target.value);
   };
+
+  const createNewEvent = () => {
+    const title = prompt('제목: ');
+    store.addEvent({start: new Date(), end: new Date(), title,});
+  }
 
   const Sider = anchor => (
     <div
@@ -173,8 +181,13 @@ export default function SwipeableTemporaryDrawer() {
         </SwipeableDrawer>
       </React.Fragment>
       <main style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}>
-        <Calendar setTitle={setTitle} calendarRef={ref} locale="ko" />
+        <Calendar store={store} setTitle={setTitle} calendarRef={ref} locale="ko" />
       </main>
+      <Fab color="primary" aria-label="add" onClick={createNewEvent}>
+        <AddIcon />
+      </Fab>
     </div>
   );
-}
+});
+
+export default App;

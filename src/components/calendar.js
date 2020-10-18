@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useObserver } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -10,12 +10,13 @@ import { getLunar } from 'holiday-kr';
 import datetime from '../utils/datetime';
 import { Hidden } from '@material-ui/core';
 
-const Calendar = ({ setTitle, calendarRef, locale }) => {
+const Calendar = observer(({ setTitle, calendarRef, locale, store }) => {
   useEffect(() => {
     setTitle(calendarRef.current.getApi().view.title);
   }, [calendarRef, setTitle]);
 
-  function handleEventClick(clickInfo) {}
+  function handleEventClick(clickInfo) {
+  }
 
   function handleDateSelect(selectInfo) {
     const calendarApi = selectInfo.view.calendar;
@@ -122,7 +123,7 @@ const Calendar = ({ setTitle, calendarRef, locale }) => {
     }
   }
 
-  return useObserver(() => (
+  return (
     <>
       <FullCalendar
         ref={calendarRef}
@@ -143,13 +144,7 @@ const Calendar = ({ setTitle, calendarRef, locale }) => {
         dayMaxEventRows={6}
         slotDuration="00:30:00"
         slotLabelInterval="01:00"
-        events={[
-          {
-            title: 'HELLO',
-            start: '2020-10-01 00:00:00',
-            end: '2020-10-03 15:00:00',
-          },
-        ]}
+        events={store.events.slice()}
         select={handleDateSelect}
         eventContent={renderEventContent}
         eventClick={handleEventClick}
@@ -163,7 +158,7 @@ const Calendar = ({ setTitle, calendarRef, locale }) => {
         allDayMaintainDuration
       />
     </>
-  ));
-};
+  );
+});
 
 export default Calendar;

@@ -1,19 +1,18 @@
-import { observable } from 'mobx';
-import { persist } from 'mobx-persist';
+import { makeObservable, observable, action } from "mobx"
 
-const store = observable({
-  filterCheck: { lunar: true, holiday: true },
-});
+class CalendarStore {
+    events = [];
 
-const schema = {
-  filterCheck: {
-    type: 'object',
-    schema: {
-      lunar: true,
-      holiday: true,
-    },
-  },
-};
+    constructor(events) {
+        makeObservable(this, {
+            events: observable,
+            addEvent: action
+        })
+    }
 
-const calendarStore = persist(schema)(store);
-export default calendarStore;
+    addEvent(item) {
+        this.events.push(item);
+    }
+}
+
+export default CalendarStore;
