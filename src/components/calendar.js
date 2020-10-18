@@ -13,6 +13,8 @@ import { Hidden } from '@material-ui/core';
 const Calendar = observer(({ setTitle, calendarRef, locale, store }) => {
   useEffect(() => {
     setTitle(calendarRef.current.getApi().view.title);
+    const height = isNaN(window.innerHeight) ? window.clientHeight : window.innerHeight;
+    calendarRef.current.getApi().setOption('height', height - 85 > 700 ? 700 : height - 85);
   }, [calendarRef, setTitle]);
 
   function handleEventClick(clickInfo) {
