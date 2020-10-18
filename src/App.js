@@ -3,8 +3,6 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -22,10 +20,14 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
-import Calendar from './components/calendar';
 import { Hidden } from '@material-ui/core';
 import useLocalStorage from 'react-use-localstorage';
 import { observer } from 'mobx-react-lite';
+import { zerostrengthCalendar, Calendar } from './components/calendar';
+import { create } from 'mobx-persist';
+
+const hydrate = create();
+hydrate('zerostrengthCalendar', zerostrengthCalendar);
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -45,7 +47,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const App = observer(({ store }) => {
+const App = observer(() => {
   const classes = useStyles();
   const [state, setState] = React.useState({ left: false });
   const ref = React.createRef(); // calendar ref
@@ -78,11 +80,6 @@ const App = observer(({ store }) => {
   const handleViewChange = e => {
     setViewType(e.target.value);
   };
-
-  const createNewEvent = () => {
-    const title = prompt('제목: ');
-    store.addEvent({start: new Date(), end: new Date(), title,});
-  }
 
   const Sider = anchor => (
     <div
@@ -181,11 +178,8 @@ const App = observer(({ store }) => {
         </SwipeableDrawer>
       </React.Fragment>
       <main style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}>
-        <Calendar store={store} setTitle={setTitle} calendarRef={ref} locale="ko" />
+        <Calendar setTitle={setTitle} calendarRef={ref} locale="ko" />
       </main>
-      <Fab color="primary" aria-label="add" onClick={createNewEvent}>
-        <AddIcon />
-      </Fab>
     </div>
   );
 });

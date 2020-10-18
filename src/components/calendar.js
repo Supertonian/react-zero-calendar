@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { observable } from 'mobx';
+import { persist } from 'mobx-persist';
 import { observer } from 'mobx-react-lite';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -10,7 +12,47 @@ import { getLunar } from 'holiday-kr';
 import datetime from '../utils/datetime';
 import { Hidden } from '@material-ui/core';
 
-const Calendar = observer(({ setTitle, calendarRef, locale, store }) => {
+const data = observable({
+    maxId: 0,
+    // title: 'no decorator',
+    // someObject: {
+    //     a: 1,
+    //     b: 'b',
+    // },
+    events: [],
+})
+
+const schema = {
+    maxId: true,
+    // title: true,
+    // someObject: {
+    //     type: 'object',
+    //     schema: {
+    //         a: true,
+    //         b: true
+    //     }
+    // },
+    events: {
+        type: 'list',
+        schema: {
+            id: true,
+            title: true,
+            start: true,
+            end: true,
+            allDay: true,
+            display: true
+        }
+    }
+}
+const state = persist(schema)(data);
+export const zerostrengthCalendar = state;
+
+function addEvent(event) {
+  state.events.push({...event, ...{id: state.maxId}});
+  state.maxId += 1;
+}
+
+const CalendarComponent = ({ setTitle, calendarRef, locale }) => {
   useEffect(() => {
     setTitle(calendarRef.current.getApi().view.title);
     const height = isNaN(window.innerHeight) ? window.clientHeight : window.innerHeight;
@@ -18,11 +60,24 @@ const Calendar = observer(({ setTitle, calendarRef, locale, store }) => {
   }, [calendarRef, setTitle]);
 
   function handleEventClick(clickInfo) {
+    console.log(clickInfo.event.start);
+    console.log(clickInfo.event.end);
+    console.log(clickInfo.event.title);
   }
 
   function handleDateSelect(selectInfo) {
     const calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
+
+    const title = prompt('제목: ');
+
+    addEvent({
+      title,
+      start: selectInfo.start.toISOString(),
+      end: selectInfo.end.toISOString(),
+      allDay: true,
+      display: 'block',
+    });
   }
 
   function handleEventChange(changeInfo) {
@@ -129,7 +184,6 @@ const Calendar = observer(({ setTitle, calendarRef, locale, store }) => {
     <>
       <FullCalendar
         ref={calendarRef}
-        height="600px"
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, luxonPlugin, rrulePlugin]}
         headerToolbar={false}
         locale={locale}
@@ -146,7 +200,7 @@ const Calendar = observer(({ setTitle, calendarRef, locale, store }) => {
         dayMaxEventRows={6}
         slotDuration="00:30:00"
         slotLabelInterval="01:00"
-        events={store.events.slice()}
+        events={state.events.slice()}
         select={handleDateSelect}
         eventContent={renderEventContent}
         eventClick={handleEventClick}
@@ -161,6 +215,6 @@ const Calendar = observer(({ setTitle, calendarRef, locale, store }) => {
       />
     </>
   );
-});
+};
 
-export default Calendar;
+export const Calendar = observer(CalendarComponent);

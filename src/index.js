@@ -2,15 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import CalendarStore from './stores/calendarStore';
 import * as serviceWorker from './serviceWorker';
 
-const calendarStore = new CalendarStore();
-
 ReactDOM.render(
-  <React.StrictMode>
-    <App store={calendarStore} />
-  </React.StrictMode>,
+  <>
+    <App />
+  </>,
   document.getElementById('root')
 );
 
