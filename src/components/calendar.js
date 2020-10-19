@@ -52,12 +52,12 @@ function addEvent(event) {
   state.maxId += 1;
 }
 
-const CalendarComponent = ({ setTitle, calendarRef, locale }) => {
+const CalendarComponent = ({ setter, calendarRef, locale }) => {
   useEffect(() => {
-    setTitle(calendarRef.current.getApi().view.title);
+    setter.setTitle(calendarRef.current.getApi().view.title);
     const height = isNaN(window.innerHeight) ? window.clientHeight : window.innerHeight;
     calendarRef.current.getApi().setOption('height', height - 85 > 700 ? 700 : height - 85);
-  }, [calendarRef, setTitle]);
+  }, [calendarRef, setter]);
 
   function handleEventClick(clickInfo) {
     console.log(clickInfo.event.start);
@@ -176,7 +176,14 @@ const CalendarComponent = ({ setTitle, calendarRef, locale }) => {
 
   function onUpdateDates() {
     if (calendarRef && calendarRef.current) {
-      setTitle(calendarRef.current.getApi().view.title);
+      setter.setTitle(calendarRef.current.getApi().view.title);
+    }
+  }
+
+  function handleNavLinkDayClick(date) {
+    if (calendarRef && calendarRef.current) {
+      calendarRef.current.getApi().changeView('timeGrid', date);
+      setter.setViewType('timeGridDay');
     }
   }
 
@@ -212,6 +219,7 @@ const CalendarComponent = ({ setTitle, calendarRef, locale }) => {
         dayHeaderContent={renderHeaderContent}
         dayCellContent={renderDayContent}
         allDayMaintainDuration
+        navLinkDayClick={handleNavLinkDayClick}
       />
     </>
   );

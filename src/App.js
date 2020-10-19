@@ -178,7 +178,7 @@ const App = observer(() => {
         </SwipeableDrawer>
       </React.Fragment>
       <main style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}>
-        <Calendar setTitle={setTitle} calendarRef={ref} locale="ko" />
+        <Calendar setter={{ setTitle, setViewType }} calendarRef={ref} locale="ko" />
       </main>
     </div>
   );
