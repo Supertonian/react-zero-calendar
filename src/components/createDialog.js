@@ -15,13 +15,26 @@ import {
   DateTimePicker,
 } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
+import { DateTime } from 'luxon';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const CreateDialogComponent = ({open, setOpen, addEvent}) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
-  const [title, setTitle] = React.useState('');
-  const [selectedStartDate, setSelectedStartDate] = React.useState(new Date());
-  const [selectedEndDate, setSelectedEndDate] = React.useState(new Date(new Date().getTime() + 30*60*1000));
+  const [title, setTitle] = React.useState();
+  const [selectedStartDate, setSelectedStartDate] = React.useState();
+  const [selectedEndDate, setSelectedEndDate] = React.useState();
+  const [allDay, setAllDay] = React.useState(false);
+
+  React.useEffect(() => {
+    if (open === true) {
+      setTitle('');
+      setAllDay(false);
+      setSelectedStartDate(DateTime.local());
+      setSelectedEndDate(DateTime.local().plus({ minutes: 30, }));
+    }
+  }, [open]);
 
   const handleStartDateChange = (date) => {
     setSelectedStartDate(date);
@@ -36,13 +49,22 @@ const CreateDialogComponent = ({open, setOpen, addEvent}) => {
   };
 
   function handleSave() {
-    const eventInfo = { start: selectedStartDate, end: selectedEndDate, title, };
+    const eventInfo = {
+      start: selectedStartDate.toISO(),
+      end: selectedEndDate.toISO(),
+      title: title.trim() === '' ? '(제목없음)' : title,
+      allDay,
+    };
     addEvent(eventInfo);
     setOpen(false);
   };
 
   const handleTitle = (event) => {
     setTitle(event.target.value);
+  };
+
+  const handleAllDayChange = (event) => {
+    setAllDay(event.target.checked);
   };
 
   return (
@@ -56,7 +78,13 @@ const CreateDialogComponent = ({open, setOpen, addEvent}) => {
       <DialogContent>
         <DialogContentText>
           <Container>
+            <Grid container>
             <Input autoFocus placeholder="제목을 입력해주세요" value={title} onChangeCapture={handleTitle} />
+            <FormControlLabel
+              control={<Checkbox checked={allDay} onChange={handleAllDayChange} name="allDay" />}
+              label="종일"
+            />
+            </Grid>
           </Container>
           <Container>
             <MuiPickersUtilsProvider utils={LuxonUtils}>
