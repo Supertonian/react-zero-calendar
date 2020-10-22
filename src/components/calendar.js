@@ -10,7 +10,9 @@ import luxonPlugin from '@fullcalendar/luxon';
 import rrulePlugin from '@fullcalendar/rrule';
 import { getLunar } from 'holiday-kr';
 import datetime from '../utils/datetime';
+import Button from '@material-ui/core/Button';
 import { Hidden } from '@material-ui/core';
+import { CreateDialog } from './createDialog';
 
 const data = observable({
     maxId: 0,
@@ -53,6 +55,7 @@ function addEvent(event) {
 }
 
 const CalendarComponent = ({ setter, calendarRef, locale }) => {
+  const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   useEffect(() => {
     setter.setTitle(calendarRef.current.getApi().view.title);
     const height = isNaN(window.innerHeight) ? window.clientHeight : window.innerHeight;
@@ -221,6 +224,8 @@ const CalendarComponent = ({ setter, calendarRef, locale }) => {
         allDayMaintainDuration
         navLinkDayClick={handleNavLinkDayClick}
       />
+      <Button onClick={() => setCreateDialogOpen(true)}>새 일정</Button>
+      <CreateDialog addEvent={addEvent} open={createDialogOpen} setOpen={setCreateDialogOpen} />
     </>
   );
 };
