@@ -15,42 +15,32 @@ import { Hidden } from '@material-ui/core';
 import { CreateDialog } from './createDialog';
 
 const data = observable({
-    maxId: 0,
-    // title: 'no decorator',
-    // someObject: {
-    //     a: 1,
-    //     b: 'b',
-    // },
-    events: [],
-})
+  maxId: 0,
+  lunar: false,
+  events: [],
+});
 
 const schema = {
-    maxId: true,
-    // title: true,
-    // someObject: {
-    //     type: 'object',
-    //     schema: {
-    //         a: true,
-    //         b: true
-    //     }
-    // },
-    events: {
-        type: 'list',
-        schema: {
-            id: true,
-            title: true,
-            start: true,
-            end: true,
-            allDay: true,
-            display: true
-        }
-    }
-}
+  maxId: true,
+  lunar: false,
+  events: {
+    type: 'list',
+    schema: {
+      id: true,
+      title: true,
+      start: true,
+      end: true,
+      allDay: true,
+      display: true,
+    },
+  },
+};
+
 const state = persist(schema)(data);
 export const zerostrengthCalendar = state;
 
 function addEvent(event) {
-  state.events.push({...event, ...{id: state.maxId}});
+  state.events.push({ ...event, ...{ id: state.maxId } });
   state.maxId += 1;
 }
 

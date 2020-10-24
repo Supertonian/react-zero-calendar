@@ -97,7 +97,7 @@ const App = observer(() => {
             ['주', 'timeGridWeek'],
             ['일', 'timeGridDay'],
           ].map((item, index) => (
-            <ListItem button key={index} onClick={() => setViewType(item[1])}>
+            <ListItem selected={viewType === item[1]} button key={index} onClick={() => setViewType(item[1])}>
               {item[0]}
             </ListItem>
           ))}
