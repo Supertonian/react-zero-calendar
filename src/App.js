@@ -20,7 +20,8 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
-import { Hidden } from '@material-ui/core';
+import { Checkbox, Hidden } from '@material-ui/core';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import useLocalStorage from 'react-use-localstorage';
 import { observer } from 'mobx-react-lite';
 import { zerostrengthCalendar, Calendar } from './components/calendar';
@@ -53,6 +54,7 @@ const App = observer(() => {
   const ref = React.createRef(); // calendar ref
   const [title, setTitle] = React.useState('');
   const [viewType, setViewType] = useLocalStorage('calendarViewType', 'dayGridMonth');
+  const [lunar, setLunar] = useLocalStorage('calendarLunar', 'false');
 
   React.useEffect(() => {
     ref.current.getApi().changeView(viewType);
@@ -81,13 +83,16 @@ const App = observer(() => {
     setViewType(e.target.value);
   };
 
+  const handleLunarChange = e => {
+    setLunar(String(e.target.checked));
+  };
+
   const Sider = anchor => (
     <div
       className={clsx(classes.list, {
         [classes.fullList]: anchor === 'top' || anchor === 'bottom',
       })}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <Hidden smUp>
@@ -105,12 +110,14 @@ const App = observer(() => {
         <Divider />
       </Hidden>
       <List>
-        {['음력', '공휴일'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem>
+          <FormControlLabel
+            control={
+              <Checkbox checked={lunar === 'true'} onChange={handleLunarChange} name="checkedB" color="primary" />
+            }
+            label="음력"
+          />
+        </ListItem>
       </List>
       <Divider />
       <List>
@@ -178,7 +185,7 @@ const App = observer(() => {
         </SwipeableDrawer>
       </React.Fragment>
       <main style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}>
-        <Calendar setter={{ setTitle, setViewType }} calendarRef={ref} locale="ko" />
+        <Calendar setter={{ setTitle, setViewType }} lunar={lunar} calendarRef={ref} locale="ko" />
       </main>
     </div>
   );

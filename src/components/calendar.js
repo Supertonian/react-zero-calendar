@@ -16,13 +16,11 @@ import { CreateDialog } from './createDialog';
 
 const data = observable({
   maxId: 0,
-  lunar: false,
   events: [],
 });
 
 const schema = {
   maxId: true,
-  lunar: false,
   events: {
     type: 'list',
     schema: {
@@ -39,18 +37,23 @@ const schema = {
 const state = persist(schema)(data);
 export const zerostrengthCalendar = state;
 
+// actions
 function addEvent(event) {
   state.events.push({ ...event, ...{ id: state.maxId } });
   state.maxId += 1;
 }
 
-const CalendarComponent = ({ setter, calendarRef, locale }) => {
+// end of actions
+
+const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   useEffect(() => {
     setter.setTitle(calendarRef.current.getApi().view.title);
     const height = isNaN(window.innerHeight) ? window.clientHeight : window.innerHeight;
     calendarRef.current.getApi().setOption('height', height - 85 > 700 ? 700 : height - 85);
   }, [calendarRef, setter]);
+
+  console.log(lunar);
 
   function handleEventClick(clickInfo) {
     console.log(clickInfo.event.start);
@@ -81,7 +84,6 @@ const CalendarComponent = ({ setter, calendarRef, locale }) => {
 
   function renderHeaderContent(content) {
     let { text } = content;
-    const lunar = getLunar(content.date);
     const color = content.dow === 0 ? 'red' : 'black';
 
     if (content.view.type === 'dayGrid' || content.view.type === 'dayGridMonth') {
@@ -91,17 +93,6 @@ const CalendarComponent = ({ setter, calendarRef, locale }) => {
         </>
       );
     }
-
-    if (content.view.type === 'timeGridWeek') {
-      const dayStartIndex = text.indexOf('. ');
-      text = text.slice(dayStartIndex + 2, text.length);
-      const textSplitted = text.split('. ');
-      text = `${textSplitted[0]} ${textSplitted[1]}`;
-    } else if (content.view.type === 'timeGridDay') {
-      text = text.slice(0, 1);
-      text = `${content.view.getCurrentData().viewApi.currentStart.getDate()} (${text})`;
-    }
-
     return (
       <>
         <span style={{ color }}>{text}</span>
@@ -113,7 +104,7 @@ const CalendarComponent = ({ setter, calendarRef, locale }) => {
               paddingLeft: '3px',
             }}
           >
-            ({lunar.month}/{lunar.day})
+            {lunar === 'true' && `(${getLunar(content.date).month}/${getLunar(content.date).day})`}
           </span>
         </Hidden>
         <Hidden smUp>
@@ -124,7 +115,7 @@ const CalendarComponent = ({ setter, calendarRef, locale }) => {
               paddingLeft: '3px',
             }}
           >
-            ({lunar.day})
+            {lunar === 'true' && `(${getLunar(content.date).day})`}
           </span>
         </Hidden>
       </>
@@ -132,7 +123,6 @@ const CalendarComponent = ({ setter, calendarRef, locale }) => {
   }
 
   function renderDayContent(content) {
-    const lunar = getLunar(content.date);
     const color = content.dow === 0 ? 'red' : 'black';
 
     if (content.view.type === 'timeGridWeek' || content.view.type === 'timeGridDay') {
@@ -149,7 +139,7 @@ const CalendarComponent = ({ setter, calendarRef, locale }) => {
               paddingLeft: '3px',
             }}
           >
-            ({lunar.month}/{lunar.day})
+            {lunar === 'true' && `(${getLunar(content.date).month}/${getLunar(content.date).day})`}
           </span>
         </Hidden>
         <Hidden smUp>
@@ -160,7 +150,7 @@ const CalendarComponent = ({ setter, calendarRef, locale }) => {
               paddingLeft: '3px',
             }}
           >
-            ({lunar.day})
+            {lunar === 'true' && `(${getLunar(content.date).day})`}
           </span>
         </Hidden>
       </>
