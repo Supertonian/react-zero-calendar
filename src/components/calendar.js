@@ -13,6 +13,7 @@ import datetime from '../utils/datetime';
 import Button from '@material-ui/core/Button';
 import { Hidden } from '@material-ui/core';
 import { CreateDialog } from './createDialog';
+import axios from 'axios';
 
 const data = observable({
   maxId: 0,
@@ -163,6 +164,11 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
     }
   }
 
+  function handleUrlImport() {
+    const url = prompt('Enter iCal URL: ');
+    axios.get(url).then(data => console.log(data));
+  }
+
   return (
     <>
       <FullCalendar
@@ -198,6 +204,7 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
         navLinkDayClick={handleNavLinkDayClick}
       />
       <Button onClick={() => { setDefaultSettings({}); setCreateDialogOpen(true); }}>새 일정</Button>
+      <Button onClick={handleUrlImport}>URL 가져오기</Button>
       <CreateDialog defaultSettings={defaultSettings} addEvent={addEvent} open={createDialogOpen} setOpen={setCreateDialogOpen} />
     </>
   );

@@ -17,11 +17,14 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.21.0",
     "draft-js": "^0.11.7",
     "draft-js-linkify-plugin": "^2.0.2",
     "draft-js-plugins-editor": "^3.0.0",
     "gh-pages": "^3.1.0",
     "holiday-kr": "^0.1.5",
+    "ical": "^0.8.0",
+    "ical-generator": "^1.15.1",
     "luxon": "^1.25.0",
     "mobx": "^6.0.0",
     "mobx-persist": "^0.4.1",
@@ -31,9 +34,7 @@
     "react-scripts": "3.4.3",
     "react-use-localstorage": "^3.5.3",
     "rrule": "^2.6.6",
-    "styled-components": "^5.2.0",
-    "ical": "^0.8.0",
-    "ical-generator": "^1.15.1"
+    "styled-components": "^5.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.2",
