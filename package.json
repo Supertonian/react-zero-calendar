@@ -31,7 +31,9 @@
     "react-scripts": "3.4.3",
     "react-use-localstorage": "^3.5.3",
     "rrule": "^2.6.6",
-    "styled-components": "^5.2.0"
+    "styled-components": "^5.2.0",
+    "ical": "^0.8.0",
+    "ical-generator": "^1.15.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.2",
