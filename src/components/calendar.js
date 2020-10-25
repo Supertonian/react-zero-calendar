@@ -47,13 +47,12 @@ function addEvent(event) {
 
 const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
+  const [defaultSettings, setDefaultSettings] = React.useState({});
   useEffect(() => {
     setter.setTitle(calendarRef.current.getApi().view.title);
     const height = isNaN(window.innerHeight) ? window.clientHeight : window.innerHeight;
     calendarRef.current.getApi().setOption('height', height - 85 > 700 ? 700 : height - 85);
   }, [calendarRef, setter]);
-
-  console.log(lunar);
 
   function handleEventClick(clickInfo) {
     console.log(clickInfo.event.start);
@@ -64,16 +63,10 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
   function handleDateSelect(selectInfo) {
     const calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
-
-    const title = prompt('제목: ');
-
-    addEvent({
-      title,
-      start: selectInfo.start.toISOString(),
-      end: selectInfo.end.toISOString(),
-      allDay: true,
-      display: 'block',
-    });
+    const start = selectInfo.start.toISOString();
+    const end = selectInfo.end.toISOString();
+    setDefaultSettings({ start, end });
+    setCreateDialogOpen(true);
   }
 
   function handleEventChange(changeInfo) {
@@ -204,8 +197,8 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
         allDayMaintainDuration
         navLinkDayClick={handleNavLinkDayClick}
       />
-      <Button onClick={() => setCreateDialogOpen(true)}>새 일정</Button>
-      <CreateDialog addEvent={addEvent} open={createDialogOpen} setOpen={setCreateDialogOpen} />
+      <Button onClick={() => { setDefaultSettings({}); setCreateDialogOpen(true); }}>새 일정</Button>
+      <CreateDialog defaultSettings={defaultSettings} addEvent={addEvent} open={createDialogOpen} setOpen={setCreateDialogOpen} />
     </>
   );
 };

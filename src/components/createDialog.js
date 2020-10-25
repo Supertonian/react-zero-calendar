@@ -19,7 +19,7 @@ import { DateTime } from 'luxon';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-const CreateDialogComponent = ({open, setOpen, addEvent}) => {
+const CreateDialogComponent = ({open, setOpen, addEvent, defaultSettings}) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
   const [title, setTitle] = React.useState();
@@ -31,10 +31,18 @@ const CreateDialogComponent = ({open, setOpen, addEvent}) => {
     if (open === true) {
       setTitle('');
       setAllDay(false);
-      setSelectedStartDate(DateTime.local());
-      setSelectedEndDate(DateTime.local().plus({ minutes: 30, }));
+      if (defaultSettings && defaultSettings.start) {
+        setSelectedStartDate(DateTime.fromISO(defaultSettings.start));
+      } else {
+        setSelectedStartDate(DateTime.local());
+      }
+      if (defaultSettings && defaultSettings.end) {
+        setSelectedEndDate(DateTime.fromISO(defaultSettings.end));
+      } else {
+        setSelectedEndDate(DateTime.local().plus({ minutes: 30, }));
+      }
     }
-  }, [open]);
+  }, [open, defaultSettings]);
 
   const handleStartDateChange = (date) => {
     setSelectedStartDate(date);
