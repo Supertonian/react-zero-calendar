@@ -69,6 +69,14 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
     setDefaultSettings({ start, end });
     setCreateDialogOpen(true);
   }
+  
+  function handleDateClick(info) {
+    const start = info.dateStr;
+    const end = info.dateStr;
+    const allDay = info.allDay;
+    setDefaultSettings({ start, end, allDay });
+    setCreateDialogOpen(true);
+  }
 
   function handleEventChange(changeInfo) {
     changeInfo.revert();
@@ -192,6 +200,7 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
         slotEventOverlap={false}
         events={state.events.slice()}
         select={handleDateSelect}
+        dateClick={handleDateClick}
         eventContent={renderEventContent}
         eventClick={handleEventClick}
         eventChange={handleEventChange}
