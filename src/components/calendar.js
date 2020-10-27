@@ -203,6 +203,7 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
         dayCellContent={renderDayContent}
         allDayMaintainDuration
         navLinkDayClick={handleNavLinkDayClick}
+        unselectAuto={false}
       />
       <Button onClick={() => { setDefaultSettings({}); setCreateDialogOpen(true); }}>새 일정</Button>
       <Button onClick={handleUrlImport}>URL 가져오기</Button>
