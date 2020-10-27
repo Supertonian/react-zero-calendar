@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { observer } from 'mobx-react-lite';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -30,7 +30,6 @@ const CreateDialogComponent = ({open, setOpen, addEvent, defaultSettings}) => {
   React.useEffect(() => {
     if (open === true) {
       setTitle('');
-      setAllDay(false);
       if (defaultSettings && defaultSettings.start) {
         setSelectedStartDate(DateTime.fromISO(defaultSettings.start));
       } else {
@@ -40,6 +39,11 @@ const CreateDialogComponent = ({open, setOpen, addEvent, defaultSettings}) => {
         setSelectedEndDate(DateTime.fromISO(defaultSettings.end));
       } else {
         setSelectedEndDate(DateTime.local().plus({ minutes: 30, }));
+      }
+      if (defaultSettings && defaultSettings.allDay) {
+        setAllDay(true);
+      } else {
+        setAllDay(false);
       }
     }
   }, [open, defaultSettings]);
