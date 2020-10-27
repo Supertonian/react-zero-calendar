@@ -183,6 +183,17 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
     axios.get(url).then(data => console.log(data));
   }
 
+  function handleSelectAllow(info) {
+    if (info.allDay) return true;
+    let { start, end, startStr, endStr } = info;
+    startStr = startStr.split('+')[0];
+    endStr = endStr.split('+')[0];
+    if (endStr.split('T')[1] === "00:00:00") {
+      return end - start <= 1000 * 60 * 60 * 24;
+    }
+    return endStr.split('T')[0] === startStr.split('T')[0];
+  }
+
   return (
     <>
       <FullCalendar
@@ -220,9 +231,9 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
         navLinkDayClick={handleNavLinkDayClick}
         unselectAuto={true}
         unselectCancel=".MuiDialogContent-root"
+        selectAllow={handleSelectAllow}
+        dragScroll={false}
       />
-      <Button onClick={() => { setDefaultSettings({}); setCreateDialogOpen(true); }}>새 일정</Button>
-      <Button onClick={handleUrlImport}>URL 가져오기</Button>
       <CreateDialog defaultSettings={defaultSettings} addEvent={addEvent} open={createDialogOpen} setOpen={setCreateDialogOpen} />
     </>
   );
