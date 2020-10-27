@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { observable } from 'mobx';
 import { persist } from 'mobx-persist';
 import { observer } from 'mobx-react-lite';
@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import { Hidden } from '@material-ui/core';
 import { CreateDialog } from './createDialog';
 import axios from 'axios';
+import { DateTime } from 'luxon';
 
 const data = observable({
   maxId: 0,
@@ -46,7 +47,7 @@ function addEvent(event) {
 
 // end of actions
 
-const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
+const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinutes }) => {
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [defaultSettings, setDefaultSettings] = React.useState({});
   useEffect(() => {
@@ -62,18 +63,23 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
   }
 
   function handleDateSelect(selectInfo) {
-    const calendarApi = selectInfo.view.calendar;
-    calendarApi.unselect();
     const start = selectInfo.start.toISOString();
     const end = selectInfo.end.toISOString();
-    setDefaultSettings({ start, end });
+    const allDay = selectInfo.allDay;
+    setDefaultSettings({ start, end, allDay });
     setCreateDialogOpen(true);
   }
   
   function handleDateClick(info) {
-    const start = info.dateStr;
-    const end = info.dateStr;
     const allDay = info.allDay;
+    const start = DateTime.fromISO(info.dateStr);
+    let end = '';
+    // month
+    if (info.view.type.includes('dayGrid') || allDay) {
+      end = start.plus({ days: 1 });
+    } else {
+      end = start.plus({ minutes: minDurationMinutes });
+    }
     setDefaultSettings({ start, end, allDay });
     setCreateDialogOpen(true);
   }
@@ -195,7 +201,7 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
         selectMirror
         dayMaxEvents
         dayMaxEventRows={6}
-        slotDuration="00:30:00"
+        slotDuration={{ minutes: minDurationMinutes }}
         slotLabelInterval="01:00"
         slotEventOverlap={false}
         events={state.events.slice()}
@@ -212,8 +218,8 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
         dayCellContent={renderDayContent}
         allDayMaintainDuration
         navLinkDayClick={handleNavLinkDayClick}
-        unselectAuto={false}
-        unselectCancel=".zerostrength-calendar"
+        unselectAuto={true}
+        unselectCancel=".MuiDialogContent-root"
       />
       <Button onClick={() => { setDefaultSettings({}); setCreateDialogOpen(true); }}>새 일정</Button>
       <Button onClick={handleUrlImport}>URL 가져오기</Button>

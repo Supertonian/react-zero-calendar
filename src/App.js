@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -185,7 +185,7 @@ const App = observer(() => {
         </SwipeableDrawer>
       </React.Fragment>
       <main style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}>
-        <Calendar setter={{ setTitle, setViewType }} lunar={lunar} calendarRef={ref} locale="ko" />
+        <Calendar minDurationMinutes={30} setter={{ setTitle, setViewType }} lunar={lunar} calendarRef={ref} locale="ko" />
       </main>
     </div>
   );
