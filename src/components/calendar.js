@@ -189,6 +189,7 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
         dayMaxEventRows={6}
         slotDuration="00:30:00"
         slotLabelInterval="01:00"
+        slotEventOverlap={false}
         events={state.events.slice()}
         select={handleDateSelect}
         eventContent={renderEventContent}
