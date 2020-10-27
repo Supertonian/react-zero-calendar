@@ -204,6 +204,7 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar }) => {
         allDayMaintainDuration
         navLinkDayClick={handleNavLinkDayClick}
         unselectAuto={false}
+        unselectCancel=".zerostrength-calendar"
       />
       <Button onClick={() => { setDefaultSettings({}); setCreateDialogOpen(true); }}>새 일정</Button>
       <Button onClick={handleUrlImport}>URL 가져오기</Button>
