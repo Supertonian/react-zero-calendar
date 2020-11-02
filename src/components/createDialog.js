@@ -10,26 +10,25 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import { Container, Input } from '@material-ui/core';
-import {
-  MuiPickersUtilsProvider,
-  DateTimePicker,
-} from '@material-ui/pickers';
+import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
 import { DateTime } from 'luxon';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-const CreateDialogComponent = ({open, setOpen, addEvent, defaultSettings}) => {
+const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
   const [title, setTitle] = React.useState();
   const [selectedStartDate, setSelectedStartDate] = React.useState();
   const [selectedEndDate, setSelectedEndDate] = React.useState();
   const [allDay, setAllDay] = React.useState(false);
+  const [place, setPlace] = React.useState();
 
   React.useEffect(() => {
     if (open === true) {
       setTitle('');
+      setPlace('');
       if (defaultSettings && defaultSettings.start) {
         setSelectedStartDate(DateTime.fromISO(defaultSettings.start));
       } else {
@@ -38,7 +37,7 @@ const CreateDialogComponent = ({open, setOpen, addEvent, defaultSettings}) => {
       if (defaultSettings && defaultSettings.end) {
         setSelectedEndDate(DateTime.fromISO(defaultSettings.end));
       } else {
-        setSelectedEndDate(DateTime.local().plus({ minutes: 30, }));
+        setSelectedEndDate(DateTime.local().plus({ minutes: 30 }));
       }
       if (defaultSettings && defaultSettings.allDay) {
         setAllDay(true);
@@ -48,17 +47,17 @@ const CreateDialogComponent = ({open, setOpen, addEvent, defaultSettings}) => {
     }
   }, [open, defaultSettings]);
 
-  const handleStartDateChange = (date) => {
+  const handleStartDateChange = date => {
     setSelectedStartDate(date);
   };
 
-  const handleEndDateChange = (date) => {
+  const handleEndDateChange = date => {
     setSelectedEndDate(date);
   };
 
   function handleClose() {
     setOpen(false);
-  };
+  }
 
   function handleSave() {
     const eventInfo = {
@@ -66,36 +65,36 @@ const CreateDialogComponent = ({open, setOpen, addEvent, defaultSettings}) => {
       end: selectedEndDate.toISO(),
       title: title.trim() === '' ? '(제목없음)' : title,
       allDay,
+      place,
     };
     addEvent(eventInfo);
     setOpen(false);
-  };
+  }
 
-  const handleTitle = (event) => {
+  const handleTitle = event => {
     setTitle(event.target.value);
   };
 
-  const handleAllDayChange = (event) => {
+  const handleAllDayChange = event => {
     setAllDay(event.target.checked);
   };
 
+  const handlePlaceChange = event => {
+    setPlace(event.target.value);
+  };
+
   return (
-    <Dialog
-      fullScreen={fullScreen}
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="responsive-create-dialog"
-    >
+    <Dialog fullScreen={fullScreen} open={open} onClose={handleClose} aria-labelledby="responsive-create-dialog">
       <DialogTitle id="responsive-dialog-title">새 일정</DialogTitle>
       <DialogContent>
         <DialogContentText>
           <Container>
             <Grid container>
-            <Input autoFocus placeholder="제목을 입력해주세요" value={title} onChangeCapture={handleTitle} />
-            <FormControlLabel
-              control={<Checkbox checked={allDay} onChange={handleAllDayChange} name="allDay" />}
-              label="종일"
-            />
+              <Input autoFocus placeholder="제목을 입력해주세요" value={title} onChangeCapture={handleTitle} />
+              <FormControlLabel
+                control={<Checkbox checked={allDay} onChange={handleAllDayChange} name="allDay" />}
+                label="종일"
+              />
             </Grid>
           </Container>
           <Container>
@@ -117,8 +116,13 @@ const CreateDialogComponent = ({open, setOpen, addEvent, defaultSettings}) => {
                   value={selectedEndDate}
                   onChange={handleEndDateChange}
                 />
-                </Grid>
-              </MuiPickersUtilsProvider>
+              </Grid>
+            </MuiPickersUtilsProvider>
+          </Container>
+          <Container>
+            <Container>
+              <Input placeholder="장소를 입력해주세요" value={place} onChange={handlePlaceChange} />
+            </Container>
           </Container>
         </DialogContentText>
       </DialogContent>

@@ -32,6 +32,7 @@ const schema = {
       end: true,
       allDay: true,
       display: true,
+      place: true,
     },
   },
 };
@@ -69,7 +70,7 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
     setDefaultSettings({ start, end, allDay });
     setCreateDialogOpen(true);
   }
-  
+
   function handleDateClick(info) {
     const allDay = info.allDay;
     const start = DateTime.fromISO(info.dateStr);
@@ -188,7 +189,7 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
     let { start, end, startStr, endStr } = info;
     startStr = startStr.split('+')[0];
     endStr = endStr.split('+')[0];
-    if (endStr.split('T')[1] === "00:00:00") {
+    if (endStr.split('T')[1] === '00:00:00') {
       return end - start <= 1000 * 60 * 60 * 24;
     }
     return endStr.split('T')[0] === startStr.split('T')[0];
@@ -234,7 +235,12 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
         selectAllow={handleSelectAllow}
         dragScroll={false}
       />
-      <CreateDialog defaultSettings={defaultSettings} addEvent={addEvent} open={createDialogOpen} setOpen={setCreateDialogOpen} />
+      <CreateDialog
+        defaultSettings={defaultSettings}
+        addEvent={addEvent}
+        open={createDialogOpen}
+        setOpen={setCreateDialogOpen}
+      />
     </>
   );
 };
