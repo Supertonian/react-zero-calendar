@@ -23,6 +23,7 @@ const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => 
   const [selectedStartDate, setSelectedStartDate] = React.useState();
   const [selectedEndDate, setSelectedEndDate] = React.useState();
   const [allDay, setAllDay] = React.useState(false);
+  const [important, setImportant] = React.useState();
   const [place, setPlace] = React.useState();
 
   React.useEffect(() => {
@@ -44,6 +45,11 @@ const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => 
       } else {
         setAllDay(false);
       }
+      if (defaultSettings && defaultSettings.important) {
+        setImportant(true);
+      } else {
+        setImportant(false);
+      }
     }
   }, [open, defaultSettings]);
 
@@ -63,7 +69,8 @@ const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => 
     const eventInfo = {
       start: selectedStartDate.toISO(),
       end: selectedEndDate.toISO(),
-      title: title.trim() === '' ? '(제목없음)' : title,
+      important: important,
+      title: title.trim() === '' ? '(제목없음)' : important === true ? title.concat('(중요)') : title,
       allDay,
       place,
     };
@@ -79,6 +86,9 @@ const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => 
     setAllDay(event.target.checked);
   };
 
+  const handleImportantChange = event => {
+    setImportant(event.target.checked);
+  };
   const handlePlaceChange = event => {
     setPlace(event.target.value);
   };
@@ -94,6 +104,10 @@ const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => 
               <FormControlLabel
                 control={<Checkbox checked={allDay} onChange={handleAllDayChange} name="allDay" />}
                 label="종일"
+              />
+              <FormControlLabel
+                control={<Checkbox checked={important} onChange={handleImportantChange} name="important" />}
+                label="중요"
               />
             </Grid>
           </Container>
