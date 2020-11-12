@@ -186,8 +186,14 @@ const App = observer(() => {
           {Sider('left')}
         </SwipeableDrawer>
       </React.Fragment>
-      <main style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}>
-        <Calendar minDurationMinutes={30} setter={{ setTitle, setViewType }} lunar={lunar} calendarRef={ref} locale="ko" />
+      <main id="calendar-layout" style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}>
+        <Calendar
+          minDurationMinutes={30}
+          setter={{ setTitle, setViewType }}
+          lunar={lunar}
+          calendarRef={ref}
+          locale="ko"
+        />
       </main>
     </div>
   );

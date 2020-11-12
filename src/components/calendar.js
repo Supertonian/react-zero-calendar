@@ -47,15 +47,52 @@ function addEvent(event) {
 }
 
 // end of actions
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
 
 const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinutes }) => {
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [defaultSettings, setDefaultSettings] = React.useState({});
+
   useEffect(() => {
     setter.setTitle(calendarRef.current.getApi().view.title);
     const height = isNaN(window.innerHeight) ? window.clientHeight : window.innerHeight;
     calendarRef.current.getApi().setOption('height', height - 85 > 700 ? 700 : height - 85);
+
+    document.querySelector('#calendar-layout').addEventListener('touchstart', handleTouchStart);
+    document.querySelector('#calendar-layout').addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      document.querySelector('#calendar-layout').removeEventListener('touchstart', handleTouchStart);
+      document.querySelector('#calendar-layout').removeEventListener('touchend', handleTouchEnd);
+    };
   }, [calendarRef, setter]);
+
+  function handleGesture() {
+    if (calendarRef.current) {
+      const deltaX = Math.abs(touchEndX - touchStartX);
+      const deltaY = Math.abs(touchEndY - touchStartY);
+      if (touchEndX <= touchStartX && deltaX > deltaY * 2) {
+        calendarRef.current.getApi().next();
+      }
+      if (touchEndX >= touchStartX && deltaX > deltaY * 2) {
+        calendarRef.current.getApi().prev();
+      }
+    }
+  }
+
+  function handleTouchStart(event) {
+    touchStartX = event.changedTouches[0].screenX;
+    touchStartY = event.changedTouches[0].screenY;
+  }
+
+  function handleTouchEnd(event) {
+    touchEndX = event.changedTouches[0].screenX;
+    touchEndY = event.changedTouches[0].screenY;
+    handleGesture();
+  }
 
   function handleEventClick(clickInfo) {
     console.log(clickInfo.event.start);
