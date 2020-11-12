@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { observable } from 'mobx';
 import { persist } from 'mobx-persist';
 import { observer } from 'mobx-react-lite';
@@ -205,7 +205,29 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
 
   function onUpdateDates() {
     if (calendarRef && calendarRef.current) {
-      setter.setTitle(calendarRef.current.getApi().view.title);
+      const viewType = calendarRef.current.getApi().view.type;
+      if (viewType === 'dayGridMonth') {
+        const { title } = calendarRef.current.getApi().view;
+        const [year, month] = title.split('/');
+        setter.setTitle(`${year}년 ${month}월`);
+      } else if (viewType === 'timeGridDay') {
+        const [Y, M, D] = calendarRef.current.getApi().view.title.split('/');
+        setter.setTitle(`${Y}년 ${M}월 ${D}일`);
+      } else {
+        const [start, end] = calendarRef.current.getApi().view.title.split(' – ');
+        const [startY, startM] = start.split('/');
+        const [endY, endM] = end.split('/');
+
+        if (startY === endY) {
+          if (startM === endM) {
+            setter.setTitle(`${startY}년 ${startM}월`);
+          } else {
+            setter.setTitle(`${startY}년 ${startM}월 - ${endM}월`);
+          }
+        } else {
+          setter.setTitle(`${startY}년 ${startM}월 - ${endY}년 ${endM}월`);
+        }
+      }
     }
   }
 
