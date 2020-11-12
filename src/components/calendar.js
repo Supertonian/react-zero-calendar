@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { observable } from 'mobx';
 import { persist } from 'mobx-persist';
 import { observer } from 'mobx-react-lite';
@@ -13,6 +13,7 @@ import { getLunar } from 'holiday-kr';
 import datetime from '../utils/datetime';
 import { Hidden } from '@material-ui/core';
 import { CreateDialog } from './createDialog';
+import { ViewDialog } from './viewDialog';
 import axios from 'axios';
 import { DateTime } from 'luxon';
 
@@ -54,23 +55,11 @@ let touchEndY = 0;
 
 const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinutes }) => {
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
+  const [viewDialogOpen, setViewDialogOpen] = React.useState(false);
   const [defaultSettings, setDefaultSettings] = React.useState({});
+  const [event, setEvent] = React.useState({});
 
-  useEffect(() => {
-    setter.setTitle(calendarRef.current.getApi().view.title);
-    const height = isNaN(window.innerHeight) ? window.clientHeight : window.innerHeight;
-    calendarRef.current.getApi().setOption('height', height - 85 > 700 ? 700 : height - 85);
-
-    document.querySelector('#calendar-layout').addEventListener('touchstart', handleTouchStart);
-    document.querySelector('#calendar-layout').addEventListener('touchend', handleTouchEnd);
-
-    return () => {
-      document.querySelector('#calendar-layout').removeEventListener('touchstart', handleTouchStart);
-      document.querySelector('#calendar-layout').removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [calendarRef, setter]);
-
-  function handleGesture() {
+  const handleGesture = React.useCallback(() => {
     if (calendarRef.current) {
       const deltaX = Math.abs(touchEndX - touchStartX);
       const deltaY = Math.abs(touchEndY - touchStartY);
@@ -81,23 +70,40 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
         calendarRef.current.getApi().prev();
       }
     }
-  }
+  }, [calendarRef]);
 
-  function handleTouchStart(event) {
+  const handleTouchStart = React.useCallback(event => {
     touchStartX = event.changedTouches[0].screenX;
     touchStartY = event.changedTouches[0].screenY;
-  }
+  }, []);
 
-  function handleTouchEnd(event) {
-    touchEndX = event.changedTouches[0].screenX;
-    touchEndY = event.changedTouches[0].screenY;
-    handleGesture();
-  }
+  const handleTouchEnd = React.useCallback(
+    event => {
+      touchEndX = event.changedTouches[0].screenX;
+      touchEndY = event.changedTouches[0].screenY;
+      handleGesture();
+    },
+    [handleGesture],
+  );
+
+  useEffect(() => {
+    if (calendarRef.current) {
+      const height = isNaN(window.innerHeight) ? window.clientHeight : window.innerHeight;
+      calendarRef.current.getApi().setOption('height', height - 85 > 700 ? 700 : height - 85);
+
+      document.querySelector('#calendar-layout').addEventListener('touchstart', handleTouchStart);
+      document.querySelector('#calendar-layout').addEventListener('touchend', handleTouchEnd);
+
+      return () => {
+        document.querySelector('#calendar-layout').removeEventListener('touchstart', handleTouchStart);
+        document.querySelector('#calendar-layout').removeEventListener('touchend', handleTouchEnd);
+      };
+    }
+  }, [calendarRef, handleTouchEnd, handleTouchStart]);
 
   function handleEventClick(clickInfo) {
-    console.log(clickInfo.event.start);
-    console.log(clickInfo.event.end);
-    console.log(clickInfo.event.title);
+    setEvent(clickInfo.event);
+    setViewDialogOpen(true);
   }
 
   function handleDateSelect(selectInfo) {
@@ -263,7 +269,7 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
         locale={locale}
         initialView="dayGridMonth"
         nowIndicator
-        titleFormat="yyyy년 {MM}월"
+        titleFormat="{yyyy/MM/dd}"
         buttonIcons
         firstDay={0}
         navLinks
@@ -300,6 +306,7 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
         open={createDialogOpen}
         setOpen={setCreateDialogOpen}
       />
+      <ViewDialog open={viewDialogOpen} setOpen={setViewDialogOpen} event={event} />
     </>
   );
 };
