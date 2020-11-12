@@ -46,6 +46,14 @@ function addEvent(event) {
   state.events.push({ ...event, ...{ id: state.maxId } });
   state.maxId += 1;
 }
+function changeEvent(id, changeInfo) {
+  state.events.forEach(item => {
+    if (Number(item.id) === Number(id)) {
+      item.start = DateTime.fromISO(changeInfo.startStr).toISO();
+      item.end = DateTime.fromISO(changeInfo.endStr).toISO();
+    }
+  });
+}
 
 // end of actions
 let touchStartX = 0;
@@ -129,7 +137,8 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
   }
 
   function handleEventChange(changeInfo) {
-    changeInfo.revert();
+    const { oldEvent, event } = changeInfo;
+    changeEvent(oldEvent.id, event);
   }
 
   function renderEventContent(eventContent) {}
