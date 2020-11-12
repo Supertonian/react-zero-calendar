@@ -101,6 +101,7 @@ const App = observer(() => {
             ['월', 'dayGridMonth'],
             ['주', 'timeGridWeek'],
             ['일', 'timeGridDay'],
+            ['목록', 'listWeek'],
           ].map((item, index) => (
             <ListItem selected={viewType === item[1]} button key={index} onClick={() => setViewType(item[1])}>
               {item[0]}
@@ -170,6 +171,7 @@ const App = observer(() => {
               <MenuItem value={'dayGridMonth'}>월</MenuItem>
               <MenuItem value={'timeGridWeek'}>주</MenuItem>
               <MenuItem value={'timeGridDay'}>일</MenuItem>
+              <MenuItem value={'listWeek'}>목록</MenuItem>
             </Select>
           </Hidden>
         </Toolbar>

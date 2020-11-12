@@ -6,11 +6,11 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
 import luxonPlugin from '@fullcalendar/luxon';
 import rrulePlugin from '@fullcalendar/rrule';
 import { getLunar } from 'holiday-kr';
 import datetime from '../utils/datetime';
-import Button from '@material-ui/core/Button';
 import { Hidden } from '@material-ui/core';
 import { CreateDialog } from './createDialog';
 import axios from 'axios';
@@ -199,7 +199,7 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
     <>
       <FullCalendar
         ref={calendarRef}
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, luxonPlugin, rrulePlugin]}
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, luxonPlugin, rrulePlugin, listPlugin]}
         headerToolbar={false}
         locale={locale}
         initialView="dayGridMonth"
