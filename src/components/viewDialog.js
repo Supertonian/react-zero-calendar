@@ -11,7 +11,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
-const ViewDialogComponent = ({ open, setOpen, event }) => {
+const ViewDialogComponent = ({ open, setOpen, event, deleteEvent }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
@@ -25,7 +25,13 @@ const ViewDialogComponent = ({ open, setOpen, event }) => {
         <IconButton aria-label="edit-button">
           <EditOutlinedIcon />
         </IconButton>
-        <IconButton aria-label="delete-button">
+        <IconButton
+          aria-label="delete-button"
+          onClick={() => {
+            deleteEvent(event.id);
+            handleClose();
+          }}
+        >
           <DeleteOutlineIcon color="error" />
         </IconButton>
         <IconButton aria-label="mail-button">

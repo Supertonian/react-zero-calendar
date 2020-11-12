@@ -54,6 +54,14 @@ function changeEvent(id, changeInfo) {
     }
   });
 }
+function deleteEvent(id) {
+  for (let i = 0; i < state.events.length; i += 1) {
+    if (Number(state.events[i].id) === Number(id)) {
+      state.events.splice(i, 1);
+      return;
+    }
+  }
+}
 
 // end of actions
 let touchStartX = 0;
@@ -315,7 +323,7 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
         open={createDialogOpen}
         setOpen={setCreateDialogOpen}
       />
-      <ViewDialog open={viewDialogOpen} setOpen={setViewDialogOpen} event={event} />
+      <ViewDialog open={viewDialogOpen} setOpen={setViewDialogOpen} event={event} deleteEvent={deleteEvent} />
     </>
   );
 };
