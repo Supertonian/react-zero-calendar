@@ -1,6 +1,5 @@
 ﻿import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -26,30 +25,13 @@ import { observer } from 'mobx-react-lite';
 import { zerostrengthCalendar, Calendar } from './components/calendar';
 import { create } from 'mobx-persist';
 import { DateTime } from 'luxon';
+import { sidebarStyles } from './styles/sidebar';
 
 const hydrate = create();
 hydrate('zerostrengthCalendar', zerostrengthCalendar);
 
-const useStyles = makeStyles(theme => ({
-  list: {
-    width: 250,
-  },
-  fullList: {
-    width: 'auto',
-  },
-  root: {
-    display: 'flex',
-  },
-  title: {
-    marginRight: '25px',
-  },
-  yearMonth: {
-    flexGrow: 1,
-  },
-}));
-
 const App = observer(() => {
-  const classes = useStyles();
+  const classes = sidebarStyles();
   const [state, setState] = React.useState({ left: false });
   const ref = React.createRef(); // calendar ref
   const [title, setTitle] = React.useState('');
