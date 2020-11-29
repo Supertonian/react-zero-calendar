@@ -12,7 +12,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
-import SettingsIcon from '@material-ui/icons/Settings';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -26,7 +25,10 @@ import { zerostrengthCalendar, Calendar } from './components/calendar';
 import { create } from 'mobx-persist';
 import { DateTime } from 'luxon';
 import { sidebarStyles } from './styles/sidebar';
+import { init as initi18n, changeLanguage } from './i18n/init';
+import { useTranslation } from 'react-i18next';
 
+initi18n();
 const hydrate = create();
 hydrate('zerostrengthCalendar', zerostrengthCalendar);
 
@@ -41,6 +43,12 @@ const App = observer(() => {
     'calendarStartDate',
     DateTime.local().toISODate(),
   );
+  const [language, setLanguage] = useLocalStorage('calendarLanguage', 'en');
+  const { t } = useTranslation();
+
+  React.useEffect(() => {
+    changeLanguage(language);
+  }, [language]);
 
   React.useEffect(() => {
     ref.current.getApi().changeView(viewType);
@@ -85,10 +93,10 @@ const App = observer(() => {
       <Hidden smUp>
         <List>
           {[
-            ['월', 'dayGridMonth'],
-            ['주', 'timeGridWeek'],
-            ['일', 'timeGridDay'],
-            ['목록', 'listWeek'],
+            [t('month'), 'dayGridMonth'],
+            [t('week'), 'timeGridWeek'],
+            [t('day'), 'timeGridDay'],
+            [t('list'), 'listWeek'],
           ].map((item, index) => (
             <ListItem
               selected={viewType === item[1]}
@@ -113,7 +121,7 @@ const App = observer(() => {
                 color="primary"
               />
             }
-            label="음력"
+            label={t('lunar')}
           />
         </ListItem>
       </List>
@@ -123,6 +131,22 @@ const App = observer(() => {
           <ListItem button key={text}>
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
             <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {[
+          ['English', 'en'],
+          ['Korean', 'ko'],
+        ].map((item, index) => (
+          <ListItem
+            selected={language === item[1]}
+            button
+            key={index}
+            onClick={() => setLanguage(item[1])}
+          >
+            {item[0]}
           </ListItem>
         ))}
       </List>
@@ -143,7 +167,7 @@ const App = observer(() => {
           </IconButton>
           <Hidden xsDown>
             <Typography variant="h6" className={classes.title}>
-              캘린더
+              {t('calendar')}
             </Typography>
             <IconButton
               onClick={handleTodayClick}
@@ -151,7 +175,7 @@ const App = observer(() => {
               aria-label="today-button"
               edge="start"
             >
-              오늘
+              {t('today')}
             </IconButton>
             <IconButton
               onClick={handlePrevClick}
@@ -174,9 +198,17 @@ const App = observer(() => {
             {title}
           </Typography>
           <Hidden xsDown>
-            <IconButton color="inherit" aria-label="user-setting" edge="start">
-              <SettingsIcon />
-            </IconButton>
+            <Select
+              labelId="language-change-label"
+              id="language-change-id"
+              value={language}
+              onChange={e => {
+                setLanguage(e.target.value);
+              }}
+            >
+              <MenuItem value={'en'}>English</MenuItem>
+              <MenuItem value={'ko'}>Korean</MenuItem>
+            </Select>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -210,7 +242,7 @@ const App = observer(() => {
           setter={{ setTitle, setViewType, setStartDate }}
           lunar={lunar}
           calendarRef={ref}
-          locale="ko"
+          locale={language}
         />
       </main>
     </div>
