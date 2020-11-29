@@ -50,8 +50,12 @@ function addEvent(event) {
 function changeEvent(id, changeInfo) {
   state.events.forEach(item => {
     if (Number(item.id) === Number(id)) {
-      item.start = DateTime.fromISO(changeInfo.startStr).toISO();
-      item.end = DateTime.fromISO(changeInfo.endStr).toISO();
+      const start = DateTime.fromISO(changeInfo.startStr);
+      const end = DateTime.fromISO(changeInfo.endStr);
+      const isAllDay = (end - start) / (60 * 60 * 1000) >= 24;
+      item.start = start.toISO();
+      item.end = end.toISO();
+      item.allDay = item.forceAllDay || isAllDay;
     }
   });
 }
