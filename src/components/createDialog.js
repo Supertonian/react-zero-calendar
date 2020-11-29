@@ -66,13 +66,16 @@ const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => 
   }
 
   function handleSave() {
+    const isAllDay = (selectedEndDate - selectedStartDate) / (60 * 60 * 1000) >= 24;
     const eventInfo = {
       start: selectedStartDate.toISO(),
       end: selectedEndDate.toISO(),
       important: important,
-      title: title.trim() === '' ? '(제목없음)' : important === true ? title.concat('(중요)') : title,
-      allDay,
+      title:
+        title.trim() === '' ? '(제목없음)' : important === true ? title.concat('(중요)') : title,
+      allDay: allDay || isAllDay,
       place,
+      forceAllDay: allDay,
     };
     addEvent(eventInfo);
     setOpen(false);
@@ -94,19 +97,31 @@ const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => 
   };
 
   return (
-    <Dialog fullScreen={fullScreen} open={open} onClose={handleClose} aria-labelledby="responsive-create-dialog">
+    <Dialog
+      fullScreen={fullScreen}
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="responsive-create-dialog"
+    >
       <DialogTitle id="responsive-dialog-title">새 일정</DialogTitle>
       <DialogContent>
         <DialogContentText>
           <Container>
             <Grid container>
-              <Input autoFocus placeholder="제목을 입력해주세요" value={title} onChangeCapture={handleTitle} />
+              <Input
+                autoFocus
+                placeholder="제목을 입력해주세요"
+                value={title}
+                onChangeCapture={handleTitle}
+              />
               <FormControlLabel
                 control={<Checkbox checked={allDay} onChange={handleAllDayChange} name="allDay" />}
                 label="종일"
               />
               <FormControlLabel
-                control={<Checkbox checked={important} onChange={handleImportantChange} name="important" />}
+                control={
+                  <Checkbox checked={important} onChange={handleImportantChange} name="important" />
+                }
                 label="중요"
               />
             </Grid>

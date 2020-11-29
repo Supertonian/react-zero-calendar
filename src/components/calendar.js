@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { observable } from 'mobx';
 import { persist } from 'mobx-persist';
 import { observer } from 'mobx-react-lite';
@@ -34,6 +34,7 @@ const schema = {
       allDay: true,
       display: true,
       place: true,
+      forceAllDay: true,
     },
   },
 };
@@ -69,7 +70,14 @@ let touchStartY = 0;
 let touchEndX = 0;
 let touchEndY = 0;
 
-const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinutes }) => {
+const CalendarComponent = ({
+  setter,
+  calendarRef,
+  locale,
+  lunar,
+  minDurationMinutes,
+  initialDate,
+}) => {
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [viewDialogOpen, setViewDialogOpen] = React.useState(false);
   const [defaultSettings, setDefaultSettings] = React.useState({});
@@ -111,7 +119,9 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
       document.querySelector('#calendar-layout').addEventListener('touchend', handleTouchEnd);
 
       return () => {
-        document.querySelector('#calendar-layout').removeEventListener('touchstart', handleTouchStart);
+        document
+          .querySelector('#calendar-layout')
+          .removeEventListener('touchstart', handleTouchStart);
         document.querySelector('#calendar-layout').removeEventListener('touchend', handleTouchEnd);
       };
     }
@@ -228,7 +238,9 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
 
   function onUpdateDates() {
     if (calendarRef && calendarRef.current) {
+      setter.setStartDate(
         datetime.toLuxon(calendarRef.current.getApi().view.currentStart).toISODate(),
+      );
       const viewType = calendarRef.current.getApi().view.type;
       if (viewType === 'dayGridMonth') {
         const { title } = calendarRef.current.getApi().view;
@@ -282,7 +294,14 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
     <>
       <FullCalendar
         ref={calendarRef}
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, luxonPlugin, rrulePlugin, listPlugin]}
+        plugins={[
+          dayGridPlugin,
+          timeGridPlugin,
+          interactionPlugin,
+          luxonPlugin,
+          rrulePlugin,
+          listPlugin,
+        ]}
         headerToolbar={false}
         locale={locale}
         initialView="dayGridMonth"
@@ -324,7 +343,12 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
         open={createDialogOpen}
         setOpen={setCreateDialogOpen}
       />
-      <ViewDialog open={viewDialogOpen} setOpen={setViewDialogOpen} event={event} deleteEvent={deleteEvent} />
+      <ViewDialog
+        open={viewDialogOpen}
+        setOpen={setViewDialogOpen}
+        event={event}
+        deleteEvent={deleteEvent}
+      />
     </>
   );
 };
