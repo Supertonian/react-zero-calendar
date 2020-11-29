@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -25,6 +25,7 @@ import useLocalStorage from 'react-use-localstorage';
 import { observer } from 'mobx-react-lite';
 import { zerostrengthCalendar, Calendar } from './components/calendar';
 import { create } from 'mobx-persist';
+import { DateTime } from 'luxon';
 
 const hydrate = create();
 hydrate('zerostrengthCalendar', zerostrengthCalendar);
@@ -54,10 +55,15 @@ const App = observer(() => {
   const [title, setTitle] = React.useState('');
   const [viewType, setViewType] = useLocalStorage('calendarViewType', 'dayGridMonth');
   const [lunar, setLunar] = useLocalStorage('calendarLunar', 'false');
+  const [startDate, setStartDate] = useLocalStorage(
+    'calendarStartDate',
+    DateTime.local().toISODate(),
+  );
 
   React.useEffect(() => {
     ref.current.getApi().changeView(viewType);
-  }, [ref, viewType]);
+    ref.current.getApi().gotoDate(startDate);
+  }, [ref, startDate, viewType]);
 
   const toggleDrawer = (anchor, open) => event => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -102,7 +108,12 @@ const App = observer(() => {
             ['일', 'timeGridDay'],
             ['목록', 'listWeek'],
           ].map((item, index) => (
-            <ListItem selected={viewType === item[1]} button key={index} onClick={() => setViewType(item[1])}>
+            <ListItem
+              selected={viewType === item[1]}
+              button
+              key={index}
+              onClick={() => setViewType(item[1])}
+            >
               {item[0]}
             </ListItem>
           ))}
@@ -113,7 +124,12 @@ const App = observer(() => {
         <ListItem>
           <FormControlLabel
             control={
-              <Checkbox checked={lunar === 'true'} onChange={handleLunarChange} name="checkedB" color="primary" />
+              <Checkbox
+                checked={lunar === 'true'}
+                onChange={handleLunarChange}
+                name="checkedB"
+                color="primary"
+              />
             }
             label="음력"
           />
@@ -153,7 +169,7 @@ const App = observer(() => {
               aria-label="today-button"
               edge="start"
             >
-                오늘
+              오늘
             </IconButton>
             <IconButton
               onClick={handlePrevClick}
@@ -203,10 +219,13 @@ const App = observer(() => {
           {Sider('left')}
         </SwipeableDrawer>
       </React.Fragment>
-      <main id="calendar-layout" style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}>
+      <main
+        id="calendar-layout"
+        style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}
+      >
         <Calendar
           minDurationMinutes={30}
-          setter={{ setTitle, setViewType }}
+          setter={{ setTitle, setViewType, setStartDate }}
           lunar={lunar}
           calendarRef={ref}
           locale="ko"

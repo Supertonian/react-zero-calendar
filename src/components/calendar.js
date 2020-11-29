@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { observable } from 'mobx';
 import { persist } from 'mobx-persist';
 import { observer } from 'mobx-react-lite';
@@ -228,6 +228,7 @@ const CalendarComponent = ({ setter, calendarRef, locale, lunar, minDurationMinu
 
   function onUpdateDates() {
     if (calendarRef && calendarRef.current) {
+        datetime.toLuxon(calendarRef.current.getApi().view.currentStart).toISODate(),
       const viewType = calendarRef.current.getApi().view.type;
       if (viewType === 'dayGridMonth') {
         const { title } = calendarRef.current.getApi().view;
