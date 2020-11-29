@@ -24,6 +24,7 @@
     "draft-js-plugins-editor": "^3.0.0",
     "gh-pages": "^3.1.0",
     "holiday-kr": "^0.1.5",
+    "i18next": "^19.8.4",
     "ical": "^0.8.0",
     "ical-generator": "^1.15.1",
     "luxon": "^1.25.0",
@@ -32,6 +33,7 @@
     "mobx-react-lite": "^3.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-i18next": "^11.7.3",
     "react-scripts": "3.4.3",
     "react-use-localstorage": "^3.5.3",
     "rrule": "^2.6.6",
@@ -84,5 +86,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "https://zerostrength.github.io/calendar/"
 }
