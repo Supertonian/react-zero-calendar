@@ -1,8 +1,7 @@
-﻿import React from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -136,22 +135,40 @@ const App = observer(() => {
     <div>
       <AppBar position="fixed">
         <Toolbar>
-          <IconButton onClick={toggleDrawer('left', true)} color="inherit" aria-label="open drawer" edge="start">
+          <IconButton
+            onClick={toggleDrawer('left', true)}
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+          >
             <MenuIcon />
           </IconButton>
           <Hidden xsDown>
             <Typography variant="h6" className={classes.title}>
               캘린더
             </Typography>
-            <IconButton onClick={handleTodayClick} color="inherit" aria-label="today-button" edge="start">
-              <Button size="small" variant="contained" color="primary">
+            <IconButton
+              onClick={handleTodayClick}
+              color="inherit"
+              aria-label="today-button"
+              edge="start"
+            >
                 오늘
-              </Button>
             </IconButton>
-            <IconButton onClick={handlePrevClick} color="inherit" aria-label="arrow-left" edge="start">
+            <IconButton
+              onClick={handlePrevClick}
+              color="inherit"
+              aria-label="arrow-left"
+              edge="start"
+            >
               <NavigateBeforeIcon />
             </IconButton>
-            <IconButton onClick={handleNextClick} color="inherit" aria-label="arrow-right" edge="start">
+            <IconButton
+              onClick={handleNextClick}
+              color="inherit"
+              aria-label="arrow-right"
+              edge="start"
+            >
               <NavigateNextIcon />
             </IconButton>
           </Hidden>
