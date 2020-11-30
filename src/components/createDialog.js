@@ -15,6 +15,23 @@ import LuxonUtils from '@date-io/luxon';
 import { DateTime } from 'luxon';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { ColorPalette } from 'material-ui-color';
+
+const palette = {
+  red: '#ff0000',
+  blue: '#0000ff',
+  green: '#00ff00',
+  yellow: 'yellow',
+  cyan: 'cyan',
+  lime: 'lime',
+  gray: 'gray',
+  orange: 'orange',
+  purple: 'purple',
+  black: 'black',
+  white: 'white',
+  pink: 'pink',
+  darkblue: 'darkblue',
+};
 
 const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => {
   const theme = useTheme();
@@ -25,6 +42,7 @@ const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => 
   const [allDay, setAllDay] = React.useState(false);
   const [important, setImportant] = React.useState();
   const [place, setPlace] = React.useState();
+  const [color, setColor] = React.useState('black');
 
   React.useEffect(() => {
     if (open === true) {
@@ -76,6 +94,7 @@ const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => 
       allDay: allDay || isAllDay,
       place,
       forceAllDay: allDay,
+      color,
     };
     addEvent(eventInfo);
     setOpen(false);
@@ -149,9 +168,10 @@ const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => 
             </MuiPickersUtilsProvider>
           </Container>
           <Container>
-            <Container>
-              <Input placeholder="장소를 입력해주세요" value={place} onChange={handlePlaceChange} />
-            </Container>
+            <Input placeholder="장소를 입력해주세요" value={place} onChange={handlePlaceChange} />
+          </Container>
+          <Container>
+            <ColorPalette palette={palette} value={color} onSelect={setColor} />
           </Container>
         </DialogContentText>
       </DialogContent>

@@ -28,6 +28,7 @@
     "ical": "^0.8.0",
     "ical-generator": "^1.15.1",
     "luxon": "^1.25.0",
+    "material-ui-color": "^0.4.6",
     "mobx": "^6.0.0",
     "mobx-persist": "^0.4.1",
     "mobx-react-lite": "^3.0.1",

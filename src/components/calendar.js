@@ -35,6 +35,7 @@ const schema = {
       display: true,
       place: true,
       forceAllDay: true,
+      color: true,
     },
   },
 };
