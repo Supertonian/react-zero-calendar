@@ -18,19 +18,16 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { ColorPalette } from 'material-ui-color';
 
 const palette = {
-  red: '#ff0000',
-  blue: '#0000ff',
-  green: '#00ff00',
-  yellow: 'yellow',
-  cyan: 'cyan',
-  lime: 'lime',
-  gray: 'gray',
-  orange: 'orange',
-  purple: 'purple',
-  black: 'black',
-  white: 'white',
-  pink: 'pink',
-  darkblue: 'darkblue',
+  IndianRed: '#CD5C5C',
+  Crimson: '#DC143C',
+  Tomato: '#FF6347',
+  Gold: '#FFD700',
+  Magenta: '#FF00FF',
+  RebeccaPurple: '#663399',
+  Indigo: '#4B0082',
+  Lime: '#00FF00',
+  ForestGreen: '#228B22',
+  SaddleBrown: '#8B4513',
 };
 
 const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => {
