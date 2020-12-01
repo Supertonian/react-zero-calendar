@@ -343,6 +343,7 @@ const CalendarComponent = ({
         unselectCancel=".MuiDialogContent-root"
         selectAllow={handleSelectAllow}
         dragScroll={false}
+        progressiveEventRendering={true}
         googleCalendarApiKey=""
         eventSources={[
           {
