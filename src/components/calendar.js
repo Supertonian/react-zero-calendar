@@ -9,6 +9,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import luxonPlugin from '@fullcalendar/luxon';
 import rrulePlugin from '@fullcalendar/rrule';
+import googleCalendar from '@fullcalendar/google-calendar';
 import { getLunar } from 'holiday-kr';
 import datetime from '../utils/datetime';
 import { Hidden } from '@material-ui/core';
@@ -306,6 +307,7 @@ const CalendarComponent = ({
           luxonPlugin,
           rrulePlugin,
           listPlugin,
+          googleCalendar,
         ]}
         headerToolbar={false}
         locale={locale}
@@ -341,6 +343,13 @@ const CalendarComponent = ({
         unselectCancel=".MuiDialogContent-root"
         selectAllow={handleSelectAllow}
         dragScroll={false}
+        googleCalendarApiKey=""
+        eventSources={[
+          {
+            googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+            color: 'red',
+          },
+        ]}
       />
       <CreateDialog
         defaultSettings={defaultSettings}
