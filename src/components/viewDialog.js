@@ -11,7 +11,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
-const ViewDialogComponent = ({ open, setOpen, event, deleteEvent }) => {
+const ViewDialogComponent = ({ setOpen, event, deleteEvent }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
@@ -20,7 +20,12 @@ const ViewDialogComponent = ({ open, setOpen, event, deleteEvent }) => {
   }
 
   return (
-    <Dialog fullScreen={fullScreen} open={open} onClose={handleClose} aria-labelledby="responsive-create-dialog">
+    <Dialog
+      fullScreen={fullScreen}
+      open={true}
+      onClose={handleClose}
+      aria-labelledby="responsive-create-dialog"
+    >
       <DialogTitle id="responsive-dialog-title" style={{ textAlign: 'right' }}>
         <IconButton aria-label="edit-button">
           <EditOutlinedIcon />

@@ -351,18 +351,16 @@ const CalendarComponent = ({
           },
         ]}
       />
-      <CreateDialog
-        defaultSettings={defaultSettings}
-        addEvent={addEvent}
-        open={createDialogOpen}
-        setOpen={setCreateDialogOpen}
-      />
-      <ViewDialog
-        open={viewDialogOpen}
-        setOpen={setViewDialogOpen}
-        event={event}
-        deleteEvent={deleteEvent}
-      />
+      {createDialogOpen && (
+        <CreateDialog
+          defaultSettings={defaultSettings}
+          addEvent={addEvent}
+          setOpen={setCreateDialogOpen}
+        />
+      )}
+      {viewDialogOpen && (
+        <ViewDialog setOpen={setViewDialogOpen} event={event} deleteEvent={deleteEvent} />
+      )}
     </>
   );
 };

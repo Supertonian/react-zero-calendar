@@ -30,7 +30,7 @@ const palette = {
   SaddleBrown: '#8B4513',
 };
 
-const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => {
+const CreateDialogComponent = ({ setOpen, addEvent, defaultSettings }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
   const [title, setTitle] = React.useState();
@@ -42,31 +42,29 @@ const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => 
   const [color, setColor] = React.useState('black');
 
   React.useEffect(() => {
-    if (open === true) {
-      setTitle('');
-      setPlace('');
-      if (defaultSettings && defaultSettings.start) {
-        setSelectedStartDate(DateTime.fromISO(defaultSettings.start));
-      } else {
-        setSelectedStartDate(DateTime.local());
-      }
-      if (defaultSettings && defaultSettings.end) {
-        setSelectedEndDate(DateTime.fromISO(defaultSettings.end));
-      } else {
-        setSelectedEndDate(DateTime.local().plus({ minutes: 30 }));
-      }
-      if (defaultSettings && defaultSettings.allDay) {
-        setAllDay(true);
-      } else {
-        setAllDay(false);
-      }
-      if (defaultSettings && defaultSettings.important) {
-        setImportant(true);
-      } else {
-        setImportant(false);
-      }
+    setTitle('');
+    setPlace('');
+    if (defaultSettings && defaultSettings.start) {
+      setSelectedStartDate(DateTime.fromISO(defaultSettings.start));
+    } else {
+      setSelectedStartDate(DateTime.local());
     }
-  }, [open, defaultSettings]);
+    if (defaultSettings && defaultSettings.end) {
+      setSelectedEndDate(DateTime.fromISO(defaultSettings.end));
+    } else {
+      setSelectedEndDate(DateTime.local().plus({ minutes: 30 }));
+    }
+    if (defaultSettings && defaultSettings.allDay) {
+      setAllDay(true);
+    } else {
+      setAllDay(false);
+    }
+    if (defaultSettings && defaultSettings.important) {
+      setImportant(true);
+    } else {
+      setImportant(false);
+    }
+  }, [defaultSettings]);
 
   const handleStartDateChange = date => {
     setSelectedStartDate(date);
@@ -115,7 +113,7 @@ const CreateDialogComponent = ({ open, setOpen, addEvent, defaultSettings }) => 
   return (
     <Dialog
       fullScreen={fullScreen}
-      open={open}
+      open={true}
       onClose={handleClose}
       aria-labelledby="responsive-create-dialog"
     >
