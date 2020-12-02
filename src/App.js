@@ -1,4 +1,6 @@
 import React from 'react';
+import { observable, toJS } from 'mobx';
+import { persist } from 'mobx-persist';
 import clsx from 'clsx';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
@@ -21,7 +23,7 @@ import { Checkbox, Hidden } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import useLocalStorage from 'react-use-localstorage';
 import { observer } from 'mobx-react-lite';
-import { zerostrengthCalendar, Calendar } from './components/calendar';
+import { Calendar } from './components/calendar';
 import { create } from 'mobx-persist';
 import { DateTime } from 'luxon';
 import { sidebarStyles } from './styles/sidebar';
@@ -29,8 +31,73 @@ import { init as initi18n, changeLanguage } from './i18n/init';
 import { useTranslation } from 'react-i18next';
 
 initi18n();
+const data = observable({
+  maxId: 0,
+  events: [],
+  categories: [],
+});
+
+const schema = {
+  maxId: true,
+  categories: { type: 'list' },
+  events: {
+    type: 'list',
+    schema: {
+      id: true,
+      title: true,
+      start: true,
+      end: true,
+      allDay: true,
+      display: true,
+      place: true,
+      forceAllDay: true,
+      color: true,
+      category: true,
+    },
+  },
+};
+
+const store = persist(schema)(data);
+
 const hydrate = create();
-hydrate('zerostrengthCalendar', zerostrengthCalendar);
+hydrate('zerostrengthCalendar', store);
+
+// actions
+function addEvent(event) {
+  store.events.push({ ...event, ...{ id: store.maxId } });
+  store.maxId += 1;
+}
+function changeEvent(id, changeInfo) {
+  store.events.forEach(item => {
+    if (Number(item.id) === Number(id)) {
+      const start = DateTime.fromISO(changeInfo.startStr);
+      const end = DateTime.fromISO(changeInfo.endStr);
+      const isAllDay = (end - start) / (60 * 60 * 1000) >= 24;
+      item.start = start.toISO();
+      item.end = end.toISO();
+      item.allDay = item.forceAllDay || isAllDay;
+    }
+  });
+}
+function deleteEvent(id) {
+  for (let i = 0; i < store.events.length; i += 1) {
+    if (Number(store.events[i].id) === Number(id)) {
+      store.events.splice(i, 1);
+      return;
+    }
+  }
+}
+function addCategory(category) {
+  const f = store.categories.filter(item => item === category);
+  if (f.length === 0) {
+    store.categories.push(category);
+    return true;
+  }
+  return false;
+}
+function getCategories() {
+  return store.categories;
+}
 
 const App = observer(() => {
   const classes = sidebarStyles();
@@ -245,6 +312,10 @@ const App = observer(() => {
           calendarRef={ref}
           locale={language}
           focusDate={focusDate}
+          events={store.events}
+          changeEvent={changeEvent}
+          addEvent={addEvent}
+          deleteEvent={deleteEvent}
         />
       </main>
     </div>

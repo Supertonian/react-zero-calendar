@@ -1,6 +1,4 @@
-﻿import React, { useEffect } from 'react';
-import { observable } from 'mobx';
-import { persist } from 'mobx-persist';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -18,58 +16,6 @@ import { ViewDialog } from './viewDialog';
 import axios from 'axios';
 import { DateTime } from 'luxon';
 
-const data = observable({
-  maxId: 0,
-  events: [],
-});
-
-const schema = {
-  maxId: true,
-  events: {
-    type: 'list',
-    schema: {
-      id: true,
-      title: true,
-      start: true,
-      end: true,
-      allDay: true,
-      display: true,
-      place: true,
-      forceAllDay: true,
-      color: true,
-    },
-  },
-};
-
-const state = persist(schema)(data);
-export const zerostrengthCalendar = state;
-
-// actions
-function addEvent(event) {
-  state.events.push({ ...event, ...{ id: state.maxId } });
-  state.maxId += 1;
-}
-function changeEvent(id, changeInfo) {
-  state.events.forEach(item => {
-    if (Number(item.id) === Number(id)) {
-      const start = DateTime.fromISO(changeInfo.startStr);
-      const end = DateTime.fromISO(changeInfo.endStr);
-      const isAllDay = (end - start) / (60 * 60 * 1000) >= 24;
-      item.start = start.toISO();
-      item.end = end.toISO();
-      item.allDay = item.forceAllDay || isAllDay;
-    }
-  });
-}
-function deleteEvent(id) {
-  for (let i = 0; i < state.events.length; i += 1) {
-    if (Number(state.events[i].id) === Number(id)) {
-      state.events.splice(i, 1);
-      return;
-    }
-  }
-}
-
 // end of actions
 let touchStartX = 0;
 let touchStartY = 0;
@@ -83,6 +29,10 @@ const CalendarComponent = ({
   lunar,
   minDurationMinutes,
   focusDate,
+  events,
+  addEvent,
+  changeEvent,
+  deleteEvent,
 }) => {
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [viewDialogOpen, setViewDialogOpen] = React.useState(false);
@@ -329,7 +279,7 @@ const CalendarComponent = ({
         slotDuration={{ minutes: minDurationMinutes }}
         slotLabelInterval="01:00"
         slotEventOverlap={false}
-        events={state.events.slice()}
+        events={events}
         select={handleDateSelect}
         dateClick={handleDateClick}
         eventContent={renderEventContent}
