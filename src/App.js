@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
@@ -128,12 +128,12 @@ const App = observer(() => {
       </List>
       <Divider />
       <List>
-        {['내 캘린더', '캘린더1', '캘린더2'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
+        <ListItem>
+          <FormControlLabel
+            control={<Checkbox name="default-calendar" color="primary" />}
+            label={t('defaultCalendar')}
+          />
           </ListItem>
-        ))}
       </List>
       <Divider />
       <List>
