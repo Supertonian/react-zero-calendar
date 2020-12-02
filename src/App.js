@@ -39,8 +39,8 @@ const App = observer(() => {
   const [title, setTitle] = React.useState('');
   const [viewType, setViewType] = useLocalStorage('calendarViewType', 'dayGridMonth');
   const [lunar, setLunar] = useLocalStorage('calendarLunar', 'false');
-  const [startDate, setStartDate] = useLocalStorage(
-    'calendarStartDate',
+  const [focusDate, setFocusDate] = useLocalStorage(
+    'calendarFocusDate',
     DateTime.local().toISODate(),
   );
   const [language, setLanguage] = useLocalStorage('calendarLanguage', 'en');
@@ -52,8 +52,8 @@ const App = observer(() => {
 
   React.useEffect(() => {
     ref.current.getApi().changeView(viewType);
-    ref.current.getApi().gotoDate(startDate);
-  }, [ref, startDate, viewType]);
+    ref.current.getApi().gotoDate(focusDate);
+  }, [ref, focusDate, viewType]);
 
   const toggleDrawer = (anchor, open) => event => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -72,6 +72,7 @@ const App = observer(() => {
 
   const handleTodayClick = () => {
     ref.current.getApi().today();
+    setFocusDate(DateTime.local().toISODate());
   };
 
   const handleViewChange = e => {
@@ -239,10 +240,11 @@ const App = observer(() => {
       >
         <Calendar
           minDurationMinutes={30}
-          setter={{ setTitle, setViewType, setStartDate }}
+          setter={{ setTitle, setViewType, setFocusDate }}
           lunar={lunar}
           calendarRef={ref}
           locale={language}
+          focusDate={focusDate}
         />
       </main>
     </div>

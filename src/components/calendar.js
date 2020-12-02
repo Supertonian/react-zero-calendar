@@ -82,7 +82,7 @@ const CalendarComponent = ({
   locale,
   lunar,
   minDurationMinutes,
-  initialDate,
+  focusDate,
 }) => {
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [viewDialogOpen, setViewDialogOpen] = React.useState(false);
@@ -244,9 +244,13 @@ const CalendarComponent = ({
 
   function onUpdateDates() {
     if (calendarRef && calendarRef.current) {
-      setter.setStartDate(
-        datetime.toLuxon(calendarRef.current.getApi().view.currentStart).toISODate(),
-      );
+      const focusInLuxon = datetime.toLuxon(focusDate);
+      const currentStart = datetime.toLuxon(calendarRef.current.getApi().view.currentStart);
+      const currentEnd = datetime.toLuxon(calendarRef.current.getApi().view.currentEnd);
+      // check if focusDate is inside view range
+      if (!(focusInLuxon >= currentStart && focusInLuxon <= currentEnd)) {
+        setter.setFocusDate(currentStart.toISODate());
+      }
       const viewType = calendarRef.current.getApi().view.type;
       if (viewType === 'dayGridMonth') {
         const { title } = calendarRef.current.getApi().view;
