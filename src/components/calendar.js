@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -33,6 +33,7 @@ const CalendarComponent = ({
   addEvent,
   changeEvent,
   deleteEvent,
+  editEvent,
 }) => {
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [viewDialogOpen, setViewDialogOpen] = React.useState(false);
@@ -75,9 +76,7 @@ const CalendarComponent = ({
       document.querySelector('#calendar-layout').addEventListener('touchend', handleTouchEnd);
 
       return () => {
-        document
-          .querySelector('#calendar-layout')
-          .removeEventListener('touchstart', handleTouchStart);
+        document.querySelector('#calendar-layout').removeEventListener('touchstart', handleTouchStart);
         document.querySelector('#calendar-layout').removeEventListener('touchend', handleTouchEnd);
       };
     }
@@ -307,14 +306,10 @@ const CalendarComponent = ({
         ]}
       />
       {createDialogOpen && (
-        <CreateDialog
-          defaultSettings={defaultSettings}
-          addEvent={addEvent}
-          setOpen={setCreateDialogOpen}
-        />
+        <CreateDialog defaultSettings={defaultSettings} addEvent={addEvent} setOpen={setCreateDialogOpen} />
       )}
       {viewDialogOpen && (
-        <ViewDialog setOpen={setViewDialogOpen} event={event} deleteEvent={deleteEvent} />
+        <ViewDialog setOpen={setViewDialogOpen} event={event} deleteEvent={deleteEvent} editEvent={editEvent} />
       )}
     </>
   );
