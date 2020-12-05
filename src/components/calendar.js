@@ -9,12 +9,12 @@ import luxonPlugin from '@fullcalendar/luxon';
 import rrulePlugin from '@fullcalendar/rrule';
 import googleCalendar from '@fullcalendar/google-calendar';
 import { getLunar } from 'holiday-kr';
-import datetime from '../utils/datetime';
 import { Hidden } from '@material-ui/core';
-import { CreateDialog } from './createDialog';
-import { ViewDialog } from './viewDialog';
 import axios from 'axios';
 import { DateTime } from 'luxon';
+import datetime from '../utils/datetime';
+import { CreateDialog } from './createDialog';
+import { ViewDialog } from './viewDialog';
 
 // end of actions
 let touchStartX = 0;
@@ -76,7 +76,9 @@ const CalendarComponent = ({
       document.querySelector('#calendar-layout').addEventListener('touchend', handleTouchEnd);
 
       return () => {
-        document.querySelector('#calendar-layout').removeEventListener('touchstart', handleTouchStart);
+        document
+          .querySelector('#calendar-layout')
+          .removeEventListener('touchstart', handleTouchStart);
         document.querySelector('#calendar-layout').removeEventListener('touchend', handleTouchEnd);
       };
     }
@@ -90,13 +92,13 @@ const CalendarComponent = ({
   function handleDateSelect(selectInfo) {
     const start = selectInfo.start.toISOString();
     const end = selectInfo.end.toISOString();
-    const allDay = selectInfo.allDay;
+    const { allDay } = selectInfo;
     setDefaultSettings({ start, end, allDay });
     setCreateDialogOpen(true);
   }
 
   function handleDateClick(info) {
-    const allDay = info.allDay;
+    const { allDay } = info;
     const start = DateTime.fromISO(info.dateStr);
     let end = '';
     // month
@@ -117,7 +119,7 @@ const CalendarComponent = ({
   function renderEventContent(eventContent) {}
 
   function renderHeaderContent(content) {
-    let { text } = content;
+    const { text } = content;
     const color = content.dow === 0 ? 'red' : 'black';
 
     if (content.view.type === 'dayGrid' || content.view.type === 'dayGridMonth') {
@@ -278,7 +280,7 @@ const CalendarComponent = ({
         slotDuration={{ minutes: minDurationMinutes }}
         slotLabelInterval="01:00"
         slotEventOverlap={false}
-        events={events}
+        events={events.slice()}
         select={handleDateSelect}
         dateClick={handleDateClick}
         eventContent={renderEventContent}
@@ -292,11 +294,11 @@ const CalendarComponent = ({
         dayCellContent={renderDayContent}
         allDayMaintainDuration
         navLinkDayClick={handleNavLinkDayClick}
-        unselectAuto={true}
+        unselectAuto
         unselectCancel=".MuiDialogContent-root"
         selectAllow={handleSelectAllow}
         dragScroll={false}
-        progressiveEventRendering={true}
+        progressiveEventRendering
         googleCalendarApiKey=""
         eventSources={[
           {
@@ -306,10 +308,19 @@ const CalendarComponent = ({
         ]}
       />
       {createDialogOpen && (
-        <CreateDialog defaultSettings={defaultSettings} addEvent={addEvent} setOpen={setCreateDialogOpen} />
+        <CreateDialog
+          defaultSettings={defaultSettings}
+          addEvent={addEvent}
+          setOpen={setCreateDialogOpen}
+        />
       )}
       {viewDialogOpen && (
-        <ViewDialog setOpen={setViewDialogOpen} event={event} deleteEvent={deleteEvent} editEvent={editEvent} />
+        <ViewDialog
+          setOpen={setViewDialogOpen}
+          event={event}
+          deleteEvent={deleteEvent}
+          editEvent={editEvent}
+        />
       )}
     </>
   );

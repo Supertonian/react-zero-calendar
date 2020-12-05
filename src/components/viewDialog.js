@@ -4,7 +4,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import { Container, DialogActions } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
@@ -40,7 +40,12 @@ const ViewDialogComponent = ({ setOpen, event, deleteEvent, editEvent }) => {
   const classes = useStyles();
   return (
     <>
-      <Dialog fullScreen={fullScreen} open={true} onClose={handleClose} aria-labelledby="responsive-view-dialog">
+      <Dialog
+        fullScreen={fullScreen}
+        open={true}
+        onClose={handleClose}
+        aria-labelledby="responsive-view-dialog"
+      >
         <DialogTitle id="responsive-dialog-title" style={{ textAlign: 'left' }}>
           {' '}
           일정
@@ -78,8 +83,9 @@ const ViewDialogComponent = ({ setOpen, event, deleteEvent, editEvent }) => {
           <Container>{event.extendedProps?.place}</Container>
         </DialogContent>
       </Dialog>
-
-      {editDialogOpen && <EditDialog setOpen={setEditDialogOpen} editEvent={editEvent} editInfo={editInfo} />}
+      {editDialogOpen && (
+        <EditDialog setOpen={setEditDialogOpen} editEvent={editEvent} editInfo={editInfo} />
+      )}
     </>
   );
 };

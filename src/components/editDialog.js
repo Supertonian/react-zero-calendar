@@ -30,7 +30,7 @@ const palette = {
   SaddleBrown: '#8B4513',
 };
 
-const EditDialogComponent = ({ setOpen, editEvent, defaultSettings, editInfo }) => {
+const EditDialogComponent = ({ setOpen, editEvent, editInfo }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
   const [title, setTitle] = React.useState();
@@ -48,7 +48,14 @@ const EditDialogComponent = ({ setOpen, editEvent, defaultSettings, editInfo }) 
     setSelectedEndDate(DateTime.fromISO(editInfo.end));
     setAllDay(editInfo.allDay);
     setImportant(editInfo.important);
-  }, []);
+  }, [
+    editInfo.allDay,
+    editInfo.end,
+    editInfo.important,
+    editInfo.place,
+    editInfo.start,
+    editInfo.title,
+  ]);
 
   const handleStartDateChange = date => {
     setSelectedStartDate(date);
@@ -71,7 +78,7 @@ const EditDialogComponent = ({ setOpen, editEvent, defaultSettings, editInfo }) 
     const eventInfo = {
       start: selectedStartDate.toISO(),
       end: selectedEndDate.toISO(),
-      important: important,
+      important,
       title:
         title.trim() === ''
           ? '(제목없음)'
@@ -103,19 +110,31 @@ const EditDialogComponent = ({ setOpen, editEvent, defaultSettings, editInfo }) 
   };
 
   return (
-    <Dialog fullScreen={fullScreen} open={true} onClose={handleClose} aria-labelledby="responsive-edit-dialog">
+    <Dialog
+      fullScreen={fullScreen}
+      open
+      onClose={handleClose}
+      aria-labelledby="responsive-edit-dialog"
+    >
       <DialogTitle id="responsive-dialog-title">일정 수정</DialogTitle>
       <DialogContent>
         <DialogContentText>
           <Container>
             <Grid container>
-              <Input autoFocus placeholder="제목을 입력해주세요" value={title} onChangeCapture={handleTitle} />
+              <Input
+                autoFocus
+                placeholder="제목을 입력해주세요"
+                value={title}
+                onChangeCapture={handleTitle}
+              />
               <FormControlLabel
                 control={<Checkbox checked={allDay} onChange={handleAllDayChange} name="allDay" />}
                 label="종일"
               />
               <FormControlLabel
-                control={<Checkbox checked={important} onChange={handleImportantChange} name="important" />}
+                control={
+                  <Checkbox checked={important} onChange={handleImportantChange} name="important" />
+                }
                 label="중요"
               />
             </Grid>

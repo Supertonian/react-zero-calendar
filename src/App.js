@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { observable } from 'mobx';
-import { persist } from 'mobx-persist';
+import { persist, create } from 'mobx-persist';
 import clsx from 'clsx';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
@@ -19,12 +19,11 @@ import { Checkbox, Hidden } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import useLocalStorage from 'react-use-localstorage';
 import { observer } from 'mobx-react-lite';
-import { Calendar } from './components/calendar';
-import { create } from 'mobx-persist';
 import { DateTime } from 'luxon';
+import { useTranslation } from 'react-i18next';
+import { Calendar } from './components/calendar';
 import { sidebarStyles } from './styles/sidebar';
 import { init as initi18n, changeLanguage } from './i18n/init';
-import { useTranslation } from 'react-i18next';
 
 initi18n();
 const data = observable({
@@ -112,7 +111,10 @@ const App = observer(() => {
   const [title, setTitle] = React.useState('');
   const [viewType, setViewType] = useLocalStorage('calendarViewType', 'dayGridMonth');
   const [lunar, setLunar] = useLocalStorage('calendarLunar', 'false');
-  const [focusDate, setFocusDate] = useLocalStorage('calendarFocusDate', DateTime.local().toISODate());
+  const [focusDate, setFocusDate] = useLocalStorage(
+    'calendarFocusDate',
+    DateTime.local().toISODate(),
+  );
   const [language, setLanguage] = useLocalStorage('calendarLanguage', 'en');
   const { t } = useTranslation();
 
@@ -169,7 +171,12 @@ const App = observer(() => {
             [t('day'), 'timeGridDay'],
             [t('list'), 'listWeek'],
           ].map((item, index) => (
-            <ListItem selected={viewType === item[1]} button key={index} onClick={() => setViewType(item[1])}>
+            <ListItem
+              selected={viewType === item[1]}
+              button
+              key={index}
+              onClick={() => setViewType(item[1])}
+            >
               {item[0]}
             </ListItem>
           ))}
@@ -180,7 +187,12 @@ const App = observer(() => {
         <ListItem>
           <FormControlLabel
             control={
-              <Checkbox checked={lunar === 'true'} onChange={handleLunarChange} name="checkedB" color="primary" />
+              <Checkbox
+                checked={lunar === 'true'}
+                onChange={handleLunarChange}
+                name="checkedB"
+                color="primary"
+              />
             }
             label={t('lunar')}
           />
@@ -201,7 +213,12 @@ const App = observer(() => {
           ['English', 'en'],
           ['Korean', 'ko'],
         ].map((item, index) => (
-          <ListItem selected={language === item[1]} button key={index} onClick={() => setLanguage(item[1])}>
+          <ListItem
+            selected={language === item[1]}
+            button
+            key={index}
+            onClick={() => setLanguage(item[1])}
+          >
             {item[0]}
           </ListItem>
         ))}
@@ -213,20 +230,40 @@ const App = observer(() => {
     <div>
       <AppBar position="fixed">
         <Toolbar>
-          <IconButton onClick={toggleDrawer('left', true)} color="inherit" aria-label="open drawer" edge="start">
+          <IconButton
+            onClick={toggleDrawer('left', true)}
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+          >
             <MenuIcon />
           </IconButton>
           <Hidden xsDown>
             <Typography variant="h6" className={classes.title}>
               {t('calendar')}
             </Typography>
-            <IconButton onClick={handleTodayClick} color="inherit" aria-label="today-button" edge="start">
+            <IconButton
+              onClick={handleTodayClick}
+              color="inherit"
+              aria-label="today-button"
+              edge="start"
+            >
               {t('today')}
             </IconButton>
-            <IconButton onClick={handlePrevClick} color="inherit" aria-label="arrow-left" edge="start">
+            <IconButton
+              onClick={handlePrevClick}
+              color="inherit"
+              aria-label="arrow-left"
+              edge="start"
+            >
               <NavigateBeforeIcon />
             </IconButton>
-            <IconButton onClick={handleNextClick} color="inherit" aria-label="arrow-right" edge="start">
+            <IconButton
+              onClick={handleNextClick}
+              color="inherit"
+              aria-label="arrow-right"
+              edge="start"
+            >
               <NavigateNextIcon />
             </IconButton>
           </Hidden>
@@ -242,8 +279,8 @@ const App = observer(() => {
                 setLanguage(e.target.value);
               }}
             >
-              <MenuItem value={'en'}>English</MenuItem>
-              <MenuItem value={'ko'}>Korean</MenuItem>
+              <MenuItem value="en">English</MenuItem>
+              <MenuItem value="ko">Korean</MenuItem>
             </Select>
             <Select
               labelId="demo-simple-select-label"
@@ -251,25 +288,28 @@ const App = observer(() => {
               value={viewType}
               onChange={handleViewChange}
             >
-              <MenuItem value={'dayGridMonth'}>월</MenuItem>
-              <MenuItem value={'timeGridWeek'}>주</MenuItem>
-              <MenuItem value={'timeGridDay'}>일</MenuItem>
-              <MenuItem value={'listWeek'}>목록</MenuItem>
+              <MenuItem value="dayGridMonth">월</MenuItem>
+              <MenuItem value="timeGridWeek">주</MenuItem>
+              <MenuItem value="timeGridDay">일</MenuItem>
+              <MenuItem value="listWeek">목록</MenuItem>
             </Select>
           </Hidden>
         </Toolbar>
       </AppBar>
-      <React.Fragment>
+      <>
         <SwipeableDrawer
-          anchor={'left'}
-          open={state['left']}
+          anchor="left"
+          open={state.left}
           onClose={toggleDrawer('left', false)}
           onOpen={toggleDrawer('left', true)}
         >
           {Sider('left')}
         </SwipeableDrawer>
-      </React.Fragment>
-      <main id="calendar-layout" style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}>
+      </>
+      <main
+        id="calendar-layout"
+        style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}
+      >
         <Calendar
           minDurationMinutes={30}
           setter={{ setTitle, setViewType, setFocusDate }}
