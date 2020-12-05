@@ -1350,14 +1350,6 @@
     "@fullcalendar/common" "~5.4.0"
     tslib "^2.0.3"
 
-"@fullcalendar/google-calendar@^5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@fullcalendar/google-calendar/-/google-calendar-5.4.0.tgz#65e68cf9090f9eacaa90e1ef6ef1847e3358300e"
-  integrity sha512-zOZmp1RnF+nqyCiA2FmcQoVGzUZNdGu3vk3Wi2dPLO8lWAq0LVL1bhjU3nn2DW8wYA4DcCaS2LmW8Qw6ZJx+lw==
-  dependencies:
-    "@fullcalendar/common" "~5.4.0"
-    tslib "^2.0.3"
-
 "@fullcalendar/interaction@^5.4.0":
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/@fullcalendar/interaction/-/interaction-5.4.0.tgz#5d709a3381ca0670f6e629a4b19bdb4b9e18515c"

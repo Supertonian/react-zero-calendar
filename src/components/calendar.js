@@ -7,7 +7,6 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import luxonPlugin from '@fullcalendar/luxon';
 import rrulePlugin from '@fullcalendar/rrule';
-import googleCalendar from '@fullcalendar/google-calendar';
 import { getLunar } from 'holiday-kr';
 import { Hidden } from '@material-ui/core';
 import axios from 'axios';
@@ -15,8 +14,10 @@ import { DateTime } from 'luxon';
 import datetime from '../utils/datetime';
 import { CreateDialog } from './createDialog';
 import { ViewDialog } from './viewDialog';
+import { getHoliday } from '../utils/apicall';
 
-// end of actions
+const GOOGLE_API_KEY = '';
+
 let touchStartX = 0;
 let touchStartY = 0;
 let touchEndX = 0;
@@ -39,6 +40,7 @@ const CalendarComponent = ({
   const [viewDialogOpen, setViewDialogOpen] = React.useState(false);
   const [defaultSettings, setDefaultSettings] = React.useState({});
   const [event, setEvent] = React.useState({});
+  const [holidayList, setHolidayList] = React.useState([]);
 
   const handleGesture = React.useCallback(() => {
     if (calendarRef.current) {
@@ -53,15 +55,15 @@ const CalendarComponent = ({
     }
   }, [calendarRef]);
 
-  const handleTouchStart = React.useCallback(event => {
-    touchStartX = event.changedTouches[0].screenX;
-    touchStartY = event.changedTouches[0].screenY;
+  const handleTouchStart = React.useCallback(e => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
   }, []);
 
   const handleTouchEnd = React.useCallback(
-    event => {
-      touchEndX = event.changedTouches[0].screenX;
-      touchEndY = event.changedTouches[0].screenY;
+    e => {
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
       handleGesture();
     },
     [handleGesture],
@@ -82,6 +84,7 @@ const CalendarComponent = ({
         document.querySelector('#calendar-layout').removeEventListener('touchend', handleTouchEnd);
       };
     }
+    return null;
   }, [calendarRef, handleTouchEnd, handleTouchStart]);
 
   function handleEventClick(clickInfo) {
@@ -198,6 +201,7 @@ const CalendarComponent = ({
       const focusInLuxon = datetime.toLuxon(focusDate);
       const currentStart = datetime.toLuxon(calendarRef.current.getApi().view.currentStart);
       const currentEnd = datetime.toLuxon(calendarRef.current.getApi().view.currentEnd);
+
       // check if focusDate is inside view range
       if (!(focusInLuxon >= currentStart && focusInLuxon <= currentEnd)) {
         setter.setFocusDate(currentStart.toISODate());
@@ -225,6 +229,31 @@ const CalendarComponent = ({
           setter.setTitle(`${startY}년 ${startM}월 - ${endY}년 ${endM}월`);
         }
       }
+      getHoliday(
+        'ko.south_korea%23holiday%40group.v.calendar.google.com',
+        GOOGLE_API_KEY,
+        `${currentStart.toISODate()}T00%3A00%3A00%2B09%3A00`,
+        `${currentEnd.toISODate()}T00%3A00%3A00%2B09%3A00`,
+      )
+        .then(response => {
+          const { items } = response.data;
+          const holidays = [];
+          items.forEach(item => {
+            holidays.push({
+              title: item.summary,
+              start: item.start.date,
+              end: item.end.date,
+              allDay: true,
+              color: 'red',
+              display: 'block',
+            });
+          });
+          setHolidayList(holidays);
+        })
+        .catch(e => {
+          console.error(e);
+          setHolidayList([]);
+        });
     }
   }
 
@@ -262,7 +291,6 @@ const CalendarComponent = ({
           luxonPlugin,
           rrulePlugin,
           listPlugin,
-          googleCalendar,
         ]}
         headerToolbar={false}
         locale={locale}
@@ -280,7 +308,7 @@ const CalendarComponent = ({
         slotDuration={{ minutes: minDurationMinutes }}
         slotLabelInterval="01:00"
         slotEventOverlap={false}
-        events={events.slice()}
+        events={[...holidayList, ...events.slice()]}
         select={handleDateSelect}
         dateClick={handleDateClick}
         eventContent={renderEventContent}
@@ -299,13 +327,6 @@ const CalendarComponent = ({
         selectAllow={handleSelectAllow}
         dragScroll={false}
         progressiveEventRendering
-        googleCalendarApiKey=""
-        eventSources={[
-          {
-            googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
-            color: 'red',
-          },
-        ]}
       />
       {createDialogOpen && (
         <CreateDialog
