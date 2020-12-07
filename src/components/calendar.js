@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -196,26 +196,25 @@ const CalendarComponent = ({
     );
   }
 
-  function onUpdateDates() {
-    if (calendarRef && calendarRef.current) {
+  function onUpdateDates(dateInfo) {
       const focusInLuxon = datetime.toLuxon(focusDate);
-      const currentStart = datetime.toLuxon(calendarRef.current.getApi().view.currentStart);
-      const currentEnd = datetime.toLuxon(calendarRef.current.getApi().view.currentEnd);
+    const currentStart = datetime.toLuxon(dateInfo.view.currentStart);
+    const currentEnd = datetime.toLuxon(dateInfo.view.currentEnd);
 
       // check if focusDate is inside view range
       if (!(focusInLuxon >= currentStart && focusInLuxon <= currentEnd)) {
         setter.setFocusDate(currentStart.toISODate());
       }
-      const viewType = calendarRef.current.getApi().view.type;
+    const viewType = dateInfo.view.type;
       if (viewType === 'dayGridMonth') {
-        const { title } = calendarRef.current.getApi().view;
+      const { title } = dateInfo.view;
         const [year, month] = title.split('/');
         setter.setTitle(`${year}년 ${month}월`);
       } else if (viewType === 'timeGridDay') {
-        const [Y, M, D] = calendarRef.current.getApi().view.title.split('/');
+      const [Y, M, D] = dateInfo.view.title.split('/');
         setter.setTitle(`${Y}년 ${M}월 ${D}일`);
       } else {
-        const [start, end] = calendarRef.current.getApi().view.title.split(' – ');
+      const [start, end] = dateInfo.view.title.split(' – ');
         const [startY, startM] = start.split('/');
         const [endY, endM] = end.split('/');
 
@@ -255,7 +254,6 @@ const CalendarComponent = ({
           setHolidayList([]);
         });
     }
-  }
 
   function handleNavLinkDayClick(date) {
     if (calendarRef && calendarRef.current) {
