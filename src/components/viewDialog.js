@@ -111,6 +111,7 @@ const ViewDialogComponent = ({ setOpen, event, deleteEvent, editEvent }) => {
 
   function nvl(str, defaultStr) {
     if (typeof str === 'undefined' || str === null || str === '') str = '';
+    else if (str.includes('(중요)')) str = str.replace('(중요)', '');
     return str;
   }
 
@@ -130,7 +131,7 @@ const ViewDialogComponent = ({ setOpen, event, deleteEvent, editEvent }) => {
               setSelectedStartDate(DateTime.fromISO(event.startStr));
               setSelectedEndDate(DateTime.fromISO(event.endStr));
               setAllDay(event.allDay);
-              setImportant(event.important);
+              setImportant(event.extendedProps.important);
             }}
           >
             <EditOutlinedIcon />
