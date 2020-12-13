@@ -198,7 +198,7 @@ const App = observer(() => {
       </List>
       <Divider />
       <List>
-        <ListItem>{t('importCalenda')}</ListItem>
+        <ListItem>{t('importCalendar')}</ListItem>
       </List>
       <Divider />
       <List>

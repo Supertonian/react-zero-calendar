@@ -1,7 +1,7 @@
 const languageSet = {
   calendar: 'Calendar',
   defaultCalendar: 'My Calendar',
-  importCalenda: 'Import Calendar',
+  importCalendar: 'Import Calendar',
 };
 
 export default { translation: languageSet };
