@@ -9,7 +9,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import { Container, Input } from '@material-ui/core';
+import { Container, Input, MenuItem, Select } from '@material-ui/core';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
 import { DateTime } from 'luxon';
@@ -30,7 +30,7 @@ const palette = {
   SaddleBrown: '#8B4513',
 };
 
-const CreateDialogComponent = ({ setOpen, addEvent, defaultSettings }) => {
+const CreateDialogComponent = ({ setOpen, addEvent, defaultSettings, categoryList }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
   const [title, setTitle] = React.useState();
@@ -38,6 +38,7 @@ const CreateDialogComponent = ({ setOpen, addEvent, defaultSettings }) => {
   const [selectedEndDate, setSelectedEndDate] = React.useState();
   const [allDay, setAllDay] = React.useState(false);
   const [important, setImportant] = React.useState();
+  const [category, setCategory] = React.useState('default');
   const [place, setPlace] = React.useState();
   const [color, setColor] = React.useState('black');
 
@@ -64,6 +65,9 @@ const CreateDialogComponent = ({ setOpen, addEvent, defaultSettings }) => {
     } else {
       setImportant(false);
     }
+    if (defaultSettings && defaultSettings.category) {
+      setCategory(defaultSettings.category);
+    }
   }, [defaultSettings]);
 
   const handleStartDateChange = date => {
@@ -83,14 +87,14 @@ const CreateDialogComponent = ({ setOpen, addEvent, defaultSettings }) => {
     const eventInfo = {
       start: selectedStartDate.toISO(),
       end: selectedEndDate.toISO(),
-      important: important,
+      important,
       title:
         title.trim() === '' ? '(제목없음)' : important === true ? title.concat('(중요)') : title,
       allDay: allDay || isAllDay,
       place,
       forceAllDay: allDay,
       color,
-      category: '',
+      category,
     };
     addEvent(eventInfo);
     setOpen(false);
@@ -111,16 +115,29 @@ const CreateDialogComponent = ({ setOpen, addEvent, defaultSettings }) => {
     setPlace(event.target.value);
   };
 
+  const handleChange = event => {
+    setCategory(event.target.value);
+  };
+
   return (
     <Dialog
       fullScreen={fullScreen}
-      open={true}
+      open
       onClose={handleClose}
       aria-labelledby="responsive-create-dialog"
     >
       <DialogTitle id="responsive-dialog-title">새 일정</DialogTitle>
       <DialogContent>
         <DialogContentText>
+          {categoryList && (
+            <Container>
+              <Select value={category} onChange={handleChange}>
+                {categoryList.map(item => (
+                  <MenuItem value={item}>{item === 'default' ? '기본 캘린더' : item}</MenuItem>
+                ))}
+              </Select>
+            </Container>
+          )}
           <Container>
             <Grid container>
               <Input

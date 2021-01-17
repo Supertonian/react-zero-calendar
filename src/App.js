@@ -15,7 +15,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
-import { Checkbox, Hidden } from '@material-ui/core';
+import { Button, Checkbox, Hidden } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import useLocalStorage from 'react-use-localstorage';
 import { observer } from 'mobx-react-lite';
@@ -34,7 +34,7 @@ const data = observable({
 
 const schema = {
   maxId: true,
-  categories: { type: 'list', schema: { name: true, show: true } },
+  categories: { type: 'list', schema: { name: true, show: true, color: true } },
   events: {
     type: 'list',
     schema: {
@@ -104,7 +104,7 @@ function addCategory(category) {
 }
 
 function filterEvents(events) {
-  if (store.categories.length === 0) addCategory('');
+  if (store.categories.length === 0) addCategory('default');
   const categoriesToShow = store.categories.filter(item => item.show === true);
   const categoryList = categoriesToShow.map(item => item.name);
 
@@ -245,10 +245,22 @@ const App = observer(() => {
                   color="primary"
                 />
               }
-              label={category.name === '' ? t('defaultCalendar') : category.name}
+              label={category.name === 'default' ? t('defaultCalendar') : category.name}
             />
           </ListItem>
         ))}
+        <ListItem>
+          <Button
+            onClick={() => {
+              const name = prompt(t('enter-new-category'));
+              if (name.trim() !== '') {
+                addCategory(name.trim());
+              }
+            }}
+          >
+            + {t('newCalendar')}
+          </Button>
+        </ListItem>
       </List>
       <Divider />
       <List>
@@ -366,6 +378,7 @@ const App = observer(() => {
           locale={language}
           focusDate={focusDate}
           events={filterEvents(store.events)}
+          categoryList={store.categories.map(item => item.name)}
           changeEvent={changeEvent}
           addEvent={addEvent}
           deleteEvent={deleteEvent}

@@ -36,6 +36,7 @@ const CalendarComponent = ({
   changeEvent,
   deleteEvent,
   editEvent,
+  categoryList,
 }) => {
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [viewDialogOpen, setViewDialogOpen] = React.useState(false);
@@ -332,6 +333,7 @@ const CalendarComponent = ({
           defaultSettings={defaultSettings}
           addEvent={addEvent}
           setOpen={setCreateDialogOpen}
+          categoryList={categoryList}
         />
       )}
       {viewDialogOpen && (
