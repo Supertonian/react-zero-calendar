@@ -2,6 +2,67 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/ZeroStrength/calendar/compare/v0.1.3...v0.1.4) (2021-01-17)
+
+
+### Features
+
+* 중요 체크 기능 추가 ([13a57bf](https://github.com/ZeroStrength/calendar/commit/13a57bf2e59db90a9f43d266965e57be50b60f0f))
+* add category, check/uncheck default calendar ([5f04cf5](https://github.com/ZeroStrength/calendar/commit/5f04cf5ab0229923b56cc8b7901d9d3589474e54))
+* add color picker inside create dialog ([ea3570c](https://github.com/ZeroStrength/calendar/commit/ea3570cc28a86d94749cbde5e4bb763867c757f6))
+* add eslint config react app ([d2fbc7a](https://github.com/ZeroStrength/calendar/commit/d2fbc7acd0d3062d8a96220d7391d9b576dd2a1b))
+* add eslint config, eslint auto fix files ([4f91f13](https://github.com/ZeroStrength/calendar/commit/4f91f13f3eaff5fd0d4a2069b90426628c36133f))
+* add i18n support packages ([1ab3472](https://github.com/ZeroStrength/calendar/commit/1ab34720c2b4c3ee4ca99262a3fc6ebf3c41c64a))
+* add react eslint ([bbd4e41](https://github.com/ZeroStrength/calendar/commit/bbd4e41052742ea8df2deef46a2a2d70cf71d9ce))
+* color palette update ([99359d1](https://github.com/ZeroStrength/calendar/commit/99359d1c434ec43ea9e9dcb970d3022b6f2a15bf))
+* enable progressive event rendering ([83d8382](https://github.com/ZeroStrength/calendar/commit/83d83822a5d20f9c0dc9743562d8ebb3a7604d33))
+* google holiday get speed improvement ([0843f27](https://github.com/ZeroStrength/calendar/commit/0843f2709ec3cb26006efbe52360ab192f47b163))
+* holiday check filter ([1111997](https://github.com/ZeroStrength/calendar/commit/1111997e1e57fefff8feb881ad0793680144f66d))
+* select category when adding new schedule ([13583e7](https://github.com/ZeroStrength/calendar/commit/13583e7643d7d82fc2dc51abbbb843cb956adccf))
+* use localforage to save google holiday list ([fc02189](https://github.com/ZeroStrength/calendar/commit/fc02189fadad734231d65396a03bec43a2f95193))
+* **calendar:**  handle date click in month view ([61992fa](https://github.com/ZeroStrength/calendar/commit/61992fabe656a2ff154ed00482214457d2481a9e))
+* **calendar:** 간단 일정보기 다이얼로그 추가 ([a75b321](https://github.com/ZeroStrength/calendar/commit/a75b3219192068a003899456bac556220a7a504f))
+* **calendar:** 드래그로 일정 옮기는 기능 ([0644fe8](https://github.com/ZeroStrength/calendar/commit/0644fe868fb69d7f4e27867a57ba2db5b12011aa))
+* **calendar:** 모바일 월/주/일 선택시 selected ([0e88600](https://github.com/ZeroStrength/calendar/commit/0e88600a060135b31b52756bdf72545531d5564a))
+* **calendar:** 범위 드래그하여 일정 생성하기 ([8711431](https://github.com/ZeroStrength/calendar/commit/8711431e26f327fce4b30e060f11cac2cc3622cc))
+* **calendar:** 보고 있는 날짜 범위 로컬에 저장하여 유지되게 구현 ([97518b9](https://github.com/ZeroStrength/calendar/commit/97518b94060c96672cdd51ba0154d1f5752c141d))
+* **calendar:** 음력 체크/언체크 기능 추가 ([8857c32](https://github.com/ZeroStrength/calendar/commit/8857c32a97e960890eb80383aaa0af75e8c24253))
+* **calendar:** 일정보기에서 일정 삭제 기능 ([80cd57d](https://github.com/ZeroStrength/calendar/commit/80cd57d56f8bc7f153e4dcc5661046dcf2fdde12))
+* **calendar:** add allDay check in create dialog ([ab50d70](https://github.com/ZeroStrength/calendar/commit/ab50d7048603e3a4fa779d4e3a943b218d7054f0))
+* **calendar:** add swipe event. prev and next ([901ede9](https://github.com/ZeroStrength/calendar/commit/901ede974d75a579a0e2b5eaffed35cf6577509c))
+* **calendar:** disable multi-day select in timeGrid ([1dfe98a](https://github.com/ZeroStrength/calendar/commit/1dfe98a9d229ab42fe6179f3da1a5903aa5fb9b2))
+* **calendar:** en, ko support for calendar layout ([30e3ca9](https://github.com/ZeroStrength/calendar/commit/30e3ca9fe5b788d0631920ddce1bef0f8346e75d))
+* **calendar:** google calendar 처럼 월/주/일별 날짜 제목 표시 ([9761755](https://github.com/ZeroStrength/calendar/commit/976175579a38986453be057d170bc26b1170c47c))
+* **calendar:** handleDateSelect and dateClick ([71fd396](https://github.com/ZeroStrength/calendar/commit/71fd3967a37e0e6d885d2e8f8d33a0fdab2ecb6f))
+* **calendar:** prevent event overlaps in timeGrid ([9721aaf](https://github.com/ZeroStrength/calendar/commit/9721aaf5764e58e954ecf4cf2e2d44b3debec1b1))
+* **calendar:** set unselectAuto to false ([8facd38](https://github.com/ZeroStrength/calendar/commit/8facd385505ff56419f3952be74a799989baa5b2))
+* **edit:** calendar 수정 기능 추가 ([8fe131a](https://github.com/ZeroStrength/calendar/commit/8fe131afee091634fe6f836768c46b2cfd649510))
+* **edit:** edit 기능 flag로 수정 다이얼로그 삭제 ([4ffd9cb](https://github.com/ZeroStrength/calendar/commit/4ffd9cb2531dcc597660ec43dd19cbcbb2975b44))
+* korean holiday from google public calendar ([4542e0c](https://github.com/ZeroStrength/calendar/commit/4542e0c483574b08ae684bdf5282717ab62e7b54))
+* move persist store to app. added category ([82194a0](https://github.com/ZeroStrength/calendar/commit/82194a06243ce75607963cbcc3626de5613e3c1e))
+* not allDay multidays to allDay area ([84b280a](https://github.com/ZeroStrength/calendar/commit/84b280af1443639a6202dd038a07bb19807e753d))
+* **calendar:** list view 추가 ([a1d8f9f](https://github.com/ZeroStrength/calendar/commit/a1d8f9ffe83776d41c3c355c48a24e1b019e81dc))
+* place 추가 ([9715eab](https://github.com/ZeroStrength/calendar/commit/9715eabc2b4a1fd8eaa75f5ae6e2fc2cbc8934c1))
+* **calendar:** select가 유지되어야하는 요소 CSS selector 추가 ([0157600](https://github.com/ZeroStrength/calendar/commit/015760099ccd2d44dafbe940053d714cc64531d2))
+* **package:** add axios ([cc614a3](https://github.com/ZeroStrength/calendar/commit/cc614a37803b99c700172e1cd55cddc9f255fc6a))
+* **package:** add ical parser and ical generator ([aa1a016](https://github.com/ZeroStrength/calendar/commit/aa1a0167937d77f749a15e24c9a6332e2eceb8e6))
+
+
+### Bug Fixes
+
+* 캘린더 수정 시 중요체크박스 정상동작 하도록 수정 ([16a886e](https://github.com/ZeroStrength/calendar/commit/16a886ea65b0d4410788c405f4197ae04a1856f3))
+* add missing dependency clsx ([2619280](https://github.com/ZeroStrength/calendar/commit/261928009c9cfed9d9a5aae506c91ab40c66459b))
+* change to default export ([f228e9a](https://github.com/ZeroStrength/calendar/commit/f228e9a0afe94d58e8562d62fa23ef7f6b0848f1))
+* default my calendar layout ([8660c68](https://github.com/ZeroStrength/calendar/commit/8660c68d51e506a19cf041dd8d69955036dbd245))
+* disable render when dialog popups ([38718a0](https://github.com/ZeroStrength/calendar/commit/38718a0b539db61cd64cc18962c2aa1f40ceffba))
+* multi-days allDay handle change ([e6d3b7b](https://github.com/ZeroStrength/calendar/commit/e6d3b7b81be3570602cc06ecfaea376063db6dd0))
+* onUpdateDates에서 dateInfo 받고 처리하는것으로 개선 ([5fbea4a](https://github.com/ZeroStrength/calendar/commit/5fbea4aad1ea830dc4d607065cd37e642251ce62))
+* startDate > focusDate. set condition change ([28ae9fd](https://github.com/ZeroStrength/calendar/commit/28ae9fd21367b816f4e6962700bc6343479456e3))
+* unicode bom error resolve ([52d4f69](https://github.com/ZeroStrength/calendar/commit/52d4f6970dac60db02a67e57d11dba83057e069d))
+* **calendar:** 설치 빠진 husky commit 추가 ([d613b7c](https://github.com/ZeroStrength/calendar/commit/d613b7c10861fce513162d7d25c0399a990fa688))
+* **calendar:** button안에 button으로 오류난 문제 해결 ([b038476](https://github.com/ZeroStrength/calendar/commit/b03847641f6ed56ad3625c56e53af78e09d9419a))
+* **calendar:** remove usused imports ([0e85006](https://github.com/ZeroStrength/calendar/commit/0e85006f27a6a5570747a5747b1e04774ffddcb9))
+
 ### [0.1.3](https://github.com/ZeroStrength/calendar/compare/v0.1.2...v0.1.3) (2020-10-22)
 
 

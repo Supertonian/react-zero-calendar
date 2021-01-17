@@ -1,6 +1,6 @@
 {
   "name": "calendar",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "dependencies": {
     "@date-io/luxon": "^1.3.13",
