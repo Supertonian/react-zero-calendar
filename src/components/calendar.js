@@ -235,8 +235,8 @@ const CalendarComponent = ({
         `${currentStart.toISODate()}T00%3A00%3A00%2B09%3A00`,
         `${currentEnd.toISODate()}T00%3A00%3A00%2B09%3A00`,
       )
-        .then(response => {
-          const { items } = response.data;
+      .then(data => {
+        const { items } = data;
           const holidays = [];
           items.forEach(item => {
             holidays.push({
