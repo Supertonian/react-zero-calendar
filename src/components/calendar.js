@@ -346,4 +346,5 @@ const CalendarComponent = ({
   );
 };
 
-export const Calendar = observer(CalendarComponent);
+const Calendar = observer(CalendarComponent);
+export default Calendar;

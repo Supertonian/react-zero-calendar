@@ -21,7 +21,7 @@ import useLocalStorage from 'react-use-localstorage';
 import { observer } from 'mobx-react-lite';
 import { DateTime } from 'luxon';
 import { useTranslation } from 'react-i18next';
-import { Calendar } from './components/calendar';
+import Calendar from './components/calendar';
 import { sidebarStyles } from './styles/sidebar';
 import { init as initi18n, changeLanguage } from './i18n/init';
 
