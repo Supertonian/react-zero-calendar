@@ -6,6 +6,7 @@ const languageSet = {
   calendar: '캘린더',
   today: '오늘',
   lunar: '음력',
+  holiday: '공휴일',
   defaultCalendar: '기본 캘린더',
   importCalendar: '캘린더 불러오기',
 };

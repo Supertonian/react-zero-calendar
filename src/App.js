@@ -113,7 +113,11 @@ const App = observer(() => {
   const [title, setTitle] = React.useState('');
   const [viewType, setViewType] = useLocalStorage('calendarViewType', 'dayGridMonth');
   const [lunar, setLunar] = useLocalStorage('calendarLunar', 'false');
-  const [focusDate, setFocusDate] = useLocalStorage('calendarFocusDate', DateTime.local().toISODate());
+  const [holiday, setHoliday] = useLocalStorage('calendarHoliday', 'true');
+  const [focusDate, setFocusDate] = useLocalStorage(
+    'calendarFocusDate',
+    DateTime.local().toISODate(),
+  );
   const [language, setLanguage] = useLocalStorage('calendarLanguage', 'en');
   const { t } = useTranslation();
 
@@ -154,6 +158,10 @@ const App = observer(() => {
     setLunar(String(e.target.checked));
   };
 
+  const handleHolidayChange = e => {
+    setHoliday(String(e.target.checked));
+  };
+
   const Sider = anchor => (
     <div
       className={clsx(classes.list, {
@@ -170,7 +178,12 @@ const App = observer(() => {
             [t('day'), 'timeGridDay'],
             [t('list'), 'listWeek'],
           ].map((item, index) => (
-            <ListItem selected={viewType === item[1]} button key={index} onClick={() => setViewType(item[1])}>
+            <ListItem
+              selected={viewType === item[1]}
+              button
+              key={index}
+              onClick={() => setViewType(item[1])}
+            >
               {item[0]}
             </ListItem>
           ))}
@@ -181,9 +194,27 @@ const App = observer(() => {
         <ListItem>
           <FormControlLabel
             control={
-              <Checkbox checked={lunar === 'true'} onChange={handleLunarChange} name="checkedB" color="primary" />
+              <Checkbox
+                checked={lunar === 'true'}
+                onChange={handleLunarChange}
+                name="lunar_check"
+                color="primary"
+              />
             }
             label={t('lunar')}
+          />
+        </ListItem>
+        <ListItem>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={holiday === 'true'}
+                onChange={handleHolidayChange}
+                name="holiday_check"
+                color="primary"
+              />
+            }
+            label={t('holiday')}
           />
         </ListItem>
       </List>
@@ -206,7 +237,12 @@ const App = observer(() => {
           ['English', 'en'],
           ['Korean', 'ko'],
         ].map((item, index) => (
-          <ListItem selected={language === item[1]} button key={index} onClick={() => setLanguage(item[1])}>
+          <ListItem
+            selected={language === item[1]}
+            button
+            key={index}
+            onClick={() => setLanguage(item[1])}
+          >
             {item[0]}
           </ListItem>
         ))}
@@ -218,20 +254,40 @@ const App = observer(() => {
     <div>
       <AppBar position="fixed">
         <Toolbar>
-          <IconButton onClick={toggleDrawer('left', true)} color="inherit" aria-label="open drawer" edge="start">
+          <IconButton
+            onClick={toggleDrawer('left', true)}
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+          >
             <MenuIcon />
           </IconButton>
           <Hidden xsDown>
             <Typography variant="h6" className={classes.title}>
               {t('calendar')}
             </Typography>
-            <IconButton onClick={handleTodayClick} color="inherit" aria-label="today-button" edge="start">
+            <IconButton
+              onClick={handleTodayClick}
+              color="inherit"
+              aria-label="today-button"
+              edge="start"
+            >
               {t('today')}
             </IconButton>
-            <IconButton onClick={handlePrevClick} color="inherit" aria-label="arrow-left" edge="start">
+            <IconButton
+              onClick={handlePrevClick}
+              color="inherit"
+              aria-label="arrow-left"
+              edge="start"
+            >
               <NavigateBeforeIcon />
             </IconButton>
-            <IconButton onClick={handleNextClick} color="inherit" aria-label="arrow-right" edge="start">
+            <IconButton
+              onClick={handleNextClick}
+              color="inherit"
+              aria-label="arrow-right"
+              edge="start"
+            >
               <NavigateNextIcon />
             </IconButton>
           </Hidden>
@@ -274,11 +330,15 @@ const App = observer(() => {
           {Sider('left')}
         </SwipeableDrawer>
       </>
-      <main id="calendar-layout" style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}>
+      <main
+        id="calendar-layout"
+        style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}
+      >
         <Calendar
           minDurationMinutes={30}
           setter={{ setTitle, setViewType, setFocusDate }}
-          lunar={lunar}
+          lunar={lunar === 'true'}
+          holiday={holiday === 'true'}
           calendarRef={ref}
           locale={language}
           focusDate={focusDate}

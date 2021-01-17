@@ -28,6 +28,7 @@ const CalendarComponent = ({
   calendarRef,
   locale,
   lunar,
+  holiday,
   minDurationMinutes,
   focusDate,
   events,
@@ -143,7 +144,7 @@ const CalendarComponent = ({
               paddingLeft: '3px',
             }}
           >
-            {lunar === 'true' && `(${getLunar(content.date).month}/${getLunar(content.date).day})`}
+            {lunar && `(${getLunar(content.date).month}/${getLunar(content.date).day})`}
           </span>
         </Hidden>
         <Hidden smUp>
@@ -154,7 +155,7 @@ const CalendarComponent = ({
               paddingLeft: '3px',
             }}
           >
-            {lunar === 'true' && `(${getLunar(content.date).day})`}
+            {lunar && `(${getLunar(content.date).day})`}
           </span>
         </Hidden>
       </>
@@ -178,7 +179,7 @@ const CalendarComponent = ({
               paddingLeft: '3px',
             }}
           >
-            {lunar === 'true' && `(${getLunar(content.date).month}/${getLunar(content.date).day})`}
+            {lunar && `(${getLunar(content.date).month}/${getLunar(content.date).day})`}
           </span>
         </Hidden>
         <Hidden smUp>
@@ -189,7 +190,7 @@ const CalendarComponent = ({
               paddingLeft: '3px',
             }}
           >
-            {lunar === 'true' && `(${getLunar(content.date).day})`}
+            {lunar && `(${getLunar(content.date).day})`}
           </span>
         </Hidden>
       </>
@@ -306,7 +307,7 @@ const CalendarComponent = ({
         slotDuration={{ minutes: minDurationMinutes }}
         slotLabelInterval="01:00"
         slotEventOverlap={false}
-        events={[...holidayList, ...events.slice()]}
+        events={holiday ? [...holidayList, ...events.slice()] : events.slice()}
         select={handleDateSelect}
         dateClick={handleDateClick}
         eventContent={renderEventContent}
