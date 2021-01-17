@@ -90,6 +90,7 @@ const CreateDialogComponent = ({ setOpen, addEvent, defaultSettings }) => {
       place,
       forceAllDay: allDay,
       color,
+      category: '',
     };
     addEvent(eventInfo);
     setOpen(false);

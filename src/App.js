@@ -34,7 +34,7 @@ const data = observable({
 
 const schema = {
   maxId: true,
-  categories: { type: 'list' },
+  categories: { type: 'list', schema: { name: true, show: true } },
   events: {
     type: 'list',
     schema: {
@@ -95,15 +95,21 @@ function editEvent(id, editInfo) {
   }
 }
 function addCategory(category) {
-  const f = store.categories.filter(item => item === category);
+  const f = store.categories.filter(item => item.name === category);
   if (f.length === 0) {
-    store.categories.push(category);
+    store.categories.push({ name: category, show: true });
     return true;
   }
   return false;
 }
-function getCategories() {
-  return store.categories;
+
+function filterEvents(events) {
+  if (store.categories.length === 0) addCategory('');
+  const categoriesToShow = store.categories.filter(item => item.show === true);
+  const categoryList = categoriesToShow.map(item => item.name);
+
+  const newEvents = events.filter(item => categoryList.includes(item.category));
+  return newEvents;
 }
 
 const App = observer(() => {
@@ -160,6 +166,14 @@ const App = observer(() => {
 
   const handleHolidayChange = e => {
     setHoliday(String(e.target.checked));
+  };
+
+  const handleCategoryChange = (e, name) => {
+    const { checked } = e.target;
+    const target = store.categories.filter(item => item.name === name);
+    if (target.length === 1) {
+      target[0].show = checked;
+    }
   };
 
   const Sider = anchor => (
@@ -220,12 +234,21 @@ const App = observer(() => {
       </List>
       <Divider />
       <List>
-        <ListItem>
-          <FormControlLabel
-            control={<Checkbox name="default-calendar" color="primary" />}
-            label={t('defaultCalendar')}
-          />
-        </ListItem>
+        {store.categories.map(category => (
+          <ListItem key={category.name}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={category.show}
+                  name={category.name}
+                  onChange={e => handleCategoryChange(e, category.name)}
+                  color="primary"
+                />
+              }
+              label={category.name === '' ? t('defaultCalendar') : category.name}
+            />
+          </ListItem>
+        ))}
       </List>
       <Divider />
       <List>
@@ -342,7 +365,7 @@ const App = observer(() => {
           calendarRef={ref}
           locale={language}
           focusDate={focusDate}
-          events={store.events}
+          events={filterEvents(store.events)}
           changeEvent={changeEvent}
           addEvent={addEvent}
           deleteEvent={deleteEvent}
