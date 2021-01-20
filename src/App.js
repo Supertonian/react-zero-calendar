@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 import Calendar from './components/calendar';
 import { sidebarStyles } from './styles/sidebar';
 import { init as initi18n, changeLanguage } from './i18n/init';
+import { randomChoice } from './utils/etc';
 
 initi18n();
 const data = observable({
@@ -95,9 +96,21 @@ function editEvent(id, editInfo) {
   }
 }
 function addCategory(category) {
+  const colorList = [
+    '#CD5C5C',
+    '#DC143C',
+    '#FF6347',
+    '#FFD700',
+    '#FF00FF',
+    '#663399',
+    '#4B0082',
+    '#00FF00',
+    '#228B22',
+    '#8B4513',
+  ];
   const f = store.categories.filter(item => item.name === category);
   if (f.length === 0) {
-    store.categories.push({ name: category, show: true });
+    store.categories.push({ name: category, show: true, color: randomChoice(colorList) });
     return true;
   }
   return false;
@@ -242,7 +255,9 @@ const App = observer(() => {
                   checked={category.show}
                   name={category.name}
                   onChange={e => handleCategoryChange(e, category.name)}
-                  color="primary"
+                  style={{
+                    color: category.color || 'black',
+                  }}
                 />
               }
               label={category.name === 'default' ? t('defaultCalendar') : category.name}
