@@ -25,6 +25,8 @@ import Calendar from './components/calendar';
 import { sidebarStyles } from './styles/sidebar';
 import { init as initi18n, changeLanguage } from './i18n/init';
 import { randomChoice } from './utils/etc';
+import CustomizedMenus from './components/customizedMenu';
+import AlertDialog from './components/confirm';
 
 initi18n();
 const data = observable({
@@ -95,7 +97,7 @@ function editEvent(id, editInfo) {
     }
   }
 }
-function addCategory(category) {
+function addCategory(categoryName) {
   const colorList = [
     '#CD5C5C',
     '#DC143C',
@@ -108,12 +110,22 @@ function addCategory(category) {
     '#228B22',
     '#8B4513',
   ];
-  const f = store.categories.filter(item => item.name === category);
+  const f = store.categories.filter(item => item.name === categoryName);
   if (f.length === 0) {
-    store.categories.push({ name: category, show: true, color: randomChoice(colorList) });
+    store.categories.push({ name: categoryName, show: true, color: randomChoice(colorList) });
     return true;
   }
   return false;
+}
+
+function deleteCategory(categoryName) {
+  // delete category
+  const newCategoryList = store.categories.filter(item => item.name !== categoryName);
+  store.categories = newCategoryList;
+
+  // delete events with this category
+  const newEvents = store.events.filter(item => item.category !== categoryName);
+  store.events = newEvents;
 }
 
 function filterEvents(events) {
@@ -148,6 +160,7 @@ const App = observer(() => {
     DateTime.local().toISODate(),
   );
   const [language, setLanguage] = useLocalStorage('calendarLanguage', 'en');
+  const [alert, setAlert] = React.useState({});
   const { t } = useTranslation();
 
   React.useEffect(() => {
@@ -271,6 +284,30 @@ const App = observer(() => {
                 />
               }
               label={category.name === 'default' ? t('defaultCalendar') : category.name}
+            />
+            <CustomizedMenus
+              t={t}
+              handleDelete={() => {
+                if (category.name === 'default') {
+                  setAlert({
+                    open: true,
+                    title: t('Information'),
+                    content: t('INFO-DEFAULT-CALENDAR-DELETE'),
+                    okText: t('Ok'),
+                    handleOkClick: () => {},
+                  });
+                } else {
+                  setAlert({
+                    open: true,
+                    title: t('DELETE-CALENDAR'),
+                    content: t('ASK-PROMPT-DELETE'),
+                    okText: t('Delete'),
+                    cancelText: t('Cancel'),
+                    handleOkClick: () => deleteCategory(category.name),
+                  });
+                }
+              }}
+              handleColorChange={() => console.log('change color')}
             />
           </ListItem>
         ))}
@@ -410,6 +447,20 @@ const App = observer(() => {
           editEvent={editEvent}
         />
       </main>
+      <AlertDialog
+        open={alert.open}
+        title={alert.title}
+        content={alert.content}
+        okText={alert.okText}
+        cancelText={alert.cancelText}
+        handleOkClick={() => {
+          alert.handleOkClick();
+          setAlert({ ...alert, ...{ open: false } });
+        }}
+        handleClose={() => {
+          setAlert({ ...alert, ...{ open: false } });
+        }}
+      />
     </div>
   );
 });
