@@ -121,7 +121,17 @@ function filterEvents(events) {
   const categoriesToShow = store.categories.filter(item => item.show === true);
   const categoryList = categoriesToShow.map(item => item.name);
 
-  const newEvents = events.filter(item => categoryList.includes(item.category));
+  const newEvents = events
+    .filter(item => categoryList.includes(item.category))
+    .map(item => {
+      return {
+        ...item,
+        ...{
+          backgroundColor: item.color,
+          borderColor: store.categories.find(a => a.name === item.category).color || 'black',
+        },
+      };
+    });
   return newEvents;
 }
 
