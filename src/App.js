@@ -26,7 +26,7 @@ import { sidebarStyles } from './styles/sidebar';
 import { init as initi18n, changeLanguage } from './i18n/init';
 import { randomChoice } from './utils/etc';
 import CustomizedMenus from './components/customizedMenu';
-import AlertDialog from './components/confirm';
+import AlertDialog, { ColorPicker } from './components/confirm';
 
 initi18n();
 const data = observable({
@@ -97,22 +97,25 @@ function editEvent(id, editInfo) {
     }
   }
 }
+const palette = {
+  IndianRed: '#CD5C5C',
+  Crimson: '#DC143C',
+  Tomato: '#FF6347',
+  Gold: '#FFD700',
+  Magenta: '#FF00FF',
+  RebeccaPurple: '#663399',
+  Indigo: '#4B0082',
+  Lime: '#00FF00',
+  ForestGreen: '#228B22',
+  SaddleBrown: '#8B4513',
+};
+
 function addCategory(categoryName) {
-  const colorList = [
-    '#CD5C5C',
-    '#DC143C',
-    '#FF6347',
-    '#FFD700',
-    '#FF00FF',
-    '#663399',
-    '#4B0082',
-    '#00FF00',
-    '#228B22',
-    '#8B4513',
-  ];
   const f = store.categories.filter(item => item.name === categoryName);
   if (f.length === 0) {
-    store.categories.push({ name: categoryName, show: true, color: randomChoice(colorList) });
+    const paletteKeys = Object.keys(palette);
+    const colorName = randomChoice(paletteKeys);
+    store.categories.push({ name: categoryName, show: true, color: palette[colorName] });
     return true;
   }
   return false;
@@ -126,6 +129,20 @@ function deleteCategory(categoryName) {
   // delete events with this category
   const newEvents = store.events.filter(item => item.category !== categoryName);
   store.events = newEvents;
+}
+
+function changeCategoryColor(categoryName, color) {
+  // change category color
+  let i = 0;
+  for (; i < store.categories.length; i += 1) {
+    if (store.categories[i].name === categoryName) {
+      break;
+    }
+  }
+  const newObj = { ...store.categories[i], ...{ color } };
+  store.categories.splice(i, 1, newObj);
+
+  // TODO: change events' calendar color
 }
 
 function filterEvents(events) {
@@ -160,7 +177,8 @@ const App = observer(() => {
     DateTime.local().toISODate(),
   );
   const [language, setLanguage] = useLocalStorage('calendarLanguage', 'en');
-  const [alert, setAlert] = React.useState({});
+  const [alert, setAlert] = React.useState({ open: false });
+  const [colorPopup, setColorPopup] = React.useState({ open: false });
   const { t } = useTranslation();
 
   React.useEffect(() => {
@@ -307,7 +325,18 @@ const App = observer(() => {
                   });
                 }
               }}
-              handleColorChange={() => console.log('change color')}
+              handleColorChange={() => {
+                setColorPopup({
+                  open: true,
+                  title: t('SELECT-COLOR'),
+                  initialColor: category.color,
+                  okText: t('Ok'),
+                  cancelText: t('Cancel'),
+                  handleOkClick: color => {
+                    changeCategoryColor(category.name, color);
+                  },
+                });
+              }}
             />
           </ListItem>
         ))}
@@ -348,7 +377,7 @@ const App = observer(() => {
   );
 
   return (
-    <div>
+    <>
       <AppBar position="fixed">
         <Toolbar>
           <IconButton
@@ -461,7 +490,22 @@ const App = observer(() => {
           setAlert({ ...alert, ...{ open: false } });
         }}
       />
-    </div>
+      <ColorPicker
+        palette={palette}
+        open={colorPopup.open}
+        title={colorPopup.title}
+        okText={colorPopup.okText}
+        cancelText={colorPopup.cancelText}
+        handleOkClick={color => {
+          colorPopup.handleOkClick(color);
+          setColorPopup({ ...colorPopup, ...{ open: false } });
+        }}
+        handleClose={() => {
+          setColorPopup({ ...colorPopup, ...{ open: false } });
+        }}
+        initialColor={colorPopup.initialColor}
+      />
+    </>
   );
 });
 

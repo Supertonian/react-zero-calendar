@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -16,7 +16,7 @@ import { CreateDialog } from './createDialog';
 import { ViewDialog } from './viewDialog';
 import { getHoliday } from '../utils/apicall';
 
-const GOOGLE_API_KEY = '';
+const GOOGLE_API_KEY = 'AIzaSyCWLalUqC46xX50wv6oBZiDUjWN4nJnAoE';
 
 let touchStartX = 0;
 let touchStartY = 0;
@@ -199,63 +199,63 @@ const CalendarComponent = ({
   }
 
   function onUpdateDates(dateInfo) {
-      const focusInLuxon = datetime.toLuxon(focusDate);
+    const focusInLuxon = datetime.toLuxon(focusDate);
     const currentStart = datetime.toLuxon(dateInfo.view.currentStart);
     const currentEnd = datetime.toLuxon(dateInfo.view.currentEnd);
 
-      // check if focusDate is inside view range
-      if (!(focusInLuxon >= currentStart && focusInLuxon <= currentEnd)) {
-        setter.setFocusDate(currentStart.toISODate());
-      }
+    // check if focusDate is inside view range
+    if (!(focusInLuxon >= currentStart && focusInLuxon <= currentEnd)) {
+      setter.setFocusDate(currentStart.toISODate());
+    }
     const viewType = dateInfo.view.type;
-      if (viewType === 'dayGridMonth') {
+    if (viewType === 'dayGridMonth') {
       const { title } = dateInfo.view;
-        const [year, month] = title.split('/');
-        setter.setTitle(`${year}년 ${month}월`);
-      } else if (viewType === 'timeGridDay') {
+      const [year, month] = title.split('/');
+      setter.setTitle(`${year}년 ${month}월`);
+    } else if (viewType === 'timeGridDay') {
       const [Y, M, D] = dateInfo.view.title.split('/');
-        setter.setTitle(`${Y}년 ${M}월 ${D}일`);
-      } else {
+      setter.setTitle(`${Y}년 ${M}월 ${D}일`);
+    } else {
       const [start, end] = dateInfo.view.title.split(' – ');
-        const [startY, startM] = start.split('/');
-        const [endY, endM] = end.split('/');
+      const [startY, startM] = start.split('/');
+      const [endY, endM] = end.split('/');
 
-        if (startY === endY) {
-          if (startM === endM) {
-            setter.setTitle(`${startY}년 ${startM}월`);
-          } else {
-            setter.setTitle(`${startY}년 ${startM}월 - ${endM}월`);
-          }
+      if (startY === endY) {
+        if (startM === endM) {
+          setter.setTitle(`${startY}년 ${startM}월`);
         } else {
-          setter.setTitle(`${startY}년 ${startM}월 - ${endY}년 ${endM}월`);
+          setter.setTitle(`${startY}년 ${startM}월 - ${endM}월`);
         }
+      } else {
+        setter.setTitle(`${startY}년 ${startM}월 - ${endY}년 ${endM}월`);
       }
-      getHoliday(
-        'ko.south_korea%23holiday%40group.v.calendar.google.com',
-        GOOGLE_API_KEY,
-        `${currentStart.toISODate()}T00%3A00%3A00%2B09%3A00`,
-        `${currentEnd.toISODate()}T00%3A00%3A00%2B09%3A00`,
-      )
+    }
+    getHoliday(
+      'ko.south_korea%23holiday%40group.v.calendar.google.com',
+      GOOGLE_API_KEY,
+      `${currentStart.toISODate()}T00%3A00%3A00%2B09%3A00`,
+      `${currentEnd.toISODate()}T00%3A00%3A00%2B09%3A00`,
+    )
       .then(data => {
         const { items } = data;
-          const holidays = [];
-          items.forEach(item => {
-            holidays.push({
-              title: item.summary,
-              start: item.start.date,
-              end: item.end.date,
-              allDay: true,
-              color: 'red',
-              display: 'block',
-            });
+        const holidays = [];
+        items.forEach(item => {
+          holidays.push({
+            title: item.summary,
+            start: item.start.date,
+            end: item.end.date,
+            allDay: true,
+            color: 'red',
+            display: 'block',
           });
-          setHolidayList(holidays);
-        })
-        .catch(e => {
-          console.error(e);
-          setHolidayList([]);
         });
-    }
+        setHolidayList(holidays);
+      })
+      .catch(e => {
+        console.error(e);
+        setHolidayList([]);
+      });
+  }
 
   function handleNavLinkDayClick(date) {
     if (calendarRef && calendarRef.current) {
