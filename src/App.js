@@ -345,7 +345,16 @@ const App = observer(() => {
             onClick={() => {
               const name = prompt(t('enter-new-category'));
               if (name.trim() !== '') {
-                addCategory(name.trim());
+                if (name.trim() === 'default') {
+                  setAlert({
+                    open: true,
+                    title: t('CANNOT-CREATE-DEFAULT-NAME'),
+                    okText: t('Ok'),
+                    handleOkClick: () => {},
+                  });
+                } else {
+                  addCategory(name.trim());
+                }
               }
             }}
           >

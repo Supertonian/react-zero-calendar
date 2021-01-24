@@ -21,6 +21,7 @@ const languageSet = {
   'ASK-PROMPT-DELETE': '정말 삭제하시겠습니까?',
   'INFO-DEFAULT-CALENDAR-DELETE': '기본 캘린더는 삭제 불가능합니다.',
   'SELECT-COLOR': '색을 선택해주세요.',
+  'CANNOT-CREATE-DEFAULT-NAME': 'default라는 이름은 생성 할 수 없습니다.',
 };
 
 export default { translation: languageSet };

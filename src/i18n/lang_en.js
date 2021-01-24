@@ -10,6 +10,7 @@ const languageSet = {
   'ASK-PROMPT-DELETE': 'Do you really want to delete?',
   'INFO-DEFAULT-CALENDAR-DELETE': 'Default calendar cannot be deleted.',
   'SELECT-COLOR': 'Select color',
+  'CANNOT-CREATE-DEFAULT-NAME': 'Cannot create name default',
 };
 
 export default { translation: languageSet };
