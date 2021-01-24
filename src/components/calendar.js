@@ -1,4 +1,5 @@
 ﻿import React, { useEffect } from 'react';
+import styled, { createGlobalStyle } from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -121,7 +122,27 @@ const CalendarComponent = ({
     changeEvent(oldEvent.id, event);
   }
 
-  function renderEventContent(eventContent) {}
+  function renderEventContent(eventContent) {
+    const ext = eventContent.event.extendedProps;
+    return (
+      <>
+        <span
+          style={{
+            width: '7px',
+            flexShrink: 0,
+            backgroundColor: ext.tagColor,
+          }}
+        />
+        <EventContent className="event-content">
+          <ScheduleTime>
+            {ext.importance && <IconBox />}
+            {eventContent.event.startStr}
+          </ScheduleTime>
+          <ScheduleTitle>{eventContent.event.title}</ScheduleTitle>
+        </EventContent>
+      </>
+    );
+  }
 
   function renderHeaderContent(content) {
     const { text } = content;
@@ -282,6 +303,7 @@ const CalendarComponent = ({
 
   return (
     <>
+      <CalendarGlobalStyle />
       <FullCalendar
         ref={calendarRef}
         plugins={[
@@ -348,5 +370,37 @@ const CalendarComponent = ({
   );
 };
 
+const EventContent = styled.div`
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.625rem;
+  line-height: 0.94rem;
+`;
+const ScheduleTime = styled.span`
+  display: inline-flex;
+  margin-left: 2px;
+  font-weight: 700;
+  &:only-of-type {
+    line-height: 1.125rem;
+  }
+`;
+const ScheduleTitle = styled.span`
+  margin-left: 2px;
+  &:only-of-type {
+    line-height: 1.125rem;
+  }
+`;
+const IconBox = styled.span`
+  margin: 0.125rem 0.19rem 0 0;
+  line-height: 0;
+`;
+
+const CalendarGlobalStyle = createGlobalStyle`
+.fc-event-main {
+  display: flex;
+  padding: 0;
+  min-height: 1.125rem;
+}
+`;
 const Calendar = observer(CalendarComponent);
 export default Calendar;

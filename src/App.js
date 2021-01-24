@@ -157,7 +157,7 @@ function filterEvents(events) {
         ...item,
         ...{
           backgroundColor: item.color,
-          borderColor: store.categories.find(a => a.name === item.category).color || 'black',
+          tagColor: store.categories.find(a => a.name === item.category).color || 'black',
         },
       };
     });
