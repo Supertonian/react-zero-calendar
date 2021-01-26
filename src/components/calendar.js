@@ -18,11 +18,13 @@ import { ViewDialog } from './viewDialog';
 import { getHoliday } from '../utils/apicall';
 
 const GOOGLE_API_KEY = 'AIzaSyCWLalUqC46xX50wv6oBZiDUjWN4nJnAoE';
+const SELECT_LONG_PRESS_DELAY = 1000; // miliseconds
 
 let touchStartX = 0;
 let touchStartY = 0;
 let touchEndX = 0;
 let touchEndY = 0;
+let touchStartTime = 0;
 
 const CalendarComponent = ({
   setter,
@@ -47,13 +49,16 @@ const CalendarComponent = ({
 
   const handleGesture = React.useCallback(() => {
     if (calendarRef.current) {
-      const deltaX = Math.abs(touchEndX - touchStartX);
-      const deltaY = Math.abs(touchEndY - touchStartY);
-      if (touchEndX <= touchStartX && deltaX > deltaY * 2) {
-        calendarRef.current.getApi().next();
-      }
-      if (touchEndX >= touchStartX && deltaX > deltaY * 2) {
-        calendarRef.current.getApi().prev();
+      const touchedTime = touchStartTime.diffNow();
+      if (-touchedTime.milliseconds < SELECT_LONG_PRESS_DELAY) {
+        const deltaX = Math.abs(touchEndX - touchStartX);
+        const deltaY = Math.abs(touchEndY - touchStartY);
+        if (touchEndX <= touchStartX && deltaX > deltaY * 2) {
+          calendarRef.current.getApi().next();
+        }
+        if (touchEndX >= touchStartX && deltaX > deltaY * 2) {
+          calendarRef.current.getApi().prev();
+        }
       }
     }
   }, [calendarRef]);
@@ -61,6 +66,7 @@ const CalendarComponent = ({
   const handleTouchStart = React.useCallback(e => {
     touchStartX = e.changedTouches[0].screenX;
     touchStartY = e.changedTouches[0].screenY;
+    touchStartTime = DateTime.local();
   }, []);
 
   const handleTouchEnd = React.useCallback(
@@ -349,6 +355,7 @@ const CalendarComponent = ({
         selectAllow={handleSelectAllow}
         dragScroll={false}
         progressiveEventRendering
+        selectLongPressDelay={SELECT_LONG_PRESS_DELAY}
       />
       {createDialogOpen && (
         <CreateDialog
