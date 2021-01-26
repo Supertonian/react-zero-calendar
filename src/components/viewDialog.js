@@ -4,7 +4,15 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import { Container, DialogContentText, Grid, Input, FormControlLabel, Checkbox, Button } from '@material-ui/core';
+import {
+  Container,
+  DialogContentText,
+  Grid,
+  Input,
+  FormControlLabel,
+  Checkbox,
+  Button,
+} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
@@ -24,7 +32,7 @@ const ViewDialogComponent = ({ setOpen, event, deleteEvent, editEvent }) => {
   const [selectedStartDate, setSelectedStartDate] = React.useState();
   const [selectedEndDate, setSelectedEndDate] = React.useState();
   const [allDay, setAllDay] = React.useState(false);
-  const [important, setImportant] = React.useState();
+  const [importance, setImportance] = React.useState();
   const [place, setPlace] = React.useState();
   const [color, setColor] = React.useState('black');
   const [editFlag, setEditFlag] = React.useState(false);
@@ -61,13 +69,8 @@ const ViewDialogComponent = ({ setOpen, event, deleteEvent, editEvent }) => {
     const eventInfo = {
       start: selectedStartDate.toISO(),
       end: selectedEndDate.toISO(),
-      important,
-      title:
-        title.trim() === ''
-          ? '(제목없음)'
-          : important === true && !title.includes('(중요')
-          ? title.concat('(중요)')
-          : title,
+      importance,
+      title: title.trim() === '' ? '(제목없음)' : title,
       allDay: allDay || isAllDay,
       place,
       forceAllDay: allDay,
@@ -88,8 +91,8 @@ const ViewDialogComponent = ({ setOpen, event, deleteEvent, editEvent }) => {
     setAllDay(event.target.checked);
   };
 
-  const handleImportantChange = event => {
-    setImportant(event.target.checked);
+  const handleimportanceChange = event => {
+    setImportance(event.target.checked);
   };
   const handlePlaceChange = event => {
     setPlace(event.target.value);
@@ -111,13 +114,17 @@ const ViewDialogComponent = ({ setOpen, event, deleteEvent, editEvent }) => {
 
   function nvl(str, defaultStr) {
     if (typeof str === 'undefined' || str === null || str === '') str = '';
-    else if (str.includes('(중요)')) str = str.replace('(중요)', '');
     return str;
   }
 
   return (
     <>
-      <Dialog fullScreen={fullScreen} open={true} onClose={handleClose} aria-labelledby="responsive-view-dialog">
+      <Dialog
+        fullScreen={fullScreen}
+        open={true}
+        onClose={handleClose}
+        aria-labelledby="responsive-view-dialog"
+      >
         <DialogTitle id="responsive-dialog-title" style={{ textAlign: 'left' }}>
           {' '}
           일정
@@ -131,7 +138,7 @@ const ViewDialogComponent = ({ setOpen, event, deleteEvent, editEvent }) => {
               setSelectedStartDate(DateTime.fromISO(event.startStr));
               setSelectedEndDate(DateTime.fromISO(event.endStr));
               setAllDay(event.allDay);
-              setImportant(event.extendedProps.important);
+              setImportance(event.extendedProps.importance);
             }}
           >
             <EditOutlinedIcon />
@@ -158,13 +165,26 @@ const ViewDialogComponent = ({ setOpen, event, deleteEvent, editEvent }) => {
               <DialogContentText>
                 <Container>
                   <Grid container>
-                    <Input autoFocus placeholder="제목을 입력해주세요" value={title} onChangeCapture={handleTitle} />
+                    <Input
+                      autoFocus
+                      placeholder="제목을 입력해주세요"
+                      value={title}
+                      onChangeCapture={handleTitle}
+                    />
                     <FormControlLabel
-                      control={<Checkbox checked={allDay} onChange={handleAllDayChange} name="allDay" />}
+                      control={
+                        <Checkbox checked={allDay} onChange={handleAllDayChange} name="allDay" />
+                      }
                       label="종일"
                     />
                     <FormControlLabel
-                      control={<Checkbox checked={important} onChange={handleImportantChange} name="important" />}
+                      control={
+                        <Checkbox
+                          checked={importance}
+                          onChange={handleimportanceChange}
+                          name="importance"
+                        />
+                      }
                       label="중요"
                     />
                   </Grid>
@@ -192,7 +212,11 @@ const ViewDialogComponent = ({ setOpen, event, deleteEvent, editEvent }) => {
                   </MuiPickersUtilsProvider>
                 </Container>
                 <Container>
-                  <Input placeholder="장소를 입력해주세요" value={place} onChange={handlePlaceChange} />
+                  <Input
+                    placeholder="장소를 입력해주세요"
+                    value={place}
+                    onChange={handlePlaceChange}
+                  />
                 </Container>
                 <Container>
                   <ColorPalette palette={palette} value={color} onSelect={setColor} />

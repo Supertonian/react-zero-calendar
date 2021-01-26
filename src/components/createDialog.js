@@ -37,7 +37,7 @@ const CreateDialogComponent = ({ setOpen, addEvent, defaultSettings, categoryLis
   const [selectedStartDate, setSelectedStartDate] = React.useState();
   const [selectedEndDate, setSelectedEndDate] = React.useState();
   const [allDay, setAllDay] = React.useState(false);
-  const [important, setImportant] = React.useState();
+  const [importance, setImportance] = React.useState();
   const [category, setCategory] = React.useState('default');
   const [place, setPlace] = React.useState();
   const [color, setColor] = React.useState('black');
@@ -60,10 +60,10 @@ const CreateDialogComponent = ({ setOpen, addEvent, defaultSettings, categoryLis
     } else {
       setAllDay(false);
     }
-    if (defaultSettings && defaultSettings.important) {
-      setImportant(true);
+    if (defaultSettings && defaultSettings.importance) {
+      setImportance(true);
     } else {
-      setImportant(false);
+      setImportance(false);
     }
     if (defaultSettings && defaultSettings.category) {
       setCategory(defaultSettings.category);
@@ -87,14 +87,14 @@ const CreateDialogComponent = ({ setOpen, addEvent, defaultSettings, categoryLis
     const eventInfo = {
       start: selectedStartDate.toISO(),
       end: selectedEndDate.toISO(),
-      important,
-      title:
-        title.trim() === '' ? '(제목없음)' : important === true ? title.concat('(중요)') : title,
+      importance,
+      title: title.trim() === '' ? '(제목없음)' : title,
       allDay: allDay || isAllDay,
       place,
       forceAllDay: allDay,
       color,
       category,
+      display: 'block',
     };
     addEvent(eventInfo);
     setOpen(false);
@@ -108,8 +108,8 @@ const CreateDialogComponent = ({ setOpen, addEvent, defaultSettings, categoryLis
     setAllDay(event.target.checked);
   };
 
-  const handleImportantChange = event => {
-    setImportant(event.target.checked);
+  const handleimportanceChange = event => {
+    setImportance(event.target.checked);
   };
   const handlePlaceChange = event => {
     setPlace(event.target.value);
@@ -152,7 +152,11 @@ const CreateDialogComponent = ({ setOpen, addEvent, defaultSettings, categoryLis
               />
               <FormControlLabel
                 control={
-                  <Checkbox checked={important} onChange={handleImportantChange} name="important" />
+                  <Checkbox
+                    checked={importance}
+                    onChange={handleimportanceChange}
+                    name="importance"
+                  />
                 }
                 label="중요"
               />

@@ -51,7 +51,7 @@ const schema = {
       forceAllDay: true,
       color: true,
       category: true,
-      important: true,
+      importance: true,
     },
   },
 };
@@ -93,7 +93,7 @@ function editEvent(id, editInfo) {
       store.events[i].startStr = editInfo.startStr;
       store.events[i].endStr = editInfo.endStr;
       store.events[i].place = editInfo.place;
-      store.events[i].important = editInfo.important;
+      store.events[i].importance = editInfo.importance;
     }
   }
 }

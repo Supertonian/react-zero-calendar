@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import FullCalendar from '@fullcalendar/react';
@@ -141,8 +141,7 @@ const CalendarComponent = ({
         />
         <EventContent className="event-content">
           <ScheduleTime>
-            {ext.importance && <IconBox />}
-            {eventContent.event.startStr}
+            {ext.importance && '★ '}
           </ScheduleTime>
           <ScheduleTitle>{eventContent.event.title}</ScheduleTitle>
         </EventContent>
@@ -396,10 +395,6 @@ const ScheduleTitle = styled.span`
   &:only-of-type {
     line-height: 1.125rem;
   }
-`;
-const IconBox = styled.span`
-  margin: 0.125rem 0.19rem 0 0;
-  line-height: 0;
 `;
 
 const CalendarGlobalStyle = createGlobalStyle`
