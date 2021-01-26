@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import FullCalendar from '@fullcalendar/react';
@@ -128,13 +128,18 @@ const CalendarComponent = ({
     changeEvent(oldEvent.id, event);
   }
 
+  function getStartTime(startStr) {
+    const time = startStr.split('T')[1];
+    return time.split(':00+')[0];
+  }
+
   function renderEventContent(eventContent) {
     const ext = eventContent.event.extendedProps;
     return (
       <>
         <span
           style={{
-            width: '7px',
+            width: '5px',
             flexShrink: 0,
             backgroundColor: ext.tagColor,
           }}
@@ -142,6 +147,9 @@ const CalendarComponent = ({
         <EventContent className="event-content">
           <ScheduleTime>
             {ext.importance && '★ '}
+            {!(eventContent.event.allDay || ext.forceAllDay)
+              ? getStartTime(eventContent.event.startStr)
+              : ''}
           </ScheduleTime>
           <ScheduleTitle>{eventContent.event.title}</ScheduleTitle>
         </EventContent>
