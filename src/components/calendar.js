@@ -239,16 +239,16 @@ const CalendarComponent = ({
 
     // check if focusDate is inside view range
     if (!(focusInLuxon >= currentStart && focusInLuxon <= currentEnd)) {
-      setter.setFocusDate(currentStart.toISODate());
+      if (setter) setter.setFocusDate(currentStart.toISODate());
     }
     const viewType = dateInfo.view.type;
     if (viewType === 'dayGridMonth') {
       const { title } = dateInfo.view;
       const [year, month] = title.split('/');
-      setter.setTitle(`${year}년 ${month}월`);
+      if (setter) setter.setTitle(`${year}년 ${month}월`);
     } else if (viewType === 'timeGridDay') {
       const [Y, M, D] = dateInfo.view.title.split('/');
-      setter.setTitle(`${Y}년 ${M}월 ${D}일`);
+      if (setter) setter.setTitle(`${Y}년 ${M}월 ${D}일`);
     } else {
       const [start, end] = dateInfo.view.title.split(' – ');
       const [startY, startM] = start.split('/');
@@ -256,12 +256,12 @@ const CalendarComponent = ({
 
       if (startY === endY) {
         if (startM === endM) {
-          setter.setTitle(`${startY}년 ${startM}월`);
+          if (setter) setter.setTitle(`${startY}년 ${startM}월`);
         } else {
-          setter.setTitle(`${startY}년 ${startM}월 - ${endM}월`);
+          if (setter) setter.setTitle(`${startY}년 ${startM}월 - ${endM}월`);
         }
       } else {
-        setter.setTitle(`${startY}년 ${startM}월 - ${endY}년 ${endM}월`);
+        if (setter) setter.setTitle(`${startY}년 ${startM}월 - ${endY}년 ${endM}월`);
       }
     }
     getHoliday(
@@ -294,7 +294,7 @@ const CalendarComponent = ({
   function handleNavLinkDayClick(date) {
     if (calendarRef && calendarRef.current) {
       calendarRef.current.getApi().changeView('timeGrid', date);
-      setter.setViewType('timeGridDay');
+      if (setter) setter.setViewType('timeGridDay');
     }
   }
 
@@ -315,7 +315,7 @@ const CalendarComponent = ({
   }
 
   return (
-    <>
+    <div id="calendar-layout">
       <CalendarGlobalStyle />
       <FullCalendar
         ref={calendarRef}
@@ -380,7 +380,7 @@ const CalendarComponent = ({
           editEvent={editEvent}
         />
       )}
-    </>
+    </div>
   );
 };
 
