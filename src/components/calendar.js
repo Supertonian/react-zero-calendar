@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -16,9 +16,6 @@ import { CreateDialog } from './createDialog';
 import { ViewDialog } from './viewDialog';
 import { getHoliday } from '../utils/apicall';
 
-const GOOGLE_API_KEY = 'AIzaSyCWLalUqC46xX50wv6oBZiDUjWN4nJnAoE';
-const SELECT_LONG_PRESS_DELAY = 1000; // miliseconds
-
 let touchStartX = 0;
 let touchStartY = 0;
 let touchEndX = 0;
@@ -31,7 +28,9 @@ const Calendar = ({
   locale,
   lunar,
   holiday,
+  country,
   minDurationMinutes,
+  slotDuration,
   focusDate,
   events,
   addEvent,
@@ -39,6 +38,8 @@ const Calendar = ({
   deleteEvent,
   editEvent,
   categoryList,
+  googleApiKey,
+  selectLongPressDelay,
 }) => {
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [viewDialogOpen, setViewDialogOpen] = React.useState(false);
@@ -46,10 +47,11 @@ const Calendar = ({
   const [event, setEvent] = React.useState({});
   const [holidayList, setHolidayList] = React.useState([]);
 
+  // - START OF SWIPE EVENT
   const handleGesture = React.useCallback(() => {
     if (calendarRef.current) {
       const touchedTime = touchStartTime.diffNow();
-      if (-touchedTime.milliseconds < SELECT_LONG_PRESS_DELAY) {
+      if (-touchedTime.milliseconds < selectLongPressDelay) {
         const deltaX = Math.abs(touchEndX - touchStartX);
         const deltaY = Math.abs(touchEndY - touchStartY);
         if (touchEndX <= touchStartX && deltaX > deltaY * 2) {
@@ -60,7 +62,7 @@ const Calendar = ({
         }
       }
     }
-  }, [calendarRef]);
+  }, [calendarRef, selectLongPressDelay]);
 
   const handleTouchStart = React.useCallback(e => {
     touchStartX = e.changedTouches[0].screenX;
@@ -76,6 +78,7 @@ const Calendar = ({
     },
     [handleGesture],
   );
+  // - END OF SWIPE EVENT
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -264,8 +267,8 @@ const Calendar = ({
       }
     }
     getHoliday(
-      'ko.south_korea%23holiday%40group.v.calendar.google.com',
-      GOOGLE_API_KEY,
+      `${country}%23holiday%40group.v.calendar.google.com`,
+      googleApiKey,
       `${currentStart.toISODate()}T00%3A00%3A00%2B09%3A00`,
       `${currentEnd.toISODate()}T00%3A00%3A00%2B09%3A00`,
     )
@@ -339,7 +342,7 @@ const Calendar = ({
         selectMirror
         dayMaxEvents
         dayMaxEventRows={6}
-        slotDuration={{ minutes: minDurationMinutes }}
+        slotDuration={{ ...{ minutes: minDurationMinutes }, ...{ slotDuration } }}
         slotLabelInterval="01:00"
         slotEventOverlap={false}
         events={holiday ? [...holidayList, ...events.slice()] : events.slice()}
@@ -361,7 +364,7 @@ const Calendar = ({
         selectAllow={handleSelectAllow}
         dragScroll={false}
         progressiveEventRendering
-        selectLongPressDelay={SELECT_LONG_PRESS_DELAY}
+        selectLongPressDelay={selectLongPressDelay}
       />
       {createDialogOpen && (
         <CreateDialog
@@ -381,6 +384,10 @@ const Calendar = ({
       )}
     </div>
   );
+};
+Calendar.defaultProps = {
+  focusDate: new Date(),
+  country: 'en.usa', // ko.south_korea
 };
 
 const EventContent = styled.div`

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { observable } from 'mobx';
 import { persist, create } from 'mobx-persist';
 import clsx from 'clsx';
@@ -480,6 +480,9 @@ const App = observer(() => {
           addEvent={addEvent}
           deleteEvent={deleteEvent}
           editEvent={editEvent}
+          googleApiKey="AIzaSyCWLalUqC46xX50wv6oBZiDUjWN4nJnAoE"
+          country="en.usa"
+          selectLongPressDelay={1000}
         />
       </main>
       <AlertDialog
