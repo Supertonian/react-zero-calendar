@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { observable } from 'mobx';
 import { persist, create } from 'mobx-persist';
 import clsx from 'clsx';
@@ -465,10 +465,7 @@ const App = observer(() => {
           {Sider('left')}
         </SwipeableDrawer>
       </>
-      <main
-        id="calendar-layout"
-        style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}
-      >
+      <main style={{ marginTop: '75px', marginLeft: '20px', marginRight: '20px' }}>
         <Calendar
           minDurationMinutes={30}
           setter={{ setTitle, setViewType, setFocusDate }}
