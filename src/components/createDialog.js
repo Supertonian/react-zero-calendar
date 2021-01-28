@@ -1,5 +1,4 @@
 ﻿import React from 'react';
-import { observer } from 'mobx-react-lite';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -204,4 +203,4 @@ const CreateDialogComponent = ({ setOpen, addEvent, defaultSettings, categoryLis
   );
 };
 
-export const CreateDialog = observer(CreateDialogComponent);
+export const CreateDialog = CreateDialogComponent;

@@ -1,6 +1,5 @@
-﻿import React, { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { observer } from 'mobx-react-lite';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -26,7 +25,7 @@ let touchEndX = 0;
 let touchEndY = 0;
 let touchStartTime = 0;
 
-const CalendarComponent = ({
+const Calendar = ({
   setter,
   calendarRef,
   locale,
@@ -412,5 +411,4 @@ const CalendarGlobalStyle = createGlobalStyle`
   min-height: 1.125rem;
 }
 `;
-const Calendar = observer(CalendarComponent);
 export default Calendar;
