@@ -1,7 +1,7 @@
 {
-  "name": "calendar",
+  "name": "zerostrength-calendar",
   "version": "0.1.4",
-  "private": true,
+  "private": false,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "files": [
