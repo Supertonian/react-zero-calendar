@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/ZeroStrength/calendar/compare/v0.1.4...v0.1.5) (2021-01-28)
+
+
+### Features
+
+* export demo app ([c10c94e](https://github.com/ZeroStrength/calendar/commit/c10c94ee09afe2d0130f9f38698e76fc373420c6))
+* **package:** add rollup configuration ([4931ac5](https://github.com/ZeroStrength/calendar/commit/4931ac50d8ef4d603b83cb95b11ad7b627f3f086))
+* change calendar's color ([32e3d69](https://github.com/ZeroStrength/calendar/commit/32e3d699708945af9f7622332cfbd2e670569950))
+* delete calendar feature and add confirm dialog ([a7545be](https://github.com/ZeroStrength/calendar/commit/a7545be4480e48ebaff59d0445fd17807fa5591a))
+* set event border with its calendar's color ([ffbedfe](https://github.com/ZeroStrength/calendar/commit/ffbedfe2f032e5c4e598c2063c7c1350230b12c4))
+* set random calendar color when added ([d11df3d](https://github.com/ZeroStrength/calendar/commit/d11df3d0e2c100cd96848172aef76bf2c5eb6f4f))
+* tagColor for each event ([7d3fac2](https://github.com/ZeroStrength/calendar/commit/7d3fac2bc6e925abc83bc662bfa29a9decdb6126))
+
+
+### Bug Fixes
+
+* added props for better customization ([694a72d](https://github.com/ZeroStrength/calendar/commit/694a72d7a71406b33d87f672be832b8af635f467))
+* change importance settings ([8f0230b](https://github.com/ZeroStrength/calendar/commit/8f0230b0ddc60aa928245030d0c59eb6bc4ef57a))
+* disable swipe action when user select daterange ([8039b8c](https://github.com/ZeroStrength/calendar/commit/8039b8cfe016b1b31065ce2f89ddee1c87811612))
+* prevent calendar name default ([d885090](https://github.com/ZeroStrength/calendar/commit/d88509075440d69f0e5b7c49d7d6945765f141ad))
+* remove duplicate id calendar-layout ([301a166](https://github.com/ZeroStrength/calendar/commit/301a166f13543938059675e77d598a2e55ffeb46))
+* remove unnecessary observering component ([95d9cec](https://github.com/ZeroStrength/calendar/commit/95d9cecf907da65b491b493fc822b943d9214c70))
+* **temp:** exception control for now ([b1ba546](https://github.com/ZeroStrength/calendar/commit/b1ba546b439c80f4595006a99f149105988638c6))
+* don't show datetime when event is allday ([89db0c7](https://github.com/ZeroStrength/calendar/commit/89db0c76d19120fa308e973a8c10ab6513d40dce))
+
 ### [0.1.4](https://github.com/ZeroStrength/calendar/compare/v0.1.3...v0.1.4) (2021-01-17)
 
 
