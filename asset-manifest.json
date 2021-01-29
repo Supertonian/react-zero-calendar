@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/calendar/static/css/main.69eda509.chunk.css",
-    "main.js": "/calendar/static/js/main.1096249f.chunk.js",
-    "main.js.map": "/calendar/static/js/main.1096249f.chunk.js.map",
-    "runtime-main.js": "/calendar/static/js/runtime-main.914f0415.js",
-    "runtime-main.js.map": "/calendar/static/js/runtime-main.914f0415.js.map",
-    "static/css/2.1ac2534d.chunk.css": "/calendar/static/css/2.1ac2534d.chunk.css",
-    "static/js/2.9dc211bf.chunk.js": "/calendar/static/js/2.9dc211bf.chunk.js",
-    "static/js/2.9dc211bf.chunk.js.map": "/calendar/static/js/2.9dc211bf.chunk.js.map",
-    "index.html": "/calendar/index.html",
-    "precache-manifest.770b8c16d5432a00d5ba1e2fdfff1d6b.js": "/calendar/precache-manifest.770b8c16d5432a00d5ba1e2fdfff1d6b.js",
-    "service-worker.js": "/calendar/service-worker.js",
-    "static/css/2.1ac2534d.chunk.css.map": "/calendar/static/css/2.1ac2534d.chunk.css.map",
-    "static/css/main.69eda509.chunk.css.map": "/calendar/static/css/main.69eda509.chunk.css.map",
-    "static/js/2.9dc211bf.chunk.js.LICENSE.txt": "/calendar/static/js/2.9dc211bf.chunk.js.LICENSE.txt"
+    "main.css": "/react-zero-calendar/static/css/main.69eda509.chunk.css",
+    "main.js": "/react-zero-calendar/static/js/main.f5f03547.chunk.js",
+    "main.js.map": "/react-zero-calendar/static/js/main.f5f03547.chunk.js.map",
+    "runtime-main.js": "/react-zero-calendar/static/js/runtime-main.c353c218.js",
+    "runtime-main.js.map": "/react-zero-calendar/static/js/runtime-main.c353c218.js.map",
+    "static/css/2.1ac2534d.chunk.css": "/react-zero-calendar/static/css/2.1ac2534d.chunk.css",
+    "static/js/2.2f673077.chunk.js": "/react-zero-calendar/static/js/2.2f673077.chunk.js",
+    "static/js/2.2f673077.chunk.js.map": "/react-zero-calendar/static/js/2.2f673077.chunk.js.map",
+    "index.html": "/react-zero-calendar/index.html",
+    "precache-manifest.df8c4347eddf0c92f2d8e8840cc51f19.js": "/react-zero-calendar/precache-manifest.df8c4347eddf0c92f2d8e8840cc51f19.js",
+    "service-worker.js": "/react-zero-calendar/service-worker.js",
+    "static/css/2.1ac2534d.chunk.css.map": "/react-zero-calendar/static/css/2.1ac2534d.chunk.css.map",
+    "static/css/main.69eda509.chunk.css.map": "/react-zero-calendar/static/css/main.69eda509.chunk.css.map",
+    "static/js/2.2f673077.chunk.js.LICENSE.txt": "/react-zero-calendar/static/js/2.2f673077.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.914f0415.js",
+    "static/js/runtime-main.c353c218.js",
     "static/css/2.1ac2534d.chunk.css",
-    "static/js/2.9dc211bf.chunk.js",
+    "static/js/2.2f673077.chunk.js",
     "static/css/main.69eda509.chunk.css",
-    "static/js/main.1096249f.chunk.js"
+    "static/js/main.f5f03547.chunk.js"
   ]
 }
