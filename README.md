@@ -19,17 +19,13 @@ import Calendar from 'react-zero-calendar';
 
 const App = () => {
     return (
-        <Calendar
-            locale='ko'
-        />
+        <Calendar locale='ko' />
     );
 }
 ```
 
 #### Add events
 ```
-import Calendar from 'react-zero-calendar';
-
 const App = () => {
     return (
         <Calendar
@@ -42,8 +38,6 @@ const App = () => {
 
 #### Set holiday
 ```
-import Calendar from 'react-zero-calendar';
-
 const App = () => {
     return (
         <Calendar
@@ -56,6 +50,21 @@ const App = () => {
 }
 ```
 
+#### Event CUD callback
+```
+const App = () => {
+    return (
+        <Calendar
+            locale='en' // ko
+            events={[]}
+            addEvent={(event) => console.log(event)}
+            changeEvent={(eventId, eventInfo) => console.log(eventId, eventInfo)}
+            deleteEvent={(eventId) => console.log(eventId)}
+        />
+    );
+}
+```
+
 ## Features
 
 - Fetch holiday by Google calendar api
@@ -63,6 +72,7 @@ const App = () => {
 - Show lunar days
 - Change language (en/ko)
 - Manage Calendar or category (add/delete)
+- addEvent, update, and delete callback
 - Store events in local storage (mobx-persist)
 
 ## Changelog
@@ -71,4 +81,4 @@ const App = () => {
 
 ## Demo
 
-http://zerostrength.github.io/calendar/
+https://zerostrength.github.io/react-zero-calendar/
