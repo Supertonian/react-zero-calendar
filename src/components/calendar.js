@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react';
+﻿import React, { createRef, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -46,23 +46,25 @@ const Calendar = ({
   const [defaultSettings, setDefaultSettings] = React.useState({});
   const [event, setEvent] = React.useState({});
   const [holidayList, setHolidayList] = React.useState([]);
+  const calRef = createRef();
 
   // - START OF SWIPE EVENT
   const handleGesture = React.useCallback(() => {
-    if (calendarRef.current) {
+    const r = calendarRef || calRef;
+    if (r.current) {
       const touchedTime = touchStartTime.diffNow();
       if (-touchedTime.milliseconds < selectLongPressDelay) {
         const deltaX = Math.abs(touchEndX - touchStartX);
         const deltaY = Math.abs(touchEndY - touchStartY);
         if (touchEndX <= touchStartX && deltaX > deltaY * 2) {
-          calendarRef.current.getApi().next();
+          r.current.getApi().next();
         }
         if (touchEndX >= touchStartX && deltaX > deltaY * 2) {
-          calendarRef.current.getApi().prev();
+          r.current.getApi().prev();
         }
       }
     }
-  }, [calendarRef, selectLongPressDelay]);
+  }, [calRef, calendarRef, selectLongPressDelay]);
 
   const handleTouchStart = React.useCallback(e => {
     touchStartX = e.changedTouches[0].screenX;
@@ -81,9 +83,10 @@ const Calendar = ({
   // - END OF SWIPE EVENT
 
   useEffect(() => {
-    if (calendarRef.current) {
+    const r = calendarRef || calRef;
+    if (r.current) {
       const height = isNaN(window.innerHeight) ? window.clientHeight : window.innerHeight;
-      calendarRef.current.getApi().setOption('height', height - 85 > 700 ? 700 : height - 85);
+      r.current.getApi().setOption('height', height - 85 > 700 ? 700 : height - 85);
 
       document.querySelector('#calendar-layout').addEventListener('touchstart', handleTouchStart);
       document.querySelector('#calendar-layout').addEventListener('touchend', handleTouchEnd);
@@ -96,7 +99,7 @@ const Calendar = ({
       };
     }
     return null;
-  }, [calendarRef, handleTouchEnd, handleTouchStart]);
+  }, [calRef, calendarRef, handleTouchEnd, handleTouchStart]);
 
   function handleEventClick(clickInfo) {
     setEvent(clickInfo.event);
@@ -294,8 +297,9 @@ const Calendar = ({
   }
 
   function handleNavLinkDayClick(date) {
-    if (calendarRef && calendarRef.current) {
-      calendarRef.current.getApi().changeView('timeGrid', date);
+    const r = calendarRef || calRef;
+    if (r && r.current) {
+      r.current.getApi().changeView('timeGrid', date);
       if (setter) setter.setViewType('timeGridDay');
     }
   }
@@ -320,7 +324,7 @@ const Calendar = ({
     <div id="calendar-layout">
       <CalendarGlobalStyle />
       <FullCalendar
-        ref={calendarRef}
+        ref={calendarRef || calRef}
         plugins={[
           dayGridPlugin,
           timeGridPlugin,
@@ -388,6 +392,10 @@ const Calendar = ({
 Calendar.defaultProps = {
   focusDate: new Date(),
   country: 'en.usa', // ko.south_korea
+  locale: 'en',
+  events: [],
+  lunar: false,
+  holiday: false,
 };
 
 const EventContent = styled.div`
