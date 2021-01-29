@@ -1,6 +1,6 @@
 {
   "name": "react-zero-calendar",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": false,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -109,5 +109,9 @@
     ]
   },
   "homepage": "https://github.com/ZeroStrength/calendar",
-  "keywords": ["react", "calendar", "fullCalendar"]
+  "keywords": [
+    "react",
+    "calendar",
+    "fullCalendar"
+  ]
 }

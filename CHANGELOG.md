@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/ZeroStrength/calendar/compare/v0.1.5...v0.1.6) (2021-01-29)
+
+
+### Features
+
+* add keywords ([fae3b2c](https://github.com/ZeroStrength/calendar/commit/fae3b2c671ef22aaa2e1541a3b49ab5e1035e9e5))
+* npm publish workflow when released ([07b8817](https://github.com/ZeroStrength/calendar/commit/07b8817c5e20ca6482c19d367ad2f9178f8fd6c6))
+
+
+### Bug Fixes
+
+* move react to peerDependencies ([b6f0fa3](https://github.com/ZeroStrength/calendar/commit/b6f0fa331e7ce8fe727dd04532eed55e484a3375))
+* package name and homepage change ([87b1b8e](https://github.com/ZeroStrength/calendar/commit/87b1b8eb346d517334fbffe5cb9536d12417b7b6))
+* ref and default props setting ([dba1b68](https://github.com/ZeroStrength/calendar/commit/dba1b68081b691448772fd99838194a5fb822015))
+
 ### [0.1.5](https://github.com/ZeroStrength/calendar/compare/v0.1.4...v0.1.5) (2021-01-28)
 
 
