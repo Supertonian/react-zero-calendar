@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.7](https://github.com/ZeroStrength/react-zero-calendar/compare/v0.1.6...v0.1.7) (2021-01-29)
+
+
+### Features
+
+* add default category list ([060dc5d](https://github.com/ZeroStrength/react-zero-calendar/commit/060dc5db77ba9c8c065f9e5db2189b5f9d8801e7))
+
+
+### Bug Fixes
+
+* demo site address ([40d5865](https://github.com/ZeroStrength/react-zero-calendar/commit/40d586565d98f86d6e2539a0af0ed04920097405))
+
 ### [0.1.6](https://github.com/ZeroStrength/calendar/compare/v0.1.5...v0.1.6) (2021-01-29)
 
 
