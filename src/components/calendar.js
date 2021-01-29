@@ -394,6 +394,7 @@ Calendar.defaultProps = {
   country: 'en.usa', // ko.south_korea
   locale: 'en',
   events: [],
+  categoryList: ['default'],
   lunar: false,
   holiday: false,
 };
