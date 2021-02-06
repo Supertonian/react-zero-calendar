@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.8](https://github.com/ZeroStrength/react-zero-calendar/compare/v0.1.7...v0.1.8) (2021-02-06)
+
+
+### Features
+
+* add chromatic deploy action ([6998a09](https://github.com/ZeroStrength/react-zero-calendar/commit/6998a09ace0fe259a13a0b945438fd995ba26753))
+* add storybook to calendar component ([9da64e0](https://github.com/ZeroStrength/react-zero-calendar/commit/9da64e07b1c558818741ebb988a743a6c7a2ceb9))
+
+
+### Bug Fixes
+
+* workflows action only when release created ([883cb27](https://github.com/ZeroStrength/react-zero-calendar/commit/883cb27549a00637b971d81ebacdd1d63f06ccd9))
+
 ### [0.1.7](https://github.com/ZeroStrength/react-zero-calendar/compare/v0.1.6...v0.1.7) (2021-01-29)
 
 

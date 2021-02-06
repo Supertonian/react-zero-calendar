@@ -1,0 +1,19 @@
+name: Chromatic deploy
+on: push
+
+jobs:
+  chromatic-deployment:
+    runs-on: ubuntu-latest
+    steps:
+        # 👇 Version 2 of the action
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # 👈 Required to retrieve git history
+      - name: Install dependencies
+        run: yarn
+        # 👇 Adds Chromatic as a step in the workflow
+      - run: yarn install
+      - run: yarn add react react-dom
+      - run: yarn build-storybook
+      - run: npx chromatic --project-token=${{ secrets.CHROMATIC_TOKEN }} --storybook-build-dir=storybook-static
