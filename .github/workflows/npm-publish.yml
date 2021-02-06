@@ -16,3 +16,6 @@ jobs:
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_AUTH_TOKEN }}
+      - run: npm install react react-dom
+      - run: npm run build-storybook
+      - run: npx chromatic --project-token=${{ secrets.CHROMATIC_TOKEN }} --storybook-build-dir=storybook-static
