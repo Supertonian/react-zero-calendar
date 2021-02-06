@@ -62,6 +62,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.12.13",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "@commitlint/cli": "^9.1.2",
@@ -69,6 +70,12 @@
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-image": "^2.0.6",
     "@rollup/plugin-json": "^4.1.0",
+    "@storybook/addon-actions": "^6.1.17",
+    "@storybook/addon-essentials": "^6.1.17",
+    "@storybook/addon-links": "^6.1.17",
+    "@storybook/react": "^6.1.17",
+    "babel-loader": "^8.2.2",
+    "chromatic": "^5.6.1",
     "eslint-config-airbnb": "18.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.21.2",
@@ -91,7 +98,9 @@
     "release": "standard-version -a",
     "deploy": "gh-pages -d build",
     "predeploy": "npm run build:web",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "eslintConfig": {
     "extends": "react-app"
