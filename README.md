@@ -14,7 +14,7 @@ yarn add react-zero-calendar
 
 ### Storybook
 
-https://601e8e81e1221f002101b10f-wddzdryxjg.chromatic.com/
+[Chromatic](https://601e8e81e1221f002101b10f-wddzdryxjg.chromatic.com/)
 
 #### Basic setting
 
