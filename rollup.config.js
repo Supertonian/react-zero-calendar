@@ -6,10 +6,11 @@ import postcss from 'rollup-plugin-postcss';
 import image from '@rollup/plugin-image';
 // A Rollup plugin which Converts .json files to ES6 modules.
 import json from '@rollup/plugin-json';
+import typescript from 'rollup-plugin-typescript2';
 import pkg from './package.json';
 
 export default {
-  input: './src/main.js',
+  input: './src/main.ts',
   output: [
     {
       file: pkg.main,
@@ -20,6 +21,7 @@ export default {
       format: 'esm',
     },
   ],
+  external: [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})],
   plugins: [
     json(),
     postcss(),
@@ -29,5 +31,6 @@ export default {
     }),
     commonjs(),
     image(),
+    typescript({ typescript: require('typescript') }),
   ],
 };
