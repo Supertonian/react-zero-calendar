@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.10](https://github.com/ZeroStrength/react-zero-calendar/compare/v0.1.9...v0.1.10) (2021-02-08)
+
+
+### Bug Fixes
+
+* delete publish config ([e8005a2](https://github.com/ZeroStrength/react-zero-calendar/commit/e8005a294ee8add67f062a500248e9abd8faee6e))
+
 ### [0.1.9](https://github.com/ZeroStrength/react-zero-calendar/compare/v0.1.8...v0.1.9) (2021-02-08)
 
 
