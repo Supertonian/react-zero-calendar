@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.9](https://github.com/ZeroStrength/react-zero-calendar/compare/v0.1.8...v0.1.9) (2021-02-08)
+
+
+### Features
+
+* typescript support ([021651d](https://github.com/ZeroStrength/react-zero-calendar/commit/021651d78e197aa2dea7a57367a11b8f300bc8a8))
+
+
+### Bug Fixes
+
+* **migration:** i18n, styles from js to ts ([b6b3ebf](https://github.com/ZeroStrength/react-zero-calendar/commit/b6b3ebf3a8f221aa0b2487e7e35b9f070992c803))
+* **utils:** migrate js to ts ([270b4e8](https://github.com/ZeroStrength/react-zero-calendar/commit/270b4e8b236a95ab6d7e35c9ad95e604e677e3ee))
+
 ### [0.1.8](https://github.com/ZeroStrength/react-zero-calendar/compare/v0.1.7...v0.1.8) (2021-02-06)
 
 
