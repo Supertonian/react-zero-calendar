@@ -130,5 +130,8 @@
     "react",
     "calendar",
     "fullCalendar"
-  ]
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
 }
