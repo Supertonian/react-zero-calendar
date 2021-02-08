@@ -19,7 +19,7 @@ const init = () => {
     });
 };
 
-const changeLanguage = language => {
+const changeLanguage = (language: string) => {
   i18n.changeLanguage(language);
 };
 
