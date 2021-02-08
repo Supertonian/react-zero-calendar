@@ -1,5 +1,7 @@
 name: Chromatic deploy
-on: push
+on:
+  release:
+    types: [created]
 
 jobs:
   chromatic-deployment:
