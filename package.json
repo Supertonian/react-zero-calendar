@@ -1,6 +1,6 @@
 {
-  "name": "react-zero-calendar",
-  "version": "0.1.10",
+  "name": "@zerostrength/react-zero-calendar",
+  "version": "0.1.18",
   "private": false,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
