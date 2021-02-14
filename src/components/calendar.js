@@ -6,7 +6,6 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import luxonPlugin from '@fullcalendar/luxon';
-import rrulePlugin from '@fullcalendar/rrule';
 import { getLunar } from 'holiday-kr';
 import { Hidden } from '@material-ui/core';
 import axios from 'axios';
@@ -262,12 +261,8 @@ const Calendar = ({
       if (startY === endY) {
         if (startM === endM) {
           if (setter) setter.setTitle(`${startY}년 ${startM}월`);
-        } else {
-          if (setter) setter.setTitle(`${startY}년 ${startM}월 - ${endM}월`);
-        }
-      } else {
-        if (setter) setter.setTitle(`${startY}년 ${startM}월 - ${endY}년 ${endM}월`);
-      }
+        } else if (setter) setter.setTitle(`${startY}년 ${startM}월 - ${endM}월`);
+      } else if (setter) setter.setTitle(`${startY}년 ${startM}월 - ${endY}년 ${endM}월`);
     }
     getHoliday(
       `${country}%23holiday%40group.v.calendar.google.com`,
@@ -325,14 +320,7 @@ const Calendar = ({
       <CalendarGlobalStyle />
       <FullCalendar
         ref={calendarRef || calRef}
-        plugins={[
-          dayGridPlugin,
-          timeGridPlugin,
-          interactionPlugin,
-          luxonPlugin,
-          rrulePlugin,
-          listPlugin,
-        ]}
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, luxonPlugin, listPlugin]}
         headerToolbar={false}
         locale={locale}
         initialView="dayGridMonth"

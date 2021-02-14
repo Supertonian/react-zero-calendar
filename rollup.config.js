@@ -7,6 +7,7 @@ import image from '@rollup/plugin-image';
 // A Rollup plugin which Converts .json files to ES6 modules.
 import json from '@rollup/plugin-json';
 import typescript from 'rollup-plugin-typescript2';
+import { terser } from 'rollup-plugin-terser';
 import pkg from './package.json';
 
 export default {
@@ -32,5 +33,6 @@ export default {
     commonjs(),
     image(),
     typescript({ typescript: require('typescript') }),
+    terser(),
   ],
 };
