@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.20](https://github.com/ZeroStrength/react-zero-calendar/compare/v0.1.19...v0.1.20) (2021-02-14)
+
+
+### Bug Fixes
+
+* delete unused packages ([d47e127](https://github.com/ZeroStrength/react-zero-calendar/commit/d47e1278a04a6da0ef060c1e950f77461ff4e9ae))
+
 ### [0.1.19](https://github.com/ZeroStrength/react-zero-calendar/compare/v0.1.10...v0.1.19) (2021-02-08)
 
 ### [0.1.10](https://github.com/ZeroStrength/react-zero-calendar/compare/v0.1.9...v0.1.10) (2021-02-08)
